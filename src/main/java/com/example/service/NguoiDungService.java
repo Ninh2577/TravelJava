@@ -1,8 +1,10 @@
 package com.example.service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.Entity.NguoiDung;
@@ -22,6 +26,13 @@ public class NguoiDungService implements UserDetailsService {
 	@Autowired
 	private NguoiDungRepository nguoiDungRepository;
 
+	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // Mã hóa mật khẩu
+
+
+	public boolean existsByEmail(String email) {
+		return nguoiDungRepository.existsByEmail(email);
+	}
+
 	// Phương thức GET hết thông tin người dùng
 	public List<NguoiDung> getAllNguoiDungs() {
 		return nguoiDungRepository.findAll();
@@ -30,6 +41,28 @@ public class NguoiDungService implements UserDetailsService {
 	// Lấy danh sách tất cả người dùng
 	public List<NguoiDung> getNguoiDungByVaiTroId(Integer vaiTroId) {
 		return nguoiDungRepository.findByVaiTroId(vaiTroId);
+	}
+
+	// dangKy
+	// Thêm người dùng
+	@Transactional
+	public NguoiDung addNguoiDungke(NguoiDung nguoiDung) {
+		// Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
+
+		// tắt mã hóa tạm thới
+		String hashedPassword = passwordEncoder.encode(nguoiDung.getMatKhau());
+		nguoiDung.setMatKhau(hashedPassword); // Cập nhật mật khẩu đã mã hóa
+
+		if (nguoiDung.getNamSinh() != null) {
+			Date namSinhDate = nguoiDung.getNamSinh(); // lấy ngày sinh kiểu Date
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			String namSinhString = formatter.format(namSinhDate); // Chuyển đổi Date thành String
+			System.out.println("Ngày sinh định dạng: " + namSinhString);
+
+			// Nếu bạn cần cập nhật giá trị trở lại trong đối tượng nguoiDung
+			nguoiDung.setNamSinh(namSinhDate); // Nếu bạn có thuộc tính namSinhString trong NguoiDung
+		}
+		return nguoiDungRepository.save(nguoiDung);
 	}
 
 	// Phương thức thêm Người Dùng mới

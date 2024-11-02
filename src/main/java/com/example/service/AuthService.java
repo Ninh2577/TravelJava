@@ -28,13 +28,14 @@ public class AuthService {
 
 		NguoiDung nguoiDung = nguoiDungOpt.get(); // Lấy đối tượng NguoiDung từ Optional
 
-//		tatws tam thoi ma hoa
-//		if (!passwordEncoder.matches(password, nguoiDung.getMatKhau())) {
-//			throw new Exception("Email hoặc mật khẩu không đúng");
-//		}
-		 if (!password.equals(nguoiDung.getMatKhau())) {  // So sánh trực tiếp mật khẩu không mã hóa
-		        throw new Exception("Email hoặc mật khẩu không đúng");
-		    }
+		// tatws tam thoi ma hoa
+		if (!passwordEncoder.matches(password, nguoiDung.getMatKhau())) {
+			throw new Exception("Email hoặc mật khẩu không đúng");
+		}
+		// if (!password.equals(nguoiDung.getMatKhau())) { // So sánh trực tiếp mật khẩu
+		// không mã hóa
+		// throw new Exception("Email hoặc mật khẩu không đúng");
+		// }
 
 		// Trả về người dùng nếu đăng nhập thành công
 		return nguoiDung;

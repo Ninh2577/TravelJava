@@ -12,6 +12,8 @@ import com.example.Entity.NguoiDung;
 public interface NguoiDungRepository extends JpaRepository<NguoiDung, Integer> {
 	Optional<NguoiDung> findByEmail(String email);
 
+	boolean existsByEmail(String email);
+
 	List<NguoiDung> findByVaiTroId(Integer vaiTroId);
 
 	@Query("SELECT n FROM NguoiDung n WHERE n.vaiTro.id = :vaiTroId " + "AND (:hoTen IS NULL OR n.hoTen LIKE %:hoTen%) "
