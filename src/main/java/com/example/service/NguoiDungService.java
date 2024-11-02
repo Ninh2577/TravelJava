@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.Entity.NguoiDung;
@@ -15,7 +18,7 @@ import com.example.Repository.NguoiDungRepository;
 import jakarta.transaction.Transactional;
 
 @Service
-public class NguoiDungService {
+public class NguoiDungService implements UserDetailsService {
 	@Autowired
 	private NguoiDungRepository nguoiDungRepository;
 
@@ -29,21 +32,20 @@ public class NguoiDungService {
 		return nguoiDungRepository.findByVaiTroId(vaiTroId);
 	}
 
-
 	// Phương thức thêm Người Dùng mới
 	public NguoiDung addNguoiDung(NguoiDung nguoiDung) {
-		 if (nguoiDung.getNamSinh() != null) {
-		        // Chuyển đổi từ Date sang LocalDate
-		        LocalDate birthDate = nguoiDung.getNamSinh().toInstant()
-		                                .atZone(ZoneId.systemDefault())
-		                                .toLocalDate();
-		        LocalDate currentDate = LocalDate.now();
-		        
-		        // Tính tuổi chính xác bằng cách sử dụng Period.between
-		        int age = Period.between(birthDate, currentDate).getYears();
-		        
-		        nguoiDung.setTuoi(age); // Gán tuổi đã tính vào đối tượng NguoiDung
-		    }
+		if (nguoiDung.getNamSinh() != null) {
+			// Chuyển đổi từ Date sang LocalDate
+			LocalDate birthDate = nguoiDung.getNamSinh().toInstant()
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate();
+			LocalDate currentDate = LocalDate.now();
+
+			// Tính tuổi chính xác bằng cách sử dụng Period.between
+			int age = Period.between(birthDate, currentDate).getYears();
+
+			nguoiDung.setTuoi(age); // Gán tuổi đã tính vào đối tượng NguoiDung
+		}
 		return nguoiDungRepository.save(nguoiDung); // Lưu Người Dùng mới vào database
 	}
 
@@ -51,27 +53,28 @@ public class NguoiDungService {
 		return nguoiDungRepository.findById(id);
 	}
 
-	//Phương thức cập nhật Người Dùng với ID
+	// Phương thức cập nhật Người Dùng với ID
 	@Transactional
 	public NguoiDung updateNguoiDung(Integer id, NguoiDung updatedNguoiDung) {
 		Optional<NguoiDung> existingNguoiDung = nguoiDungRepository.findById(id);
 		if (existingNguoiDung.isPresent()) {
 			NguoiDung nguoiDung = existingNguoiDung.get();
 			// Cập nhật các thuộc tính
-						nguoiDung.setHoTen(updatedNguoiDung.getHoTen());
-						nguoiDung.setEmail(updatedNguoiDung.getEmail());
-						nguoiDung.setSoDienThoai(updatedNguoiDung.getSoDienThoai());
-						nguoiDung.setDiaChi(updatedNguoiDung.getDiaChi());
-						  // Retain existing password if not provided in the updatedNguoiDung
-				        if (updatedNguoiDung.getMatKhau() != null && !updatedNguoiDung.getMatKhau().isEmpty()) {
-				            nguoiDung.setMatKhau(updatedNguoiDung.getMatKhau());
-				        }nguoiDung.setHinhAnh(updatedNguoiDung.getHinhAnh());
-						nguoiDung.setGioiTinh(updatedNguoiDung.isGioiTinh());
-						nguoiDung.setTuoi(updatedNguoiDung.getTuoi()); // Cập nhật tuổi trong cơ sở dữ liệu
-						nguoiDung.setVaiTro(updatedNguoiDung.getVaiTro());
+			nguoiDung.setHoTen(updatedNguoiDung.getHoTen());
+			nguoiDung.setEmail(updatedNguoiDung.getEmail());
+			nguoiDung.setSoDienThoai(updatedNguoiDung.getSoDienThoai());
+			nguoiDung.setDiaChi(updatedNguoiDung.getDiaChi());
+			// Retain existing password if not provided in the updatedNguoiDung
+			if (updatedNguoiDung.getMatKhau() != null && !updatedNguoiDung.getMatKhau().isEmpty()) {
+				nguoiDung.setMatKhau(updatedNguoiDung.getMatKhau());
+			}
+			nguoiDung.setHinhAnh(updatedNguoiDung.getHinhAnh());
+			nguoiDung.setGioiTinh(updatedNguoiDung.isGioiTinh());
+			nguoiDung.setTuoi(updatedNguoiDung.getTuoi()); // Cập nhật tuổi trong cơ sở dữ liệu
+			nguoiDung.setVaiTro(updatedNguoiDung.getVaiTro());
 			return nguoiDungRepository.save(nguoiDung);
 		} else {
-			throw new RuntimeException("Người dùng không tồn tại với ID: " +id);
+			throw new RuntimeException("Người dùng không tồn tại với ID: " + id);
 		}
 	}
 
@@ -85,8 +88,22 @@ public class NguoiDungService {
 			throw new RuntimeException("Người dùng không tồn tại với ID: " + id);
 		}
 	}
+
 	public List<NguoiDung> searchNguoiDung(String hoTen, String soDienThoai, String email, String diaChi,
 			Integer tuoi) {
 		return nguoiDungRepository.searchNguoiDungByFields(2, hoTen, soDienThoai, email, diaChi, tuoi);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Optional<NguoiDung> optionalNguoiDung = nguoiDungRepository.findByEmail(email);
+		if (optionalNguoiDung.isPresent()) {
+			NguoiDung nguoiDung = optionalNguoiDung.get();
+			// Đảm bảo vai trò được trả về chính xác
+			System.out.println("User role: " + nguoiDung.getVaiTro().getVaiTro());
+			return nguoiDung; // NguoiDung implement UserDetails
+		} else {
+			throw new UsernameNotFoundException("Không tìm thấy người dùng với email: " + email);
+		}
 	}
 }
