@@ -2,55 +2,40 @@ package com.example.Entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@SuppressWarnings("serial")
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "DatTour")
 public class DatTour implements Serializable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@ManyToOne
-	@JoinColumn(name = "id_NguoiDung")
-	private NguoiDung nguoiDung;
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date ngayDat;
-	private boolean trangThai;
-	private Double tongTien;
-	@ManyToOne
-	@JoinColumn(name = "id_Tour")
-	private Tour tour;
-	private String moTa;
-	private Double tien;
-	private Integer soNguoi;
-	private Double tienGiam;
-	private String QR;
-	@JsonIgnore
-	@OneToMany(mappedBy = "datTour")
-	private List<BienTheNguoiDung> bienTheNguoiDungs;
+  
+    private float giaNguoiLon;
+    private float giaTreEm;
+    private float thanhTien;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "datTour")
-	private List<GiamGia> giamGias;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "datTour")
-	private List<ThanhToan> thanhToans;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "datTour")
-	private List<DanhGia> danhGias;
-
+    @Temporal(TemporalType.DATE)
+    private Date ngayDat;
+    private String moTa;
+    private boolean trangThai;
+    
+    @OneToOne
+    @JoinColumn(name = "id_HoaDon", unique = true)  // Đảm bảo tính duy nhất
+    @JsonBackReference
+    private HoaDon hoaDon;  // Mối quan hệ 1-1 với HoaDon
+    @OneToOne
+    @JoinColumn(name = "id_ChiTietGioHang", unique = true)  // New field for one-to-one relationship
+    @JsonBackReference
+    private ChiTietGioHang chiTietGioHang;
 }

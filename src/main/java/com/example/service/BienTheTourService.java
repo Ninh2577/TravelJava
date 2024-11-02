@@ -16,43 +16,40 @@ public class BienTheTourService {
 
 	@Autowired
 	private BienTheTourRepository bienTheTourRepository;
-
-	// Phương thức GET thông tin cho người dùng
-	public List<BienTheTour> getAllBienTheTour() {
+	 
+	public List<BienTheTour> getAllBienTheTour(){
 		return bienTheTourRepository.findAll();
 	}
-
-	// Phương thức POST thêm biến thể tour
-	public BienTheTour addBienTheTour(BienTheTour bienTheTour) {
+	public BienTheTour addBienTheTour (BienTheTour bienTheTour) {
 		return bienTheTourRepository.save(bienTheTour);
 	}
-
-	// Phương thức cập nhật loại tour
 	@Transactional
-	public BienTheTour updateBienTheTour(Integer id, BienTheTour updatedBienTheTour) {
-		Optional<BienTheTour> existingBienTheTour = bienTheTourRepository.findById(id);
-		if (existingBienTheTour.isPresent()) {
-			BienTheTour bienTheTour = existingBienTheTour.get();
+	public BienTheTour updatedBienTheTour(Integer id, BienTheTour updatedBienTheTour) {
+		Optional<BienTheTour> existingBientheTour = bienTheTourRepository.findById(id);
+		if(existingBientheTour.isPresent()) {
+			BienTheTour bienTheTour = existingBientheTour.get();
+			bienTheTour.setHotels(updatedBienTheTour.getHotels());
+			bienTheTour.setPhuongTien(updatedBienTheTour.getPhuongTien());
+			bienTheTour.setGiamGia(updatedBienTheTour.getGiamGia());
+			bienTheTour.setGiaTour(updatedBienTheTour.getGiaTour());
 			bienTheTour.setTour(updatedBienTheTour.getTour());
-			bienTheTour.setHinhAnh(updatedBienTheTour.getHinhAnh());
-			bienTheTour.setVideo(updatedBienTheTour.getVideo());
-			bienTheTour.setMoTa(updatedBienTheTour.getMoTa());
+			bienTheTour.setNgayBatDau(updatedBienTheTour.getNgayBatDau());
+			bienTheTour.setNgayKetThuc(updatedBienTheTour.getNgayKetThuc());
+			bienTheTour.setSoLuongCon(updatedBienTheTour.getSoLuongCon());
+			bienTheTour.setSoLuongTong(updatedBienTheTour.getSoLuongTong());
 			return bienTheTourRepository.save(bienTheTour);
-		} else {
+		}else {
 			return null;
 		}
 	}
-
-	// Phương thức DELETE : xóa biến thể tour
 	@Transactional
 	public void deleteBienTheTour(Integer id) {
-		Optional<BienTheTour> optionalBienTheNguoiDung = bienTheTourRepository.findById(id);
-		if (optionalBienTheNguoiDung.isPresent()) {
+		Optional<BienTheTour> optionalBienTheTour = bienTheTourRepository.findById(id);
+		if(optionalBienTheTour.isPresent()) {
 			bienTheTourRepository.deleteById(id);
-
-		} else {
-			throw new RuntimeException("Biến thể tour không tồn tại " + id);
-
+		}
+		else {
+			throw new RuntimeException("Biến thể tour không tồn tại với ID: " +id);
 		}
 	}
 }

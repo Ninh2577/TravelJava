@@ -1,6 +1,7 @@
 package com.example.Entity;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.Date;
 
 import jakarta.persistence.*;
@@ -8,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@SuppressWarnings("serial")
 @Data
 @Entity
 @NoArgsConstructor
@@ -18,11 +18,19 @@ public class LichTrinhTour implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String tieuDe;
-    private String noiDung;
+
     @ManyToOne
     @JoinColumn(name = "id_Tour")
     private Tour tour;
-    @Temporal(TemporalType.TIMESTAMP)
+
+    private String tieuDe;
+    private String noiDung;
+
+    @Temporal(TemporalType.DATE)
     private Date ngay;
+
+    private LocalTime thoiGianBatDau;
+    private LocalTime thoiGianKetThuc;
+
+    private String moTa;
 }

@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@SuppressWarnings("serial")
 @Data
 @Entity
 @NoArgsConstructor
@@ -22,6 +21,10 @@ public class NguoiDung implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(name = "id_VaiTro")
+    private VaiTro vaiTro;
+
     private String hoTen;
     private String email;
     private String soDienThoai;
@@ -29,39 +32,39 @@ public class NguoiDung implements Serializable {
     private String matKhau;
     private String hinhAnh;
     private boolean gioiTinh;
-    private int tuoi;
-    @Temporal(TemporalType.TIMESTAMP)
+    private Integer tuoi;
+
+    @Temporal(TemporalType.DATE)
     private Date namSinh;
-    private String cccd;
-    private String anhCCCDtruoc;
-    private String anhCCCDsau;
+    
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "nguoiDung")
+    private List<HoaDon> hoaDons;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "nguoiDung")
+    private List<BaiViet> baiViets;
     
     @JsonIgnore
- 	@OneToMany(mappedBy = "nguoiDung")
- 	private List<GiamGia> giamGias;
-    
+    @OneToMany(mappedBy = "nguoiDung")
+    private List<ChiTietGioHang> chiTietGioHangs;
+
     @JsonIgnore
- 	@OneToMany(mappedBy = "nguoiDung")
- 	private List<DanhGia> danhGias;
-    
+    @OneToMany(mappedBy = "nguoiDung")
+    private List<DanhSachNguoiDiCung> danhSachNguoiDiCungs;
+
     @JsonIgnore
- 	@OneToMany(mappedBy = "nguoiDung")
- 	private List<ThanhToan> thanhToans;
-    
+    @OneToMany(mappedBy = "nguoiDung")
+    private List<GiamGia> giamGias;
+
     @JsonIgnore
- 	@OneToMany(mappedBy = "nguoiDung")
- 	private List<DatTour> datTours;
-    
+    @OneToMany(mappedBy = "nguoiDung")
+    private List<YeuThich> yeuThichs;
+
     @JsonIgnore
- 	@OneToMany(mappedBy = "nguoiDung")
- 	private List<Tour> tours;
-    
-    @JsonIgnore
- 	@OneToMany(mappedBy = "nguoiDung")
- 	private List<TinTuc> tinTucs;
-    
-    @ManyToOne
-	@JoinColumn(name = "id_VaiTro")
-	private VaiTro vaiTro;
-    
+    @OneToMany(mappedBy = "nguoiDung")
+    private List<DanhGia> danhGias;
 }
+
+

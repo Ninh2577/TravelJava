@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@SuppressWarnings("serial")
 @Data
 @Entity
 @NoArgsConstructor
@@ -22,9 +21,15 @@ public class VaiTro implements Serializable {
     private Integer id;
 
     private String vaiTro;
+
     private String moTa;
+
     @JsonIgnore
-   	@OneToMany(mappedBy = "vaiTro")
-   	private List<NguoiDung> nguoiDungs;
-      
+    @OneToMany(mappedBy = "vaiTro")
+    private List<NguoiDung> nguoiDungs;
 }
+
+//
+//@JsonIgnore
+//@OneToMany(mappedBy = "nguoiDung")
+//private List<DatTour> datTours;

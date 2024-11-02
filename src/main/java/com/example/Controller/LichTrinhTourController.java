@@ -1,7 +1,6 @@
 package com.example.Controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Entity.LichTrinhTour;
 import com.example.service.LichTrinhTourService;
+import com.example.service.TourService;
 
 @RestController
 @RequestMapping("/api/lichtrinhtour")
@@ -25,41 +25,49 @@ public class LichTrinhTourController {
 
 	@Autowired
 	private LichTrinhTourService lichTrinhTourService;
-	
+	@Autowired
+	private TourService tourService;
+
+	// GET Phương thức Lịch trình tour
 	@GetMapping
-	public ResponseEntity<List<LichTrinhTour>> getAllLichTrinhTour(){
-		List<LichTrinhTour> lichTrinhTours = lichTrinhTourService.getAllLichTrinhTours();
+	public ResponseEntity<List<LichTrinhTour>> getAllLichTrinhTour() {
+		List<LichTrinhTour> lichTrinhTours = lichTrinhTourService.getAllLichTrinhTour();
 		return ResponseEntity.ok(lichTrinhTours);
 	}
-	
-	// API POST :Thêm lịch trình tour
+
+// API POST : Thêm Lịch trình tour 
 	@PostMapping("/them")
-	public ResponseEntity<LichTrinhTour> addLichTrinhTour(@RequestBody LichTrinhTour lichTrinhTour){
-		LichTrinhTour savelichTrinhTour = lichTrinhTourService.addLichTrinhTour(lichTrinhTour);
-		return ResponseEntity.ok(savelichTrinhTour);
+	public ResponseEntity<LichTrinhTour> addLichTrinhTour(@RequestBody LichTrinhTour lichTrinhTour) {
+		LichTrinhTour savedlichTrinhTour = lichTrinhTourService.addLichTrinhTour(lichTrinhTour);
+		return ResponseEntity.ok(savedlichTrinhTour);
 	}
-	
-	//API PUT : Cập nhật lịch trình tour theo ID
+
+	// API PUT: Cập nhật tour theo ID
 	@PutMapping("/update/{id}")
-	public ResponseEntity<LichTrinhTour> updateLichTrinhTour(@PathVariable("id") Integer id, @RequestBody LichTrinhTour updateLichTrinhTour){
-		LichTrinhTour lichTrinhTour = lichTrinhTourService.updateLichTrinhTour(id, updateLichTrinhTour);
-		if(lichTrinhTour != null) {
+	public ResponseEntity<LichTrinhTour> updateTour(@PathVariable("id") Integer id,
+			@RequestBody LichTrinhTour updatedLichTrinhTour) {
+		LichTrinhTour lichTrinhTour = lichTrinhTourService.updatedLichTrinhTour(id, updatedLichTrinhTour);
+		if (lichTrinhTour != null) {
 			return ResponseEntity.ok(lichTrinhTour);
-		}else {
+		} else {
 			return ResponseEntity.notFound().build();
 		}
 	}
-	
-	//API DELETE : Xóa lịch trình tour theo ID
+
+	// API DELETE: xóa tour theo ID
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deleteLichTringTour(@PathVariable Integer id){
+	public ResponseEntity<String> deleteLichTrinhTour(@PathVariable Integer id) {
 		try {
 			lichTrinhTourService.deleteLichTrinhTour(id);
-			return new ResponseEntity<> ("Lịch trình tour đã được xóa thành công: " , HttpStatus.OK); 
+			return new ResponseEntity<>("Lịch Trình Tour đã được xóa thành công", HttpStatus.OK);
 		} catch (RuntimeException e) {
-			// TODO: handle exception
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
-	
+//GET thông tin lịch trình tour theo ID
+	@GetMapping("/tour/{tourId}")
+	public ResponseEntity<List<LichTrinhTour>> getLichTrinhByTourId(@PathVariable Integer tourId) {
+		List<LichTrinhTour> lichTrinhTours = lichTrinhTourService.getLichTrinhTourByTourId(tourId);
+		return ResponseEntity.ok(lichTrinhTours);
+	}
 }

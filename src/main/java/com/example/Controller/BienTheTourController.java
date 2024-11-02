@@ -20,44 +20,42 @@ import com.example.service.BienTheTourService;
 
 @RestController
 @RequestMapping("/api/bienthetour")
-@CrossOrigin(origins ="http://localhost:3000")
+@CrossOrigin(origins = "http://localhost/3000")
 public class BienTheTourController {
-	
-	@Autowired 
+
+	@Autowired
 	private BienTheTourService bienTheTourService;
 	
-	@GetMapping
+	@GetMapping 
 	public ResponseEntity<List<BienTheTour>> getAllBienTheTour(){
-		List<BienTheTour> bienTheTour = bienTheTourService.getAllBienTheTour();
-		return ResponseEntity.ok(bienTheTour);
+		List<BienTheTour> bienTheTours = bienTheTourService.getAllBienTheTour();
+		return ResponseEntity.ok(bienTheTours);
 	}
-	//API POST : thêm biến thể tour theo ID
-	@PostMapping("/them")
-	public ResponseEntity<BienTheTour> addBienTheTour(@RequestBody BienTheTour bienTheTour){
-		BienTheTour savedBienTheTour = bienTheTourService.addBienTheTour(bienTheTour);
-		return ResponseEntity.ok(savedBienTheTour);
-	}
-	//API PUT : Cập nhật biến thể tour theo ID
-	@PutMapping("/update/{id}")
-	public ResponseEntity<BienTheTour> updateBienTheTour(@PathVariable ("id") Integer id ,@RequestBody BienTheTour updateBienTheTour){
-		BienTheTour bienTheTour = bienTheTourService.updateBienTheTour(id, updateBienTheTour);
-		if(bienTheTour != null) {
-			return ResponseEntity.ok(bienTheTour);
-			
-		}else {
-			return ResponseEntity.notFound().build();
+	//API POST : Thêm mới Loại Tour
+		@PostMapping("/them")
+		public ResponseEntity<BienTheTour> addBienTheTour(@RequestBody BienTheTour bientheTour){
+			BienTheTour savedBienTheTour = bienTheTourService.addBienTheTour(bientheTour);
+			return ResponseEntity.ok(savedBienTheTour);
 		}
-	}
-	//API DELETE : Xóa biến thể tour theo ID
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deleteBienTheTour(@PathVariable Integer id){
-		try {
-			bienTheTourService.deleteBienTheTour(id);
-			return new ResponseEntity<>("Người dùng đã được xóa thành công", HttpStatus.OK);
-			
-		} catch (RuntimeException e) {
-			// TODO: handle exception
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-		}
-	}
+		//API PUT : Cập nhật Loại Tour 
+			@PutMapping("/update/{id}")
+			public ResponseEntity<BienTheTour> updateBienTheTour(@PathVariable("id") Integer id, @RequestBody BienTheTour updateLoaiTour){
+				BienTheTour bienTheTour = bienTheTourService.updatedBienTheTour(id, updateLoaiTour);
+				if(bienTheTour != null) {
+					return ResponseEntity.ok(bienTheTour);		
+				}else {
+					return ResponseEntity.notFound().build();
+				}
+			}
+			// API DELETE: Xóa Loại tour theo ID
+			@DeleteMapping("/delete/{id}")
+			public ResponseEntity<String> deleteBienTheTour(@PathVariable Integer id){
+				try {
+					bienTheTourService.deleteBienTheTour(id);
+					return new ResponseEntity<> ("Biến Thể Tour đã được xóa thành công", HttpStatus.OK);
+					
+				}catch(RuntimeException e){
+					return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+				}
+			}
 }

@@ -70,20 +70,4 @@ public class NguoiDungController {
 		return ResponseEntity.ok(result);
 	}
 
-	// API sắp xếp người dùng theo ID (tăng dần hoặc giảm dần)
-	@GetMapping("/sapxep")
-	public ResponseEntity<List<NguoiDung>> sortNguoiDungById(@RequestParam("order") String order) {
-	    List<NguoiDung> nguoiDungs;
-	    
-	    if (order.equalsIgnoreCase("asc")) {
-	        nguoiDungs = nguoiDungService.sortNguoiDungByIdAsc();
-	    } else if (order.equalsIgnoreCase("desc")) {
-	        nguoiDungs = nguoiDungService.sortNguoiDungByIdDesc();
-	    } else {
-	        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST); // Invalid order parameter
-	    }
-
-	    return ResponseEntity.ok(nguoiDungs);
-	}
-
 }

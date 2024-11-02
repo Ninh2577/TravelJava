@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.Entity.Tour;
 import com.example.Repository.TourRepository;
+import com.example.projection.TourDetailsProjection;
+
 import jakarta.transaction.Transactional;
 
 @Service
@@ -35,22 +37,21 @@ public class TourService {
 		if (existingTour.isPresent()) {
 			Tour tour = existingTour.get();
 			// Update fields
-			tour.setTenTour(updatedTour.getTenTour());
-			tour.setGiaTour(updatedTour.getGiaTour());
-			tour.setNgayBatDau(updatedTour.getNgayBatDau());
-			tour.setNgayKetThuc(updatedTour.getNgayKetThuc());
-			tour.setSoTour(updatedTour.getSoTour());
-			tour.setSoLuongNguoi(updatedTour.getSoLuongNguoi());
-			tour.setHinhAnh(updatedTour.getHinhAnh());
-			tour.setVideo(updatedTour.getVideo());
-			tour.setMoTa(updatedTour.getMoTa());
+			tour.setDanhMucTour(updatedTour.getDanhMucTour());
 			tour.setLoaiTour(updatedTour.getLoaiTour());
-			 if (tour.getSoTour() > 0) {
-			        tour.setTrangThai(true); // "Còn"
-			    } else {
-			        tour.setTrangThai(false); // "Hết"
-			    }
-//			tour.setTrangThai(updatedTour.isTrangThai());	
+			tour.setTenTour(updatedTour.getTenTour());
+			tour.setSoNgay(updatedTour.getSoNgay());
+			tour.setMoTa(updatedTour.getMoTa());
+			tour.setHinhAnh(updatedTour.getHinhAnh());
+			tour.setSoLuongNguoi(updatedTour.getSoLuongNguoi());
+			tour.setSoTour(updatedTour.getSoTour());
+//			 if (tour.getSoTour() > 0) {
+//			        tour.setTrangThai(true); // "Còn"
+//			    } else {
+//			        tour.setTrangThai(false); // "Hết"
+//			    }
+			tour.setTrangThai(updatedTour.isTrangThai());
+			tour.setNoiDung(updatedTour.getNoiDung());
 			return tourRepository.save(tour);
 		} else {
 			return null;
@@ -66,5 +67,16 @@ public class TourService {
 		} else {
 			throw new RuntimeException("Người dùng không tồn tại với ID: " + id);
 		}
+	}
+
+	// GET thông tin tour :tên tour , giá tour , phương tiện , hotels , số ngày
+	public List<TourDetailsProjection> getAllTourDetails() {
+		return tourRepository.findAllTourDetails();
+	}
+
+	// GET thông tin Tour theo id : tên tour , giá tour , phương tiện , hotels , số
+	// ngày
+	public List<TourDetailsProjection> getTourDetailsByTourId(Integer id) {
+		return tourRepository.findTourDetailsByTourId(id);
 	}
 }
