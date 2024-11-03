@@ -9,6 +9,7 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -110,34 +111,6 @@ public class AuthController {
         }
     }
 
-    // @PostMapping("/send-otp")
-    // public ResponseEntity<Map<String, Object>> sendOtp(@RequestBody Map<String,
-    // String> request, HttpSession session) {
-    // String email = request.get("email");
-    // Map<String, Object> response = new HashMap<>();
-
-    // if (!nguoiDungRepository.existsByEmail(email)) {
-    // response.put("message", "Email không tồn tại!");
-    // return ResponseEntity.badRequest().body(response);
-    // }
-
-    // if (!otpService.canResendOtp(email)) {
-    // response.put("message", "Vui lòng đợi trước khi yêu cầu mã OTP mới!");
-    // return ResponseEntity.badRequest().body(response);
-    // } else {
-    // // Tạo mã OTP và gửi email
-    // String generatedOtp = otpService.generateOTP(email);
-    // mailerService.sendOtpEmail(email, generatedOtp);
-
-    // session.setAttribute("otp", generatedOtp);
-    // session.setAttribute("otpExpiration", System.currentTimeMillis() +
-    // TimeUnit.MINUTES.toMillis(2));
-
-    // response.put("message", "Mã OTP đã được gửi đến: " + email);
-    // response.put("otp", generatedOtp); // Trả về mã OTP
-    // return ResponseEntity.ok(response);
-    // }
-    // }
     @PostMapping("/send-otp")
     public ResponseEntity<Map<String, Object>> sendOtp(@RequestBody Map<String, String> request, HttpSession session) {
         String email = request.get("email");
@@ -156,84 +129,38 @@ public class AuthController {
             String generatedOtp = otpService.generateOTP(email);
             mailerService.sendOtpEmail(email, generatedOtp);
 
-            try {
-                // Mã hóa mã OTP trước khi lưu
-                SecretKey secretKey = EncryptionUtil.generateKey(); // Tạo khóa mới
-                String encryptedOtp = EncryptionUtil.encrypt(generatedOtp, secretKey);
+            session.setAttribute("otp", generatedOtp);
+            session.setAttribute("otpExpiration", System.currentTimeMillis() +
+                    TimeUnit.MINUTES.toMillis(2));
 
-                session.setAttribute("otp", encryptedOtp);
-                session.setAttribute("secretKey", secretKey);
-                System.out.println("otp: " + encryptedOtp);
-                System.out.println("secretKey: " + secretKey);
-                session.setAttribute("otpExpiration", System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2));
-
-                response.put("message", "Mã OTP đã được gửi đến: " + email);
-                response.put("otp", encryptedOtp); // Trả về mã OTP không mã hóa nếu cần
-                return ResponseEntity.ok(response);
-            } catch (Exception e) {
-                response.put("message", "Lỗi mã hóa mã OTP.");
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-            }
+            response.put("message", "Mã OTP đã được gửi đến: " + email);
+            response.put("otp", generatedOtp); // Trả về mã OTP
+            return ResponseEntity.ok(response);
         }
     }
 
-    // @PostMapping("/verify-otp")
-    // public ResponseEntity<?> verifyOtp(@RequestBody Map<String, String> request)
-    // {
-    // String otp = request.get("otp"); // Chỉ lấy OTP từ request
-    // String email = request.get("email"); // Lấy email từ request
-    // // Ghi lại OTP nhận được và email để kiểm tra
-    // System.out.println("Received OTP: " + otp + " for email: " + email);
+    @PostMapping("/verify-otp")
+    public ResponseEntity<?> verifyOtp(@RequestBody Map<String, String> request,
+            HttpSession session) {
+        String otp = request.get("otp"); // Chỉ lấy OTP từ request
+        String email = request.get("email"); // Lấy email từ request
+        // Ghi lại OTP nhận được và email để kiểm tra
+        System.out.println("Received OTP: " + otp + " for email: " + email);
 
-    // boolean isValid = otpService.isValidOtp(email, otp); // Kiểm tra OTP
-    // Map<String, Object> responseBody = new HashMap<>();
+        boolean isValid = otpService.isValidOtp(email, otp); // Kiểm tra OTP
+        Map<String, Object> responseBody = new HashMap<>();
 
-    // if (isValid) {
-    // responseBody.put("message", "OTP đã xác minh thành công.");
-    // return ResponseEntity.ok(responseBody);
-    // } else {
-    // responseBody.put("message", "OTP không đúng hoặc đã hết hạn!");
-    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
-    // }
-    // }
-    // @PostMapping("/verify-otp")
-    // public ResponseEntity<?> verifyOtp(@RequestBody Map<String, String> request,
-    // HttpSession session) {
-    // String inputOtp = request.get("otp"); // OTP được nhập từ frontend
-    // Map<String, Object> responseBody = new HashMap<>();
-
-    // // Lấy mã OTP đã mã hóa từ session
-    // String encryptedOtp = (String) session.getAttribute("otp");
-    // SecretKey secretKey = (SecretKey) session.getAttribute("secretKey"); // Lưu
-    // secretKey từ session
-
-    // if (encryptedOtp == null) {
-    // responseBody.put("message", "Mã OTP đã hết hạn hoặc không hợp lệ.");
-    // return ResponseEntity.badRequest().body(responseBody);
-    // }
-
-    // try {
-    // // Giải mã mã OTP đã mã hóa
-    // String decryptedOtp = EncryptionUtil.decrypt(encryptedOtp, secretKey);
-
-    // // Ghi lại thông tin cho gỡ lỗi
-    // System.out.println("Mã OTP đã giải mã: " + decryptedOtp);
-    // System.out.println("Mã OTP nhập vào: " + inputOtp);
-
-    // // So sánh mã OTP
-    // if (inputOtp.equals(decryptedOtp)) {
-    // responseBody.put("message", "OTP đã xác minh thành công.");
-    // return ResponseEntity.ok(responseBody);
-    // } else {
-    // responseBody.put("message", "OTP không đúng hoặc đã hết hạn!");
-    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
-    // }
-    // } catch (Exception e) {
-    // responseBody.put("message", "Lỗi xác thực mã OTP.");
-    // return
-    // ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
-    // }
-    // }
+        if (isValid) {
+            // Xóa OTP và email khỏi session sau khi xác minh thành công
+            session.removeAttribute("otp");
+            session.removeAttribute("email");
+            responseBody.put("message", "OTP đã xác minh thành công.");
+            return ResponseEntity.ok(responseBody);
+        } else {
+            responseBody.put("message", "OTP không đúng hoặc đã hết hạn!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+        }
+    }
 
     @PostMapping("/resend-otp")
     public ResponseEntity<?> resendOtp(@RequestBody Map<String, String> request) {
