@@ -9,7 +9,9 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +30,10 @@ import com.example.service.OTPService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
+// @RestController
 @RequestMapping("/api")
 public class AuthController {
 
@@ -50,6 +54,13 @@ public class AuthController {
 
     @Autowired
     NguoiDungRepository nguoiDungRepository;
+
+    @GetMapping("signingoogle")
+    public Map<String, Object> getMethodName(
+            OAuth2AuthenticationToken oauth2AuthenticationToken) {
+
+        return oauth2AuthenticationToken.getPrincipal().getAttributes();
+    }
 
     // API đăng ký
     @PostMapping("/dangKy")
