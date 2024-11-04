@@ -56,11 +56,14 @@ public class AuthController {
     @Autowired
     NguoiDungRepository nguoiDungRepository;
 
-    @GetMapping("signingoogle")
-    public Map<String, Object> getMethodName(
-            OAuth2AuthenticationToken oauth2AuthenticationToken) {
+    @GetMapping("/auth/google/callback")
+    public String googleCallback(OAuth2AuthenticationToken authentication) {
+        // Xử lý thông tin người dùng từ Google
+        String email = authentication.getPrincipal().getAttribute("email");
+        // Bạn có thể kiểm tra xem email này đã tồn tại trong database chưa, 
+        // nếu chưa thì có thể tạo người dùng mới
 
-        return oauth2AuthenticationToken.getPrincipal().getAttributes();
+        return "Đăng nhập thành công với Google! Email: " + email;
     }
 
     // API đăng ký
