@@ -189,17 +189,19 @@ public class AuthController {
             NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
 
             Map<String, Object> userInfo = new HashMap<>();
+            userInfo.put("id", nguoiDung.getId());
             userInfo.put("hoTen", nguoiDung.getHoTen());
             userInfo.put("email", nguoiDung.getEmail());
             userInfo.put("diaChi", nguoiDung.getDiaChi());
             userInfo.put("role", nguoiDung.getVaiTro());
-            userInfo.put("toekn", session.getAttribute("token"));
+            userInfo.put("token", session.getAttribute("token"));
 
             System.out.println("hoTen" + nguoiDung.getHoTen());
             System.out.println("email" + nguoiDung.getEmail());
             System.out.println("diaChi" + nguoiDung.getDiaChi());
             System.out.println("role" + nguoiDung.getVaiTro().getVaiTro());
-            System.out.println("toekn" + session.getAttribute("token"));
+            System.out.println("token" + session.getAttribute("token"));
+            System.out.println("id: " + nguoiDung.getId());
             return ResponseEntity.ok(userInfo);
         } else {
             // Trả về phản hồi lỗi với mã 400 (Bad Request)

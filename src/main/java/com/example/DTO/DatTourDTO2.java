@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DatTourDTO2 {
-    // private Integer id;
-    // private Integer id_HoaDon;
+    private Integer id;  
     private Date ngayDat;
     private boolean trangThai;
     private float thanhTien;
