@@ -1,5 +1,33 @@
 package com.example.Controller;
 
-public class BaiVietController {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import com.example.Entity.BaiViet;
+import com.example.Repository.BaiVietRepository;
+import com.example.service.BaiVietService;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/bai-viet")
+@CrossOrigin(origins = "http://localhost:3000")
+public class BaiVietController {
+	@Autowired
+	private BaiVietService baiVietService;
+
+	@GetMapping
+	public List<BaiViet> getAllBaiViet() {
+		return baiVietService.getBaiViet();
+	}
+
+	// API lấy bài viết theo ID
+	@GetMapping("/{id}")
+	public ResponseEntity<BaiViet> getBaiVietById(@PathVariable Integer id) {
+		Optional<BaiViet> baiViet = baiVietService.getBaiVietById(id);
+		return baiViet.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+	}
 }
