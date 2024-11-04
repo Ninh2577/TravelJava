@@ -2,6 +2,7 @@ package com.example.Controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import javax.crypto.SecretKey;
@@ -55,17 +56,7 @@ public class AuthController {
 
     @Autowired
     NguoiDungRepository nguoiDungRepository;
-
-    @GetMapping("/auth/google/callback")
-    public String googleCallback(OAuth2AuthenticationToken authentication) {
-        // Xử lý thông tin người dùng từ Google
-        String email = authentication.getPrincipal().getAttribute("email");
-        // Bạn có thể kiểm tra xem email này đã tồn tại trong database chưa, 
-        // nếu chưa thì có thể tạo người dùng mới
-
-        return "Đăng nhập thành công với Google! Email: " + email;
-    }
-
+   
     // API đăng ký
     @PostMapping("/dangKy")
     public ResponseEntity<Map<String, String>> register(@RequestBody NguoiDung nguoiDung) {
