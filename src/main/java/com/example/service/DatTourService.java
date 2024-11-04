@@ -10,12 +10,12 @@ import com.example.Repository.DatTourRepository;
 
 @Service
 public class DatTourService {
- 
+
 	@Autowired
 	private DatTourRepository datTourRepository;
-	
-	//GET phương thức Đặt tour
-	public List<DatTour> getAllDatTour(){
+
+	// GET phương thức Đặt tour
+	public List<DatTour> getAllDatTour() {
 		return datTourRepository.findAll();
 	}
 }
