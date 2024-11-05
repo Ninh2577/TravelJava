@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.example.Entity.Tour;
 import com.example.Repository.TourRepository;
 import com.example.projection.TourDetailsProjection;
@@ -52,6 +53,7 @@ public class TourService {
 //			    }
 			tour.setTrangThai(updatedTour.isTrangThai());
 			tour.setNoiDung(updatedTour.getNoiDung());
+			tour.setDiemKhoiHanh(updatedTour.getDiemKhoiHanh());
 			return tourRepository.save(tour);
 		} else {
 			return null;
@@ -67,16 +69,5 @@ public class TourService {
 		} else {
 			throw new RuntimeException("Người dùng không tồn tại với ID: " + id);
 		}
-	}
-
-	// GET thông tin tour :tên tour , giá tour , phương tiện , hotels , số ngày
-	public List<TourDetailsProjection> getAllTourDetails() {
-		return tourRepository.findAllTourDetails();
-	}
-
-	// GET thông tin Tour theo id : tên tour , giá tour , phương tiện , hotels , số
-	// ngày
-	public List<TourDetailsProjection> getTourDetailsByTourId(Integer id) {
-		return tourRepository.findTourDetailsByTourId(id);
 	}
 }

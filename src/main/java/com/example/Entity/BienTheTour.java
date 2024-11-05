@@ -32,10 +32,13 @@ public class BienTheTour implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_GiamGia")
     private GiamGia giamGia;
-
-    @ManyToOne
-    @JoinColumn(name = "id_GiaTour")
-    private GiaTour giaTour;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "bienTheTour")
+    private List<LichTrinhTour> lichTrinhTours;
+    
+    private float giaNguoiLon;
+    private float giaTreEm;
 
     @ManyToOne
     @JoinColumn(name = "id_Tour")	

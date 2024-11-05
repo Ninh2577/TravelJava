@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.example.Entity.LichTrinhTour;
+import com.example.Entity.GioHangDanhSachNguoiDiCung;
 
-public interface LichTrinhTourRepository extends JpaRepository<LichTrinhTour, Integer>{
-
+public interface GioHangDanhSachNguoiDiCungRepository extends JpaRepository<GioHangDanhSachNguoiDiCung, Integer>{
+	
 }

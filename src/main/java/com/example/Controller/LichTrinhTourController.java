@@ -64,10 +64,4 @@ public class LichTrinhTourController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
-//GET thông tin lịch trình tour theo ID
-	@GetMapping("/tour/{tourId}")
-	public ResponseEntity<List<LichTrinhTour>> getLichTrinhByTourId(@PathVariable Integer tourId) {
-		List<LichTrinhTour> lichTrinhTours = lichTrinhTourService.getLichTrinhTourByTourId(tourId);
-		return ResponseEntity.ok(lichTrinhTours);
-	}
 }

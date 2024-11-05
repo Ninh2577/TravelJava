@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "DatTour")
-public class DatTour implements Serializable {
+@Table(name = "ChiTietHoaDon")
+public class ChiTietHoaDon implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -34,8 +34,7 @@ public class DatTour implements Serializable {
     @JoinColumn(name = "id_HoaDon", unique = true)  // Đảm bảo tính duy nhất
     @JsonBackReference
     private HoaDon hoaDon;  // Mối quan hệ 1-1 với HoaDon
-    @OneToOne
-    @JoinColumn(name = "id_ChiTietGioHang", unique = true)  // New field for one-to-one relationship
-    @JsonBackReference
-    private ChiTietGioHang chiTietGioHang;
+    @ManyToOne
+    @JoinColumn(name = "id_BienTheTour")
+    private BienTheTour bienTheTour;
 }

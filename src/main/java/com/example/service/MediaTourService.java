@@ -23,29 +23,34 @@ public class MediaTourService {
 	public MediaTour addMediaTour(MediaTour mediaTour) {
 		return mediaTourRepository.save(mediaTour);
 	}
+
 	// Phương thức cập nhật MediaTour
 	@Transactional
 	public MediaTour updatedMediaTour(Integer id, MediaTour updatedMediaTour) {
 		Optional<MediaTour> existingMediaTour = mediaTourRepository.findById(id);
-		if(existingMediaTour.isPresent()) {
+		if (existingMediaTour.isPresent()) {
 			MediaTour mediaTour = existingMediaTour.get();
 			mediaTour.setTour(updatedMediaTour.getTour());
 			mediaTour.setHinhAnh(updatedMediaTour.getHinhAnh());
 			mediaTour.setVideo(updatedMediaTour.getVideo());
 			return mediaTourRepository.save(mediaTour);
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
+
 	// Phương thức xóa MediaTour
 	@Transactional
 	public void deleteMediaTour(Integer id) {
 		Optional<MediaTour> optionalMediaTour = mediaTourRepository.findById(id);
-		if(optionalMediaTour.isPresent()) {
+		if (optionalMediaTour.isPresent()) {
 			mediaTourRepository.deleteById(id);
-		}else {
+		} else {
 			throw new RuntimeException("MediaTour không tồn tại với ID:" + id);
 		}
+	}
+
+	public List<MediaTour> getMediaByTourId(Integer tourId) {
+		return mediaTourRepository.findByTour_Id(tourId);
 	}
 }

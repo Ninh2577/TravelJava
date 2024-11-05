@@ -36,6 +36,7 @@ public class Tour implements Serializable {
     private Integer soTour;
     private boolean trangThai;
     private String noiDung;
+    private String diemKhoiHanh;
     
     @JsonIgnore
     @OneToMany(mappedBy = "tour")
@@ -51,15 +52,7 @@ public class Tour implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "tour")
-    private List<DanhSachNguoiDiCung> danhSachNguoiDiCungs;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "tour")
     private List<BienTheTour> bienTheTours;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "tour")
-    private List<LichTrinhTour> lichTrinhTours;
 
     @JsonIgnore
     @OneToMany(mappedBy = "tour")
