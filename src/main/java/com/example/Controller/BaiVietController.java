@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.Entity.BaiViet;
+import com.example.Entity.NguoiDung;
 import com.example.Repository.BaiVietRepository;
 import com.example.service.BaiVietService;
 
@@ -29,5 +30,12 @@ public class BaiVietController {
 	public ResponseEntity<BaiViet> getBaiVietById(@PathVariable Integer id) {
 		Optional<BaiViet> baiViet = baiVietService.getBaiVietById(id);
 		return baiViet.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+	}
+
+	// API thêm bài viết
+	@PostMapping("/add")
+	public ResponseEntity<BaiViet> addNguoiDung(@RequestBody BaiViet baiViet) {
+		BaiViet save = baiVietService.addBaiViet(baiViet);
+		return new ResponseEntity<>(save, HttpStatus.CREATED);
 	}
 }

@@ -22,4 +22,9 @@ public class BaiVietService {
     public Optional<BaiViet> getBaiVietById(Integer id) {
         return baiVietRepository.findById(id);
     }
+    
+    // Phương thức thêm bài viết mới
+    public BaiViet addBaiViet(BaiViet baiViet) {
+        return baiVietRepository.save(baiViet); // Lưu bài viết vào cơ sở dữ liệu
+    }
 }
