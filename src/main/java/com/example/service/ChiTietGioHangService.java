@@ -17,4 +17,7 @@ public class ChiTietGioHangService {
 	public List<ChiTietGioHang> getAllChiTietGioHang(){
 		return chiTietGioHangRepository.findAll();
 	}
+//	 public List<Integer> getAllNguoiDungIds() {
+//	        return chiTietGioHangRepository.findAllNguoiDungIds();
+//	    }
 }

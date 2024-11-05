@@ -34,6 +34,6 @@ public class HoaDon implements Serializable {
     
     @OneToOne(mappedBy = "hoaDon")
     @JsonBackReference
-    private DatTour datTour; // Mối quan hệ 1-1 với đặt tour
+    private ChiTietHoaDon chiTietHoaDon; // Mối quan hệ 1-1 với đặt tour
     
 }

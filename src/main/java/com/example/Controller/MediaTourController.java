@@ -26,38 +26,46 @@ public class MediaTourController {
 
 	@Autowired
 	private MediaTourService mediaTourService;
-	
-	//GET Phương thức MediaTour
+
+	// GET Phương thức MediaTour
 	@GetMapping
-	public ResponseEntity<List<MediaTour>> getAllMediaTour(){
+	public ResponseEntity<List<MediaTour>> getAllMediaTour() {
 		List<MediaTour> mediaTours = mediaTourService.getAllMediaTour();
 		return ResponseEntity.ok(mediaTours);
 	}
+
 	// API POST : Phương thức thêm MediaTour
 	@PostMapping("/them")
-	public ResponseEntity<MediaTour> addMediaTour (@RequestBody MediaTour mediaTour){
+	public ResponseEntity<MediaTour> addMediaTour(@RequestBody MediaTour mediaTour) {
 		MediaTour savedMediaTour = mediaTourService.addMediaTour(mediaTour);
 		return ResponseEntity.ok(savedMediaTour);
 	}
-	// API PUT: Cập nhật MediaTour theo ID
-		@PutMapping("/update/{id}")
-		public ResponseEntity<MediaTour> updateMediaTour(@PathVariable("id") Integer id, @RequestBody MediaTour updatedMediaTour) {
-			MediaTour mediaTour = mediaTourService.updatedMediaTour(id, updatedMediaTour);
-			if (mediaTour!= null) {
-				return ResponseEntity.ok(mediaTour);
-			} else {
-				return ResponseEntity.notFound().build();
-			}
-		}
 
-		// API DELETE: xóa tour theo ID
-		@DeleteMapping("/delete/{id}")
-		public ResponseEntity<String> deleteMediaTour(@PathVariable Integer id) {
-			try {
-				mediaTourService.deleteMediaTour(id);
-				return new ResponseEntity<>("MediaTour đã được xóa thành công", HttpStatus.OK);
-			} catch (RuntimeException e) {
-				return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-			}
+	// API PUT: Cập nhật MediaTour theo ID
+	@PutMapping("/update/{id}")
+	public ResponseEntity<MediaTour> updateMediaTour(@PathVariable("id") Integer id,
+			@RequestBody MediaTour updatedMediaTour) {
+		MediaTour mediaTour = mediaTourService.updatedMediaTour(id, updatedMediaTour);
+		if (mediaTour != null) {
+			return ResponseEntity.ok(mediaTour);
+		} else {
+			return ResponseEntity.notFound().build();
 		}
+	}
+
+	// API DELETE: xóa tour theo ID
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<String> deleteMediaTour(@PathVariable Integer id) {
+		try {
+			mediaTourService.deleteMediaTour(id);
+			return new ResponseEntity<>("MediaTour đã được xóa thành công", HttpStatus.OK);
+		} catch (RuntimeException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@GetMapping("/tour/{id}")
+	public List<MediaTour> getMediaByTourId(@PathVariable Integer id) {
+		return mediaTourService.getMediaByTourId(id);
+	}
 }
