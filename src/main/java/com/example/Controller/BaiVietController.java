@@ -38,4 +38,16 @@ public class BaiVietController {
 		BaiViet save = baiVietService.addBaiViet(baiViet);
 		return new ResponseEntity<>(save, HttpStatus.CREATED);
 	}
+
+	// API xóa bài viết theo ID
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<String> deleteBaiViet(@PathVariable Integer id) {
+		try {
+			baiVietService.deleteBaiViet(id);
+			return new ResponseEntity<>("Bài viết đã xóa thành công", HttpStatus.OK);
+		} catch (RuntimeException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
+
 }
