@@ -10,11 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DatTourDTO2 {
-    private Integer id;  
+    private Integer id;
     private Date ngayDat;
+    private String tenTour;
+    private int soLuongNguoi;
     private boolean trangThai;
-    private float thanhTien;
-    private float giaNguoiLon;
-    private float giaTreEm;
-    private String moTa;
+    private boolean phuongThucThanhToan;
 }
