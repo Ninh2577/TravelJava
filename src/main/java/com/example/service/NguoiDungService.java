@@ -28,6 +28,9 @@ public class NguoiDungService implements UserDetailsService {
 
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // Mã hóa mật khẩu
 
+	public Optional<NguoiDung> findNguoiDungById(int id) {
+		return nguoiDungRepository.findById(id);
+	}
 
 	public boolean existsByEmail(String email) {
 		return nguoiDungRepository.existsByEmail(email);

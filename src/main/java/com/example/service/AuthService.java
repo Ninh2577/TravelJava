@@ -51,4 +51,29 @@ public class AuthService {
 			throw new RuntimeException("Người dùng không tồn tại");
 		}
 	}
+
+	public NguoiDung capNhatThongTin(int id, NguoiDung capNhattt) throws Exception {
+		Optional<NguoiDung> nguoiDungOptional = nguoiDungRepository.findById(id);
+		// Kiểm tra nếu không tìm thấy người dùng
+		if (!nguoiDungOptional.isPresent()) {
+			throw new Exception("Người dùng không tồn tại!");
+		}
+		// Lấy đối tượng người dùng hiện tại
+		NguoiDung existingUser = nguoiDungOptional.get();
+
+		// Kiểm tra xem email mới có tồn tại trong hệ thống không
+		if (!existingUser.getEmail().equals(capNhattt.getEmail())) {
+			Optional<NguoiDung> emailExist = nguoiDungRepository.findByEmail(capNhattt.getEmail());
+			if (emailExist.isPresent()) {
+				throw new Exception("Email này đã tồn tại trong hệ thống!");
+			}
+		}
+		// Cập nhật thông tin người dùng từ đối tượng capNhattt
+		existingUser.setHoTen(capNhattt.getHoTen());
+		existingUser.setEmail(capNhattt.getEmail());
+		existingUser.setSoDienThoai(capNhattt.getSoDienThoai());
+		existingUser.setGioiTinh(capNhattt.isGioiTinh());
+		existingUser.setNamSinh(capNhattt.getNamSinh());
+		return nguoiDungRepository.save(existingUser);
+	}
 }
