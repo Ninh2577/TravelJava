@@ -139,9 +139,9 @@ public class AuthController {
             String token = jwtUtil.generateToken(nguoiDung);
 
             // Lưu thông tin người dùng vào session
-            HttpSession session = request.getSession();
-            session.setAttribute("nguoiDung", nguoiDung);
-            session.setAttribute("token", token);
+//            HttpSession session = request.getSession();
+//            session.setAttribute("nguoiDung", nguoiDung);
+//            session.setAttribute("token", token);
 
             // Lưu tokezzzn vào cookie
             Cookie cookie = new Cookie("token", token);
@@ -152,14 +152,15 @@ public class AuthController {
             response.addCookie(cookie);
 
             // Tạo đối tượng response với token và thông báo thành công
+         // Tạo đối tượng response với token và thông báo thành công
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("message", "Đăng nhập thành công!");
-            // responseBody.put("token", token); // Trả về token trong phản hồi
-            responseBody.put("role", nguoiDung.getVaiTro().getVaiTro()); // Thêm vai trò
-            // vào phản hồi
-            // responseBody.put("hoTen", nguoiDung.getHoTen());
-            // responseBody.put("email", nguoiDung.getEmail());
-            // responseBody.put("diaChi", nguoiDung.getDiaChi());
+            responseBody.put("token", token); // Trả về token trong phản hồi
+            responseBody.put("role", nguoiDung.getVaiTro().getVaiTro());
+            responseBody.put("hoTen", nguoiDung.getHoTen());
+            responseBody.put("email", nguoiDung.getEmail());
+            responseBody.put("diaChi", nguoiDung.getDiaChi());
+            responseBody.put("id", nguoiDung.getId());
 
             // Trả về phản hồi thành công với mã 200 (OK)
             return ResponseEntity.ok(responseBody);

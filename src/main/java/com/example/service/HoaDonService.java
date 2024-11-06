@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.example.Entity.HoaDon;
 import com.example.Repository.HoaDonRepository;
 
+
+
 @Service
 public class HoaDonService {
 
@@ -18,4 +20,7 @@ public class HoaDonService {
 	public List<HoaDon> getAllHoaDon(){
 		return hoaDonRepository.findAll();
 	}
+	public List<HoaDon> findHoaDonByUserId(Long userId) {
+        return hoaDonRepository.findByNguoiDung_Id(userId);
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Entity.HoaDon;
@@ -21,9 +22,14 @@ public class HoaDonController {
 	@Autowired
 	private HoaDonService hoaDonService;
 	
-	@GetMapping
-	public ResponseEntity<List<HoaDon>> getAllHoaDon(){
-		List<HoaDon> hoaDons = hoaDonService.getAllHoaDon();
-		return ResponseEntity.ok(hoaDons);
-	}
+//	@GetMapping
+//	public ResponseEntity<List<HoaDon>> getAllHoaDon(){
+//		List<HoaDon> hoaDons = hoaDonService.getAllHoaDon();
+//		return ResponseEntity.ok(hoaDons);
+//	}
+	  @GetMapping("/user")
+	    public ResponseEntity<List<HoaDon>> getHoaDonsByUserId(@RequestParam Long userId) {
+	        List<HoaDon> hoaDons = hoaDonService.findHoaDonByUserId(userId);
+	        return ResponseEntity.ok(hoaDons);
+	    }
 }
