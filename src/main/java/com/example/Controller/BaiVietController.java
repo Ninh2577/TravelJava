@@ -38,6 +38,25 @@ public class BaiVietController {
 		BaiViet save = baiVietService.addBaiViet(baiViet);
 		return new ResponseEntity<>(save, HttpStatus.CREATED);
 	}
+	
+	
+//	@PostMapping("/add")
+//	public ResponseEntity<BaiViet> addBaiViet(@RequestBody BaiViet baiViet) {
+//	    // Lấy ID của người dùng từ bài viết
+//	    Integer idNguoiDung = baiViet.getNguoiDung().getId();
+//	    
+//	    // Tìm người dùng trong cơ sở dữ liệu
+//	    NguoiDung nguoiDung = nguoiDungRepository.findById(idNguoiDung)
+//	        .orElseThrow(() -> new RuntimeException("Không có người dùng với ID: " + idNguoiDung));
+//	    
+//	    // Gán người dùng vào bài viết
+//	    baiViet.setNguoiDung(nguoiDung);
+//
+//	    // Lưu bài viết
+//	    BaiViet savedBaiViet = baiVietRepository.save(baiViet);
+//	    
+//	    return ResponseEntity.ok(savedBaiViet);
+//	}
 
 	// API xóa bài viết theo ID
 	@DeleteMapping("/delete/{id}")
