@@ -137,8 +137,10 @@ public class AuthController {
 
             // Lưu thông tin người dùng vào session
             HttpSession session = request.getSession();
-            session.setAttribute("nguoiDung", nguoiDung);
-            session.setAttribute("token", token);
+//            session.setAttribute("nguoiDung", nguoiDung);
+//            session.setAttribute("token", token);
+//            ------------------------------
+
 
             // Lưu tokezzzn vào cookie
             Cookie cookie = new Cookie("token", token);
@@ -149,16 +151,25 @@ public class AuthController {
             response.addCookie(cookie);
 
             // Tạo đối tượng response với token và thông báo thành công
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("message", "Đăng nhập thành công!");
+//            Map<String, Object> responseBody = new HashMap<>();
+//            responseBody.put("message", "Đăng nhập thành công!");
             // responseBody.put("token", token); // Trả về token trong phản hồi
-            responseBody.put("role", nguoiDung.getVaiTro().getVaiTro()); // Thêm vai trò
+//            responseBody.put("role", nguoiDung.getVaiTro().getVaiTro()); // Thêm vai trò
             // vào phản hồi
             // responseBody.put("hoTen", nguoiDung.getHoTen());
             // responseBody.put("email", nguoiDung.getEmail());
             // responseBody.put("diaChi", nguoiDung.getDiaChi());
 
             // Trả về phản hồi thành công với mã 200 (OK)
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("message", "Đăng nhập thành công!");
+            responseBody.put("token", token); // Trả về token trong phản hồi
+            responseBody.put("role", nguoiDung.getVaiTro().getVaiTro());
+            responseBody.put("hoTen", nguoiDung.getHoTen());
+            responseBody.put("email", nguoiDung.getEmail());
+            responseBody.put("diaChi", nguoiDung.getDiaChi());
+            responseBody.put("id", nguoiDung.getId());
+            System.out.println("hoTen: " + nguoiDung.getHoTen());
             return ResponseEntity.ok(responseBody);
         } catch (Exception e) {
             // Trả về phản hồi lỗi với mã 400 (Bad Request)
