@@ -61,7 +61,23 @@ public class NguoiDungService implements UserDetailsService {
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			String namSinhString = formatter.format(namSinhDate); // Chuyển đổi Date thành String
 			System.out.println("Ngày sinh định dạng: " + namSinhString);
+			// Chuyển đổi Date thành LocalDate
+			// Chuyển đổi Date thành LocalDate
+			LocalDate birthDate = namSinhDate.toInstant()
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate();
 
+			LocalDate currentDate = LocalDate.now();
+
+			// Kiểm tra giá trị birthDate và currentDate
+			System.out.println("Ngày sinh: " + birthDate);
+			System.out.println("Ngày hiện tại: " + currentDate);
+
+			// Tính tuổi chính xác bằng cách sử dụng Period.between
+			int age = Period.between(birthDate, currentDate).getYears();
+			System.out.println("Tuổi tính được: " + age); // Kiểm tra kết quả tính tuổi
+
+			nguoiDung.setTuoi(age); // Gán tuổi đã tính vào đối tượng NguoiDung
 			// Nếu bạn cần cập nhật giá trị trở lại trong đối tượng nguoiDung
 			nguoiDung.setNamSinh(namSinhDate); // Nếu bạn có thuộc tính namSinhString trong NguoiDung
 		}

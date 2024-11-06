@@ -14,13 +14,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "DatTour")
+@Table(name = "ChiTietHoaDon")
 public class DatTour implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-  
     private float giaNguoiLon;
     private float giaTreEm;
     private float thanhTien;
@@ -29,13 +28,13 @@ public class DatTour implements Serializable {
     private Date ngayDat;
     private String moTa;
     private boolean trangThai;
-    
+
     @OneToOne
-    @JoinColumn(name = "id_HoaDon", unique = true)  // Đảm bảo tính duy nhất
+    @JoinColumn(name = "id_HoaDon", unique = true) // Đảm bảo tính duy nhất
     @JsonBackReference
-    private HoaDon hoaDon;  // Mối quan hệ 1-1 với HoaDon
+    private HoaDon hoaDon; // Mối quan hệ 1-1 với HoaDon
     @OneToOne
-    @JoinColumn(name = "id_ChiTietGioHang", unique = true)  // New field for one-to-one relationship
+    @JoinColumn(name = "id_ChiTietGioHang", unique = true) // New field for one-to-one relationship
     @JsonBackReference
     private ChiTietGioHang chiTietGioHang;
 }

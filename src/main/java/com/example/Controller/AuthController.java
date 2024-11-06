@@ -113,6 +113,7 @@ public class AuthController {
             responseBody.put("email", nguoiDung.getEmail());
             responseBody.put("diaChi", nguoiDung.getDiaChi());
             responseBody.put("id", nguoiDung.getId());
+            
             // Trả về phản hồi thành công với mã 200 (OK)
             return ResponseEntity.ok(responseBody);
         } catch (Exception e) {
@@ -474,4 +475,15 @@ public class AuthController {
         }
     }
 
+    @PutMapping("/cap-nhat-hinh-anh/{id}")
+    public ResponseEntity<NguoiDung> capNhatHinhAnh(@PathVariable int id, @RequestBody NguoiDung capNhattt) {
+        try {
+            // Cập nhật hình ảnh và trả về đối tượng người dùng đã cập nhật
+            NguoiDung updatedUser = authService.capNhatHinhAnh(id, capNhattt);
+            return ResponseEntity.ok(updatedUser); // Trả về người dùng đã cập nhật
+        } catch (Exception e) {
+            // Trả về lỗi nếu có vấn đề
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
 }
