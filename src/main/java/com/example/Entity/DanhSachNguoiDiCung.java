@@ -20,14 +20,9 @@ public class DanhSachNguoiDiCung implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @ManyToOne
-    @JoinColumn(name = "id_NguoiDung")
-    private NguoiDung nguoiDung;
-
-    @ManyToOne
-    @JoinColumn(name = "id_Tour")
-    private Tour tour;
+    @ManyToOne // Assuming each person belongs to one cart
+    @JoinColumn(name = "id_chitiethoadon") // Adjust this to the correct foreign key column name
+    private ChiTietHoaDon chiTietHoaDon; 
 
     private String hoTen;
     private String email;
@@ -35,8 +30,5 @@ public class DanhSachNguoiDiCung implements Serializable {
 
     @Temporal(TemporalType.DATE)
     private Date namSinh;
-    
-    @JsonIgnore
-    @OneToMany(mappedBy = "danhSachNguoiDiDung")
-    private List<ChiTietGioHang> chiTietGioHangs;
+   
 }

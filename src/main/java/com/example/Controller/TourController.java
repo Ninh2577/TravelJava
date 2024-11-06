@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.Entity.Tour;
 import com.example.projection.TourDetailsProjection;
 import com.example.service.TourService;
@@ -73,19 +72,4 @@ public class TourController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
-
-	// GET thông tin Tour -> trang sản phẩm
-	@GetMapping("/sanpham")
-	public ResponseEntity<List<TourDetailsProjection>> getAllTourDetails() {
-		List<TourDetailsProjection> tourDetails = tourService.getAllTourDetails();
-		return ResponseEntity.ok(tourDetails);
-	}
-
-	// GET Tour theo id -> trang sản phẩm
-	@GetMapping("/sanpham/{id}")
-	public ResponseEntity<List<TourDetailsProjection>> getTourDetails(@PathVariable Integer id) {
-		List<TourDetailsProjection> tourDetails = tourService.getTourDetailsByTourId(id);
-		return ResponseEntity.ok(tourDetails);
-	}
-
 }
