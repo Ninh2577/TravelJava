@@ -103,4 +103,8 @@ public class NguoiDung implements UserDetails, Serializable {
     public boolean isEnabled() {
         return true; // Cần thêm logic nếu cần
     }
+
+    public NguoiDung(Integer id) {
+        this.id = id;
+    }
 }

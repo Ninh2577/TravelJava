@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DatTourDTO2 {
+public class ChiTietHoaDonDTO {
     private Integer id;
     private Date ngayDat;
     private String tenTour;
     private int soLuongNguoi;
+    private double thanhTien; // Added this field based on the query
     private boolean trangThai;
     private boolean phuongThucThanhToan;
 }
