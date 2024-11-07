@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.Entity.BaiViet;
@@ -16,7 +17,7 @@ public class BaiVietService {
 	private BaiVietRepository baiVietRepository;
 
 	public List<BaiViet> getBaiViet() {
-		return baiVietRepository.findAll(); // Lấy tất cả bài viết từ repository
+		return baiVietRepository.findAll(Sort.by(Sort.Order.desc("ngayDang"))); // Lấy tất cả bài viết từ repository
 	}
 
 	// Phương thức lấy bài viết theo ID
@@ -24,7 +25,7 @@ public class BaiVietService {
 		return baiVietRepository.findById(id);
 	}
 
-	// Phương thức thêm bài viết mới
+	// Phương thức thêm bài viết 
 	public BaiViet addBaiViet(BaiViet baiViet) {
 		return baiVietRepository.save(baiViet); // Lưu bài viết vào cơ sở dữ liệu
 	}
