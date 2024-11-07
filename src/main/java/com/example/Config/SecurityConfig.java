@@ -41,7 +41,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/admin/**")
-                        .hasAnyAuthority("Admin", "Nhân viên đăng bài", "Nhân viên quản lý tour", "Nhân viên")
+                        .hasAnyAuthority("admin", "nhanvien")
                         // Chỉ cho phép các vai trò này
                         // .requestMatchers("/admin/**").hasRole("Admin")
                         // .requestMatchers("/admin/**").hasAuthority("Admin") // Sử dụng hasAuthority

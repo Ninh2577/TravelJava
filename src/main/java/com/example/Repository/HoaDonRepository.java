@@ -15,7 +15,7 @@ import java.util.List;
 public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
     List<HoaDon> findByNguoiDung_Id(Long userId);
 
-    @Query("SELECT new com.example.DTO.ChiTietHoaDonDTO(hd.id, cthd.ngayDat, t.tenTour, t.soLuongNguoi, cthd.thanhTien, hd.trangThai, hd.phuongThucThanhToan) "
+    @Query("SELECT new com.example.DTO.ChiTietHoaDonDTO(cthd.id, cthd.ngayDat, t.tenTour, t.soLuongNguoi, cthd.thanhTien, hd.trangThai, hd.phuongThucThanhToan) "
             + "FROM HoaDon hd "
             + "JOIN ChiTietHoaDon cthd ON hd.id = cthd.hoaDon.id " // Sửa từ 'id_HoaDon' thành 'hoaDon.id'
             + "JOIN BienTheTour bt ON cthd.bienTheTour.id = bt.id " // Sửa từ 'id_BienTheTour' thành 'bienTheTour.id'

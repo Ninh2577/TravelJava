@@ -14,7 +14,7 @@ public class ChiTietHoaDonDTO {
     private Date ngayDat;
     private String tenTour;
     private int soLuongNguoi;
-    private double thanhTien; // Added this field based on the query
+    private double thanhTien; 
     private boolean trangThai;
     private boolean phuongThucThanhToan;
 }

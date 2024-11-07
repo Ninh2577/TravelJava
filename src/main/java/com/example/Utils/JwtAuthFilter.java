@@ -72,10 +72,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             System.out.println("User roles: " + roles);
             System.out.println("Request URI: " + request.getRequestURI());
             // Nếu yêu cầu đến các URL admin và không có quyền Admin
-            if (request.getRequestURI().startsWith("/admin/") && !roles.contains("Admin")
-                    && !roles.contains("Nhân viên đăng bài")
-                    && !roles.contains("Nhân viên quản lý tour")
-                    && !roles.contains("Nhân viên")) {
+            if (request.getRequestURI().startsWith("/admin/") && !roles.contains("admin")
+                    && !roles.contains("nhanvien")) {
                 System.out.println("Access Denied for user with roles: " + roles);
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
                 return; // Ngăn không cho tiếp tục
