@@ -53,4 +53,7 @@ public class MediaTourService {
 	public List<MediaTour> getMediaByTourId(Integer tourId) {
 		return mediaTourRepository.findByTour_Id(tourId);
 	}
+	 public List<MediaTour> getMediaTourByTourId(Integer idTour) {
+	        return mediaTourRepository.findByMediaTourId(idTour);
+	    }
 }

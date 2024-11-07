@@ -31,4 +31,5 @@ public class DanhGia implements Serializable {
 
     @Temporal(TemporalType.DATE)
     private Date ngay;
+    private String hinhAnh;
 }

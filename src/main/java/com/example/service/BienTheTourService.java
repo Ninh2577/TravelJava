@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.DTO.TourDetailsDTO;
 import com.example.Entity.BienTheTour;
 import com.example.Repository.BienTheTourRepository;
 
@@ -40,6 +41,8 @@ public class BienTheTourService {
 			bienTheTour.setNgayKetThuc(updatedBienTheTour.getNgayKetThuc());
 			bienTheTour.setSoLuongCon(updatedBienTheTour.getSoLuongCon());
 			bienTheTour.setSoLuongTong(updatedBienTheTour.getSoLuongTong());
+			bienTheTour.setGhiChu(updatedBienTheTour.getGhiChu());
+			bienTheTour.setMaTour(updatedBienTheTour.getMaTour());
 			return bienTheTourRepository.save(bienTheTour);
 		} else {
 			return null;
@@ -59,4 +62,5 @@ public class BienTheTourService {
 	public List<BienTheTour> getBienTheTourByTourId(Integer tourId) {
 		return bienTheTourRepository.findByTourId(tourId);
 	}
+	
 }

@@ -41,6 +41,7 @@ public class GiamGiaService {
 			giamGia.setHinhAnh(updatedGiamGia.getHinhAnh());
 			giamGia.setPhanTram(updatedGiamGia.getPhanTram());
 			giamGia.setSoLuong(updatedGiamGia.getSoLuong());
+			giamGia.setMaGiamGia(updatedGiamGia.getMaGiamGia());
 			return giamGiaRepository.save(giamGia);
 		}else {
 			return null;

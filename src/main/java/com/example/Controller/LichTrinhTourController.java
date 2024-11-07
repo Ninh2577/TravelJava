@@ -64,4 +64,8 @@ public class LichTrinhTourController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
+	@GetMapping("/bybienthetour/{id}")
+    public List<LichTrinhTour> getLichTrinhTourByBienTheTourId(@PathVariable Integer id) {
+        return lichTrinhTourService.getLichTrinhTourByBienTheTourId(id);
+    }
 }

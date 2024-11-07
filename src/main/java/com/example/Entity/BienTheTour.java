@@ -39,6 +39,8 @@ public class BienTheTour implements Serializable {
     
     private float giaNguoiLon;
     private float giaTreEm;
+    private String maTour;
+    private String ghiChu;
 
     @ManyToOne
     @JoinColumn(name = "id_Tour")	

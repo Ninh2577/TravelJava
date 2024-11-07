@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.DTO.TourDetailsDTO;
+import com.example.Entity.BienTheTour;
 import com.example.Entity.Tour;
+import com.example.Repository.BienTheTourRepository;
 import com.example.projection.TourDetailsProjection;
 import com.example.service.TourService;
 
@@ -26,6 +30,8 @@ public class TourController {
 
 	@Autowired
 	private TourService tourService;
+	@Autowired
+	private BienTheTourRepository bienTheTourRepository;
 
 	@GetMapping
 	public ResponseEntity<List<Tour>> getAllTour() {
@@ -71,5 +77,17 @@ public class TourController {
 		} catch (RuntimeException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
+	}
+
+	// GET thông tin trang sản phẩm
+	@GetMapping("/info")
+	public List<TourDetailsDTO> getAllTourInfo() {
+		return tourService.getAllTourInfo();
+	}
+
+	// Endpoint to get all BienTheTour by Tour ID
+	@GetMapping("/chitiet/{idTour}")
+	public List<BienTheTour> getBienTheTourByTourId(@PathVariable Integer idTour) {
+		return bienTheTourRepository.findByTourId(idTour);
 	}
 }

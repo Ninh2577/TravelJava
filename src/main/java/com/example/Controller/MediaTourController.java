@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Entity.LichTrinhTour;
 import com.example.Entity.MediaTour;
 import com.example.Entity.Tour;
 import com.example.service.MediaTourService;
@@ -68,4 +69,8 @@ public class MediaTourController {
 	public List<MediaTour> getMediaByTourId(@PathVariable Integer id) {
 		return mediaTourService.getMediaByTourId(id);
 	}
+	@GetMapping("/bymediatour/{id}")
+    public List<MediaTour> getMediaTourByTourId(@PathVariable Integer id) {
+        return mediaTourService.getMediaByTourId(id);
+    }
 }
