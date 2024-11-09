@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.DTO.ChiTietHoaDonDTO;
+import com.example.DTO.DoanhThuDTO;
 import com.example.Entity.HoaDon;
 import java.util.List;
 
@@ -23,4 +24,5 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
             + "WHERE hd.nguoiDung.id = :userId "
             + "ORDER BY cthd.ngayDat DESC")
     List<ChiTietHoaDonDTO> findHoaDonByUserId(@Param("userId") Integer userId);
+
 }
