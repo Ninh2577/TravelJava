@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.Entity.ChiTietHoaDon;
-import com.example.service.ChiTietHoaDonService;
+import com.example.Entity.DatTour;
+import com.example.service.DatTourService;
 
 @RestController
 @RequestMapping("/api/dattour")
 @CrossOrigin(origins = "http://localhost/3000")
 public class DatTourController {
 	@Autowired 
-	private ChiTietHoaDonService datTourService;
+	private DatTourService datTourService;
 	
 	@GetMapping
-	public ResponseEntity<List<ChiTietHoaDon>> getAllDatTour(){
-		List<ChiTietHoaDon> datTours = datTourService.getAllDatTour();
+	public ResponseEntity<List<DatTour>> getAllDatTour(){
+		List<DatTour> datTours = datTourService.getAllDatTour();
 		return ResponseEntity.ok(datTours);
 	} 
 }	

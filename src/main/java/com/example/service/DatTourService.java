@@ -5,17 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.Entity.ChiTietHoaDon;
-import com.example.Repository.ChiTietHoaDonRepository;
+import com.example.Entity.DatTour;
+import com.example.Repository.DatTourRepository;
 
 @Service
-public class ChiTietHoaDonService {
+public class DatTourService {
 
 	@Autowired
-	private ChiTietHoaDonRepository datTourRepository;
+	private DatTourRepository datTourRepository;
 
 	// GET phương thức Đặt tour
-	public List<ChiTietHoaDon> getAllDatTour() {
+	public List<DatTour> getAllDatTour() {
 		return datTourRepository.findAll();
 	}
 }

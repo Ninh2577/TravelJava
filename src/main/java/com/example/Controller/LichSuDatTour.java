@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.DTO.DatTourDTO2;
-import com.example.Repository.ChiTietHoaDonRepository;
+import com.example.Repository.DatTourRepository;
 
 @RestController
 @RequestMapping("/api")
 public class LichSuDatTour {
     @Autowired
-    private ChiTietHoaDonRepository datTourRepository;
+    private DatTourRepository datTourRepository;
 
     @GetMapping("/lich-su-dat-tour/{userId}") // Thay đổi để nhận ID người dùng từ URL
     public ResponseEntity<List<DatTourDTO2>> getAllLichSuDatTour(@PathVariable Integer userId) {
