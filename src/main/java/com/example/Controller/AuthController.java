@@ -56,14 +56,11 @@ public class AuthController {
     @Autowired
     NguoiDungRepository nguoiDungRepository;
 
-    @GetMapping("/auth/google/callback")
-    public String googleCallback(OAuth2AuthenticationToken authentication) {
-        // Xử lý thông tin người dùng từ Google
-        String email = authentication.getPrincipal().getAttribute("email");
-        // Bạn có thể kiểm tra xem email này đã tồn tại trong database chưa, 
-        // nếu chưa thì có thể tạo người dùng mới
+    @GetMapping("signingoogle")
+    public Map<String, Object> getMethodName(
+            OAuth2AuthenticationToken oauth2AuthenticationToken) {
 
-        return "Đăng nhập thành công với Google! Email: " + email;
+        return oauth2AuthenticationToken.getPrincipal().getAttributes();
     }
 
     // API đăng ký
@@ -139,9 +136,11 @@ public class AuthController {
             String token = jwtUtil.generateToken(nguoiDung);
 
             // Lưu thông tin người dùng vào session
-//            HttpSession session = request.getSession();
+            HttpSession session = request.getSession();
 //            session.setAttribute("nguoiDung", nguoiDung);
 //            session.setAttribute("token", token);
+//            ------------------------------
+
 
             // Lưu tokezzzn vào cookie
             Cookie cookie = new Cookie("token", token);
@@ -152,7 +151,16 @@ public class AuthController {
             response.addCookie(cookie);
 
             // Tạo đối tượng response với token và thông báo thành công
-         // Tạo đối tượng response với token và thông báo thành công
+//            Map<String, Object> responseBody = new HashMap<>();
+//            responseBody.put("message", "Đăng nhập thành công!");
+            // responseBody.put("token", token); // Trả về token trong phản hồi
+//            responseBody.put("role", nguoiDung.getVaiTro().getVaiTro()); // Thêm vai trò
+            // vào phản hồi
+            // responseBody.put("hoTen", nguoiDung.getHoTen());
+            // responseBody.put("email", nguoiDung.getEmail());
+            // responseBody.put("diaChi", nguoiDung.getDiaChi());
+
+            // Trả về phản hồi thành công với mã 200 (OK)
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("message", "Đăng nhập thành công!");
             responseBody.put("token", token); // Trả về token trong phản hồi
@@ -161,8 +169,7 @@ public class AuthController {
             responseBody.put("email", nguoiDung.getEmail());
             responseBody.put("diaChi", nguoiDung.getDiaChi());
             responseBody.put("id", nguoiDung.getId());
-
-            // Trả về phản hồi thành công với mã 200 (OK)
+            System.out.println("hoTen: " + nguoiDung.getHoTen());
             return ResponseEntity.ok(responseBody);
         } catch (Exception e) {
             // Trả về phản hồi lỗi với mã 400 (Bad Request)
@@ -193,19 +200,17 @@ public class AuthController {
             NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
 
             Map<String, Object> userInfo = new HashMap<>();
-            userInfo.put("id", nguoiDung.getId());
             userInfo.put("hoTen", nguoiDung.getHoTen());
             userInfo.put("email", nguoiDung.getEmail());
             userInfo.put("diaChi", nguoiDung.getDiaChi());
             userInfo.put("role", nguoiDung.getVaiTro());
-            userInfo.put("token", session.getAttribute("token"));
+            userInfo.put("toekn", session.getAttribute("token"));
 
             System.out.println("hoTen" + nguoiDung.getHoTen());
             System.out.println("email" + nguoiDung.getEmail());
             System.out.println("diaChi" + nguoiDung.getDiaChi());
             System.out.println("role" + nguoiDung.getVaiTro().getVaiTro());
-            System.out.println("token" + session.getAttribute("token"));
-            System.out.println("id: " + nguoiDung.getId());
+            System.out.println("toekn" + session.getAttribute("token"));
             return ResponseEntity.ok(userInfo);
         } else {
             // Trả về phản hồi lỗi với mã 400 (Bad Request)
