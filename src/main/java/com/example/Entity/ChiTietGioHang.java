@@ -37,5 +37,5 @@ public class ChiTietGioHang implements Serializable {
     private Integer soNguoi;
     @OneToOne(mappedBy = "chiTietGioHang")
     @JsonBackReference
-    private DatTour datTour;
+    private ChiTietHoaDon datTour;
 }

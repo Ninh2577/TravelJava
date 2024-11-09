@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.DTO.DatTourDTO2;
-import com.example.Entity.DatTour;
+import com.example.Entity.ChiTietHoaDon;
 
-public interface ChiTietHoaDonRepository extends JpaRepository<DatTour, Integer> {
+public interface ChiTietHoaDonRepository extends JpaRepository<ChiTietHoaDon, Integer> {
     // @Query("SELECT new com.example.DTO.DatTourDTO2(d.id, d.hoaDon.id,d.ngayDat,
     // d.trangThai, d.thanhTien, d.giaNguoiLon, d.giaTreEm, d.moTa) FROM DatTour d")
     // List<DatTourDTO2> findAllDatTourDTO();
