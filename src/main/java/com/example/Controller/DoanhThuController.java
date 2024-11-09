@@ -23,8 +23,17 @@ public class DoanhThuController {
 
     // API để lấy doanh thu theo năm
     @GetMapping("/doanh-thu")
-    public List<DoanhThuDTO> getDoanhThuByYear(@RequestParam("year") int year) {
-        System.out.println("year: " + year);
-        return doanhThuService.getDoanhThuByYear(year);
+    public List<DoanhThuDTO> getDoanhThuByYearRange(
+            @RequestParam("startYear") int startYear,
+            @RequestParam("endYear") int endYear) {
+
+        System.out.println("Start Year: " + startYear + ", End Year: " + endYear);
+        return doanhThuService.getDoanhThuByYear(startYear, endYear);
+    }
+
+    // Endpoint lấy danh sách các năm
+    @GetMapping("/years")
+    public List<Integer> getAllDistinctYears() {
+        return doanhThuService.getAllDistinctYears();
     }
 }

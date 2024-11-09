@@ -13,11 +13,13 @@ public class DoanhThuService {
     @Autowired
     private DoanhThuRepository doanhThuRepository;
 
+    public List<Integer> getAllDistinctYears() {
+        return doanhThuRepository.findAllDistinctYears();
+    }
+
     // Lấy doanh thu theo năm
-    public List<DoanhThuDTO> getDoanhThuByYear(int year) {
-        if (year < 1) {
-            throw new IllegalArgumentException("Year must be greater than 0");
-        }
-        return doanhThuRepository.findDoanhThuByYear(year);
+    public List<DoanhThuDTO> getDoanhThuByYear(int startYear, int endYear) {
+
+        return doanhThuRepository.findDoanhThuByYearRange(startYear, endYear);
     }
 }

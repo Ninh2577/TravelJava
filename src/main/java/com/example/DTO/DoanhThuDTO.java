@@ -11,5 +11,5 @@ public class DoanhThuDTO {
     private int nam;
     private String loaiTour;
     private double tongDoanhThu;
-    private long  tongHoaDon;
+    private long tongHoaDon;
 }
