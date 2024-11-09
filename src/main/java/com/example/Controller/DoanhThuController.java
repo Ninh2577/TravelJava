@@ -24,7 +24,7 @@ public class DoanhThuController {
     // API để lấy doanh thu theo năm
     @GetMapping("/doanh-thu")
     public List<DoanhThuDTO> getDoanhThuByYear(@RequestParam("year") int year) {
-        // Gọi service để lấy doanh thu từ repository
+        System.out.println("year: " + year);
         return doanhThuService.getDoanhThuByYear(year);
     }
 }

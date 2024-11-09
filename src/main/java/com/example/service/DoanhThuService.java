@@ -14,10 +14,10 @@ public class DoanhThuService {
     private DoanhThuRepository doanhThuRepository;
 
     // Lấy doanh thu theo năm
-   public List<DoanhThuDTO> getDoanhThuByYear(int year) {
-    if (year < 1) {
-        throw new IllegalArgumentException("Year must be greater than 0");
+    public List<DoanhThuDTO> getDoanhThuByYear(int year) {
+        if (year < 1) {
+            throw new IllegalArgumentException("Year must be greater than 0");
+        }
+        return doanhThuRepository.findDoanhThuByYear(year);
     }
-    return doanhThuRepository.findDoanhThuByYear(year);
-}
 }
