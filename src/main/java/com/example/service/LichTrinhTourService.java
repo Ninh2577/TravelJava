@@ -30,7 +30,7 @@ public class LichTrinhTourService {
 		Optional<LichTrinhTour> existingLichTrinhTour = lichTrinhTourRepository.findById(id);
 		if(existingLichTrinhTour.isPresent()) {
 			LichTrinhTour lichTrinhTour = existingLichTrinhTour.get();
-			lichTrinhTour.setTour(updatedLichTrinhTour.getTour());
+			lichTrinhTour.setBienTheTour(updatedLichTrinhTour.getBienTheTour());
 			lichTrinhTour.setTieuDe(updatedLichTrinhTour.getTieuDe());
 			lichTrinhTour.setNoiDung(updatedLichTrinhTour.getNoiDung());
 			lichTrinhTour.setNgay(updatedLichTrinhTour.getNgay());
@@ -53,8 +53,9 @@ public class LichTrinhTourService {
 			throw new RuntimeException("Lịch Trình Tour không tồn tại với ID: " +id);
 		}
 	}
-	 public List<LichTrinhTour> getLichTrinhTourByTourId(Integer tourId) {
-	        return lichTrinhTourRepository.findByTourId(tourId);
-	    }
+	
 
+    public List<LichTrinhTour> getLichTrinhTourByBienTheTourId(Integer idBienTheTour) {
+        return lichTrinhTourRepository.findByBienTheTourId(idBienTheTour);
+    }
 }

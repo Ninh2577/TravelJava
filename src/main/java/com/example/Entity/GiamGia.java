@@ -42,6 +42,7 @@ public class GiamGia implements Serializable {
     private String hinhAnh;
     private Integer phanTram;
     private Integer soLuong;
+    private String maGiamGia;
     
     @JsonIgnore
     @OneToMany(mappedBy = "giamGia")
