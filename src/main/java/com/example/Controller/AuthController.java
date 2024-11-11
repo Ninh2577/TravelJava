@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,7 +57,7 @@ public class AuthController {
 
     @Autowired
     NguoiDungRepository nguoiDungRepository;
-   
+
     // API đăng ký
     @PostMapping("/dangKy")
     public ResponseEntity<Map<String, String>> register(@RequestBody NguoiDung nguoiDung) {
@@ -162,19 +163,20 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletResponse response) {
-        // Tạo một cookie mới với thời gian sống = 0 để xóa cookie
-        Cookie cookie = new Cookie("token", "");
-        cookie.setHttpOnly(true); // Đảm bảo cookie vẫn không thể truy cập bởi JavaScript
-        cookie.setPath("/"); // Đặt đường dẫn giống như khi tạo cookie
-        cookie.setMaxAge(0); // Đặt thời gian sống của cookie là 0 để xóa nó
-        cookie.setSecure(true); // Nếu đang sử dụng HTTPS
-        response.addCookie(cookie); // Thêm cookie vào phản hồi để xóa nó
+    // @PostMapping("/logout")
+    // public ResponseEntity<?> logout(HttpServletResponse response) {
+    // // Tạo một cookie mới với thời gian sống = 0 để xóa cookie
+    // Cookie cookie = new Cookie("token", "");
+    // cookie.setHttpOnly(true); // Đảm bảo cookie vẫn không thể truy cập bởi
+    // JavaScript
+    // cookie.setPath("/"); // Đặt đường dẫn giống như khi tạo cookie
+    // cookie.setMaxAge(0); // Đặt thời gian sống của cookie là 0 để xóa nó
+    // cookie.setSecure(true); // Nếu đang sử dụng HTTPS
+    // response.addCookie(cookie); // Thêm cookie vào phản hồi để xóa nó
 
-        // Trả về phản hồi thành công
-        return ResponseEntity.ok().body("Đăng xuất thành công!");
-    }
+    // // Trả về phản hồi thành công
+    // return ResponseEntity.ok().body("Đăng xuất thành công!");
+    // }
 
     @GetMapping("/user-info")
     public ResponseEntity<Map<String, Object>> getUserInfo(HttpServletRequest request) {
@@ -302,5 +304,64 @@ public class AuthController {
             responseBody.put("message", "Đổi mật khẩu thất bại: " + e.getMessage());
             return ResponseEntity.badRequest().body(responseBody);
         }
+    }
+
+    @GetMapping("/google/tt")
+    public ResponseEntity<Map<String, Object>> getUserGG(@AuthenticationPrincipal OAuth2User googleUser) {
+        if (googleUser == null) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Người dùng chưa đăng nhập");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+        }
+
+        String email = (String) googleUser.getAttributes().get("email");
+        String name = (String) googleUser.getAttributes().get("name");
+        String picture = (String) googleUser.getAttributes().get("picture");
+
+        if (email == null || name == null || picture == null) {
+            throw new RuntimeException("Missing user data from Google");
+        }
+
+        NguoiDung nguoiDung = new NguoiDung();
+        Optional<NguoiDung> existingUserOpt = nguoiDungRepository.findByEmail(email);
+        if (existingUserOpt.isPresent()) {
+            nguoiDung = existingUserOpt.get();
+            nguoiDung.setHoTen(name);
+            nguoiDung.setHinhAnh(picture);
+            nguoiDungRepository.save(nguoiDung);
+        } else {
+            VaiTro vaiTro = new VaiTro();
+            vaiTro.setId(3);
+            nguoiDung.setHoTen(name);
+            nguoiDung.setEmail(email);
+            nguoiDung.setHinhAnh(picture);
+            nguoiDung.setVaiTro(vaiTro);
+            nguoiDungRepository.save(nguoiDung);
+        }
+
+        Map<String, Object> userResponse = new HashMap<>();
+        userResponse.put("id", nguoiDung.getId());
+        userResponse.put("hoTen", nguoiDung.getHoTen());
+        userResponse.put("email", nguoiDung.getEmail());
+        userResponse.put("hinhAnh", nguoiDung.getHinhAnh());
+        userResponse.put("diaChi", nguoiDung.getDiaChi());
+        userResponse.put("vaiTro", nguoiDung.getVaiTro().getVaiTro());
+
+        return ResponseEntity.ok(userResponse);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+
+        request.getSession().invalidate();
+
+        Cookie cookie = new Cookie("token", "");
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        cookie.setSecure(true);
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok().body("Đăng xuất thành công!");
     }
 }
