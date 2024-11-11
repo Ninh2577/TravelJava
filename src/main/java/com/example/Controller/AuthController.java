@@ -123,7 +123,6 @@ public class AuthController {
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
-<<<<<<< Updated upstream
     // @PostMapping("/dangNhap")
     // public ResponseEntity<Map<String, Object>> login(@RequestBody NguoiDung
     // loginRequest,
@@ -169,9 +168,6 @@ public class AuthController {
     // }
     // }
 
-=======
-  
->>>>>>> Stashed changes
     @GetMapping("/google/tt")
     public ResponseEntity<Map<String, Object>> getUserGG(@AuthenticationPrincipal OAuth2User googleUser) {
         if (googleUser == null) {
