@@ -79,6 +79,11 @@ public class AuthService {
 		existingUser.setGioiTinh(capNhattt.isGioiTinh());
 		existingUser.setNamSinh(capNhattt.getNamSinh());
 		existingUser.setDiaChi(capNhattt.getDiaChi());
+		// Kiểm tra nếu mật khẩu mới không rỗng thì mã hóa mật khẩu và cập nhật
+		if (capNhattt.getMatKhau() != null && !capNhattt.getMatKhau().isEmpty()) {
+			String encodedPassword = passwordEncoder.encode(capNhattt.getMatKhau());
+			existingUser.setMatKhau(encodedPassword); // Gán mật khẩu đã mã hóa
+		}
 		// Tính tuổi mới
 		if (capNhattt.getNamSinh() != null) {
 			Date namSinhDate = capNhattt.getNamSinh(); // lấy ngày sinh kiểu Date
@@ -94,7 +99,7 @@ public class AuthService {
 		}
 		return nguoiDungRepository.save(existingUser);
 	}
-	
+
 	public NguoiDung capNhatHinhAnh(int id, NguoiDung capNhattt) throws Exception {
 		Optional<NguoiDung> nguoiDungOptional = nguoiDungRepository.findById(id);
 		// Kiểm tra nếu không tìm thấy người dùng

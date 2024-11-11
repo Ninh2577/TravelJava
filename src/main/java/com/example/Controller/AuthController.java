@@ -113,7 +113,7 @@ public class AuthController {
             responseBody.put("email", nguoiDung.getEmail());
             responseBody.put("diaChi", nguoiDung.getDiaChi());
             responseBody.put("id", nguoiDung.getId());
-            
+
             // Trả về phản hồi thành công với mã 200 (OK)
             return ResponseEntity.ok(responseBody);
         } catch (Exception e) {
@@ -168,69 +168,62 @@ public class AuthController {
     // }
     // }
 
-    @GetMapping("/dangNhapGoogle")
-    public ResponseEntity<Map<String, Object>> loginGoogle(@AuthenticationPrincipal OAuth2User principal,
-            HttpServletResponse response, HttpServletRequest request) {
-        try {
-            // Lấy thông tin người dùng từ OAuth2User
-            String email = principal.getAttribute("email");
-            // String hoTen = principal.getAttribute("name");
-            System.out.println("email gg: " + email);
-            // Tạo đối tượng NguoiDung từ thông tin Google
-            NguoiDung nguoiDung = new NguoiDung();
-            // nguoiDung.setEmail(email);
-            // nguoiDung.setHoTen(hoTen);
-
-            // Kiểm tra người dùng trong cơ sở dữ liệu
-            Optional<NguoiDung> existingUserOpt = nguoiDungRepository.findByEmail(email);
-            if (existingUserOpt.isPresent()) {
-                nguoiDung = existingUserOpt.get();
-            }
-
-            // Tạo JWT token
-            String token = jwtUtil.generateToken(nguoiDung);
-
-            // Lưu thông tin người dùng vào session
-            HttpSession session = request.getSession();
-            session.setAttribute("nguoiDung", nguoiDung);
-            session.setAttribute("token", token);
-
-            // Lưu token vào cookie
-            Cookie cookie = new Cookie("token", token);
-            cookie.setHttpOnly(true);
-            cookie.setPath("/");
-            cookie.setMaxAge(60 * 60 * 10); // 10 giờ
-            cookie.setSecure(true);
-            response.addCookie(cookie);
-
-            // Tạo phản hồi
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("message", "Đăng nhập Google thành công!");
-            responseBody.put("token", token); // Trả về token trong phản hồi
-            responseBody.put("role", nguoiDung.getVaiTro().getVaiTro());
-            responseBody.put("hoTen", nguoiDung.getHoTen());
-            responseBody.put("email", nguoiDung.getEmail());
-            responseBody.put("diaChi", nguoiDung.getDiaChi());
-            responseBody.put("id", nguoiDung.getId());
-            return ResponseEntity.ok(responseBody);
-        } catch (Exception e) {
+    @GetMapping("/google/tt")
+    public ResponseEntity<Map<String, Object>> getUserGG(@AuthenticationPrincipal OAuth2User googleUser) {
+        if (googleUser == null) {
             Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("message", "Đăng nhập thất bại: " + e.getMessage());
-            return ResponseEntity.badRequest().body(errorResponse);
+            errorResponse.put("message", "Người dùng chưa đăng nhập");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
+
+        String email = (String) googleUser.getAttributes().get("email");
+        String name = (String) googleUser.getAttributes().get("name");
+        String picture = (String) googleUser.getAttributes().get("picture");
+
+        if (email == null || name == null || picture == null) {
+            throw new RuntimeException("Missing user data from Google");
+        }
+
+        NguoiDung nguoiDung = new NguoiDung();
+        Optional<NguoiDung> existingUserOpt = nguoiDungRepository.findByEmail(email);
+        if (existingUserOpt.isPresent()) {
+            nguoiDung = existingUserOpt.get();
+            nguoiDung.setHoTen(name);
+            nguoiDung.setHinhAnh(picture);
+            nguoiDungRepository.save(nguoiDung);
+        } else {
+            VaiTro vaiTro = new VaiTro();
+            vaiTro.setId(3);
+            nguoiDung.setHoTen(name);
+            nguoiDung.setEmail(email);
+            nguoiDung.setHinhAnh(picture);
+            nguoiDung.setVaiTro(vaiTro);
+            nguoiDungRepository.save(nguoiDung);
+        }
+
+        Map<String, Object> userResponse = new HashMap<>();
+        userResponse.put("id", nguoiDung.getId());
+        userResponse.put("hoTen", nguoiDung.getHoTen());
+        userResponse.put("email", nguoiDung.getEmail());
+        userResponse.put("hinhAnh", nguoiDung.getHinhAnh());
+        userResponse.put("diaChi", nguoiDung.getDiaChi());
+        userResponse.put("vaiTro", nguoiDung.getVaiTro().getVaiTro());
+
+        return ResponseEntity.ok(userResponse);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletResponse response) {
-        // Tạo một cookie mới với thời gian sống = 0 để xóa cookie
-        Cookie cookie = new Cookie("token", "");
-        cookie.setHttpOnly(true); // Đảm bảo cookie vẫn không thể truy cập bởi JavaScript
-        cookie.setPath("/"); // Đặt đường dẫn giống như khi tạo cookie
-        cookie.setMaxAge(0); // Đặt thời gian sống của cookie là 0 để xóa nó
-        cookie.setSecure(true); // Nếu đang sử dụng HTTPS
-        response.addCookie(cookie); // Thêm cookie vào phản hồi để xóa nó
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
 
-        // Trả về phản hồi thành công
+        request.getSession().invalidate();
+
+        Cookie cookie = new Cookie("token", "");
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        cookie.setSecure(true);
+        response.addCookie(cookie);
+
         return ResponseEntity.ok().body("Đăng xuất thành công!");
     }
 
