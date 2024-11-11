@@ -20,7 +20,6 @@ public class ChiTietHoaDon implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-  
     private float giaNguoiLon;
     private float giaTreEm;
     private float thanhTien;
@@ -29,11 +28,11 @@ public class ChiTietHoaDon implements Serializable {
     private Date ngayDat;
     private String moTa;
     private boolean trangThai;
-    
+
     @OneToOne
-    @JoinColumn(name = "id_HoaDon", unique = true)  // Đảm bảo tính duy nhất
+    @JoinColumn(name = "id_HoaDon", unique = true) // Đảm bảo tính duy nhất
     @JsonBackReference
-    private HoaDon hoaDon;  // Mối quan hệ 1-1 với HoaDon
+    private HoaDon hoaDon; // Mối quan hệ 1-1 với HoaDon
     @ManyToOne
     @JoinColumn(name = "id_BienTheTour")
     private BienTheTour bienTheTour;
