@@ -22,7 +22,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.example.Entity.NguoiDung;
+<<<<<<< Updated upstream
 import com.example.Entity.VaiTro;
+=======
+>>>>>>> Stashed changes
 import com.example.Repository.NguoiDungRepository;
 import com.example.Utils.CustomAccessDeniedHandler;
 import com.example.Utils.JwtAuthFilter;
@@ -38,7 +41,11 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthFilter authFilter; // Inject JwtAuthFilter để xử lý JWT
     @Autowired
+<<<<<<< Updated upstream
     NguoiDungRepository nguoiDungRepository;
+=======
+    private NguoiDungRepository nguoiDungRepository;
+>>>>>>> Stashed changes
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -82,6 +89,7 @@ public class SecurityConfig {
                                 } else {
                                     response.sendRedirect("http://localhost:3000/");
                                 }
+<<<<<<< Updated upstream
                             }else {
                         // Nếu người dùng chưa có tài khoản, tạo mới
                         VaiTro vaiTro = new VaiTro();
@@ -98,6 +106,9 @@ public class SecurityConfig {
                         // Sau khi tạo tài khoản, điều hướng người dùng đến trang chính hoặc trang admin
                         response.sendRedirect("http://localhost:3000/");  // Hoặc /admin nếu bạn muốn chuyển hướng đến admin
                     }
+=======
+                            }
+>>>>>>> Stashed changes
                         }))
                 .build();
     }

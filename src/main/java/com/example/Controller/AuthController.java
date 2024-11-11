@@ -123,6 +123,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
+<<<<<<< Updated upstream
     // @PostMapping("/dangNhap")
     // public ResponseEntity<Map<String, Object>> login(@RequestBody NguoiDung
     // loginRequest,
@@ -168,6 +169,9 @@ public class AuthController {
     // }
     // }
 
+=======
+  
+>>>>>>> Stashed changes
     @GetMapping("/google/tt")
     public ResponseEntity<Map<String, Object>> getUserGG(@AuthenticationPrincipal OAuth2User googleUser) {
         if (googleUser == null) {
@@ -367,41 +371,7 @@ public class AuthController {
         }
     }
 
-    // @PutMapping("nguoi-dung/doiMatKhau/{id}")
-    // public ResponseEntity<String> updatePassword(
-    // @PathVariable int id,
-    // @RequestBody Map<String, String> nguoiDungRequest) {
-    // // Kiểm tra xem dữ liệu có đủ không
-    // if (!nguoiDungRequest.containsKey("oldPassword") ||
-    // !nguoiDungRequest.containsKey("newPassword")) {
-    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Thiếu mật khẩu cũ
-    // hoặc mật khẩu mới.");
-    // }
-
-    // String oldPassword = nguoiDungRequest.get("oldPassword");
-    // String newPassword = nguoiDungRequest.get("newPassword");
-    // // Find user by ID
-    // Optional<NguoiDung> nguoiDungOptional = nguoiDungRepository.findById(id);
-    // if (!nguoiDungOptional.isPresent()) {
-    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Người dùng không tồn
-    // tại.");
-    // }
-
-    // NguoiDung nguoiDung = nguoiDungOptional.get();
-    // System.out.println("Mật khẩu cũ trong DB: " + nguoiDung.getMatKhau());
-    // System.out.println("Mật khẩu cũ gửi từ client: " + oldPassword);
-    // // Kiểm tra mật khẩu cũ
-    // if (!passwordEncoder.matches(oldPassword, nguoiDung.getMatKhau())) {
-    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mật khẩu cũ không
-    // đúng.");
-    // }
-
-    // // Update the password with the new one (after encoding)
-    // nguoiDung.setMatKhau(passwordEncoder.encode(newPassword));
-    // nguoiDungRepository.save(nguoiDung);
-
-    // return ResponseEntity.ok("Cập nhật mật khẩu thành công.");
-    // }
+    
     @PutMapping("nguoi-dung/doiMatKhau/{id}")
     public ResponseEntity<Map<String, Object>> updatePassword(
             @PathVariable int id,
@@ -479,4 +449,87 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
+
+
+// @PutMapping("nguoi-dung/doiMatKhau/{id}")
+    // public ResponseEntity<String> updatePassword(
+    // @PathVariable int id,
+    // @RequestBody Map<String, String> nguoiDungRequest) {
+    // // Kiểm tra xem dữ liệu có đủ không
+    // if (!nguoiDungRequest.containsKey("oldPassword") ||
+    // !nguoiDungRequest.containsKey("newPassword")) {
+    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Thiếu mật khẩu cũ
+    // hoặc mật khẩu mới.");
+    // }
+
+    // String oldPassword = nguoiDungRequest.get("oldPassword");
+    // String newPassword = nguoiDungRequest.get("newPassword");
+    // // Find user by ID
+    // Optional<NguoiDung> nguoiDungOptional = nguoiDungRepository.findById(id);
+    // if (!nguoiDungOptional.isPresent()) {
+    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Người dùng không tồn
+    // tại.");
+    // }
+
+    // NguoiDung nguoiDung = nguoiDungOptional.get();
+    // System.out.println("Mật khẩu cũ trong DB: " + nguoiDung.getMatKhau());
+    // System.out.println("Mật khẩu cũ gửi từ client: " + oldPassword);
+    // // Kiểm tra mật khẩu cũ
+    // if (!passwordEncoder.matches(oldPassword, nguoiDung.getMatKhau())) {
+    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mật khẩu cũ không
+    // đúng.");
+    // }
+
+    // // Update the password with the new one (after encoding)
+    // nguoiDung.setMatKhau(passwordEncoder.encode(newPassword));
+    // nguoiDungRepository.save(nguoiDung);
+
+    // return ResponseEntity.ok("Cập nhật mật khẩu thành công.");
+    // }
+
+
+      // @PostMapping("/dangNhap")
+    // public ResponseEntity<Map<String, Object>> login(@RequestBody NguoiDung
+    // loginRequest,
+    // HttpServletResponse response, HttpServletRequest request) {
+    // try {
+    // // Xác thực người dùng
+    // NguoiDung nguoiDung = authService.login(loginRequest.getEmail(),
+    // loginRequest.getMatKhau());
+
+    // // Tạo JWT token
+    // String token = jwtUtil.generateToken(nguoiDung);
+
+    // // Lưu thông tin người dùng vào session
+    // HttpSession session = request.getSession();
+    // session.setAttribute("nguoiDung", nguoiDung);
+    // session.setAttribute("token", token);
+
+    // // Lưu tokezzzn vào cookie
+    // Cookie cookie = new Cookie("token", token);
+    // cookie.setHttpOnly(true); // Bảo mật token không bị truy cập bởi JavaScript
+    // cookie.setPath("/"); // Áp dụng cho toàn bộ ứng dụng
+    // cookie.setMaxAge(60 * 60 * 10); // 10 giờ
+    // cookie.setSecure(true); // Đảm bảo cookie chỉ gửi qua HTTPS
+    // response.addCookie(cookie);
+
+    // // Tạo đối tượng response với token và thông báo thành công
+    // Map<String, Object> responseBody = new HashMap<>();
+    // responseBody.put("message", "Đăng nhập thành công!");
+    // // responseBody.put("token", token); // Trả về token trong phản hồi
+    // responseBody.put("role", nguoiDung.getVaiTro().getVaiTro()); // Thêm vai trò
+    // // vào phản hồi
+    // // responseBody.put("hoTen", nguoiDung.getHoTen());
+    // // responseBody.put("email", nguoiDung.getEmail());
+    // // responseBody.put("diaChi", nguoiDung.getDiaChi());
+
+    // // Trả về phản hồi thành công với mã 200 (OK)
+    // return ResponseEntity.ok(responseBody);
+    // } catch (Exception e) {
+    // // Trả về phản hồi lỗi với mã 400 (Bad Request)
+    // Map<String, Object> errorResponse = new HashMap<>();
+    // errorResponse.put("message", "Đăng nhập thất bại: " + e.getMessage());
+    // return ResponseEntity.badRequest().body(errorResponse);
+    // }
+    // }
 }
