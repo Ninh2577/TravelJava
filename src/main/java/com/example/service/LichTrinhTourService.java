@@ -53,4 +53,9 @@ public class LichTrinhTourService {
 			throw new RuntimeException("Lịch Trình Tour không tồn tại với ID: " +id);
 		}
 	}
+	
+
+    public List<LichTrinhTour> getLichTrinhTourByBienTheTourId(Integer idBienTheTour) {
+        return lichTrinhTourRepository.findByBienTheTourId(idBienTheTour);
+    }
 }

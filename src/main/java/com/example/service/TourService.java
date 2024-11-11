@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.DTO.TourDetailsDTO;
 import com.example.Entity.Tour;
+import com.example.Repository.BienTheTourRepository;
 import com.example.Repository.TourRepository;
 import com.example.projection.TourDetailsProjection;
 
@@ -17,6 +19,8 @@ public class TourService {
 
 	@Autowired
 	private TourRepository tourRepository;
+	@Autowired
+	private BienTheTourRepository bienTheTourRepository;
 
 	// Phương thức GET hết thông tin người dùng
 	public List<Tour> getAllTours() {
@@ -70,4 +74,9 @@ public class TourService {
 			throw new RuntimeException("Người dùng không tồn tại với ID: " + id);
 		}
 	}
+	
+	public List<TourDetailsDTO> getAllTourInfo() {
+	    return bienTheTourRepository.findAllTourInfo(); 
+	}
+	
 }
