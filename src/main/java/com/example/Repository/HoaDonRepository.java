@@ -18,9 +18,9 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
 
     @Query("SELECT new com.example.DTO.ChiTietHoaDonDTO(cthd.id, cthd.ngayDat, t.tenTour, t.soLuongNguoi, cthd.thanhTien, hd.trangThai, hd.phuongThucThanhToan) "
             + "FROM HoaDon hd "
-            + "JOIN ChiTietHoaDon cthd ON hd.id = cthd.hoaDon.id " // Sửa từ 'id_HoaDon' thành 'hoaDon.id'
-            + "JOIN BienTheTour bt ON cthd.bienTheTour.id = bt.id " // Sửa từ 'id_BienTheTour' thành 'bienTheTour.id'
-            + "JOIN Tour t ON bt.tour.id = t.id " // Sửa từ 'id_Tour' thành 'tour.id'
+            + "JOIN ChiTietHoaDon cthd ON hd.id = cthd.hoaDon.id " 
+            + "JOIN BienTheTour bt ON cthd.bienTheTour.id = bt.id " 
+            + "JOIN Tour t ON bt.tour.id = t.id " 
             + "WHERE hd.nguoiDung.id = :userId "
             + "ORDER BY cthd.ngayDat DESC")
     List<ChiTietHoaDonDTO> findHoaDonByUserId(@Param("userId") Integer userId);
