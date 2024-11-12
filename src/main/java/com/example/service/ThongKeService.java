@@ -35,4 +35,8 @@ public class ThongKeService {
     public List<DoanhThuTheoTour> thongKeDoanhThuTheoTourTrongKhoangThoiGian(Date ngayBatDau, Date ngayKetThuc) {
         return thongKeRepository.findThongKeDoanhThuTheoTourTrongKhoangThoiGian(ngayBatDau, ngayKetThuc);
     }
+    
+    public Double calculateTotalAmountInRange(Date startDate, Date endDate) {
+        return thongKeRepository.calculateTotalAmountInRange(startDate, endDate); // Gọi query từ repository
+    }
 }

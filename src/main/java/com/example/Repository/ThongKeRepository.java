@@ -74,4 +74,10 @@ public interface ThongKeRepository extends JpaRepository<HoaDon, Integer> {
     List<DoanhThuTheoTour> findThongKeDoanhThuTheoTourTrongKhoangThoiGian(@Param("ngayBatDau") Date ngayBatDau,
                                                                            @Param("ngayKetThuc") Date ngayKetThuc);
 
+    @Query("SELECT SUM(hd.tongTien) AS tongTien " +
+    	       "FROM HoaDon hd " +
+    	       "WHERE hd.ngayThanhToan BETWEEN :startDate AND :endDate " +
+    	       "AND hd.trangThai = true")
+    	Double calculateTotalAmountInRange(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
 }
