@@ -28,7 +28,7 @@ public class ThongKeController {
     @Autowired
     private ThongKeService thongKeService;
 
-    @GetMapping("/tong-doanh-thu")
+    @GetMapping("/bieu-do-doanh-thu")
     public List<Object[]> thongKeTongDoanhThuTheoTG(
             @RequestParam("ngayBatDau") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayBatDau,
             @RequestParam("ngayKetThuc") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayKetThuc) {
@@ -36,7 +36,7 @@ public class ThongKeController {
     }
 
     // API thống kê tổng số lượng tour được đặt
-    @GetMapping("/so-luong-dat-tour")
+    @GetMapping("/bieu-do-so-luong-tour")
     public List<SoLuongTourDaDatDTO> thongKeTourTheoKhoangThoiGian(
             @RequestParam("ngayBatDau") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayBatDau,
             @RequestParam("ngayKetThuc") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayKetThuc) {
@@ -44,7 +44,7 @@ public class ThongKeController {
     }
 
     // API thống kê số lượng người tham gia mỗi tour
-    @GetMapping("/so-luong-nguoi-tham-gia")
+    @GetMapping("/table-so-luong-nguoi-tham-gia")
     public List<SoLuongNguoiDiTour> thongKeSoLuongNguoiDiTourTheoKhoangThoiGian(
             @RequestParam("ngayBatDau") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayBatDau,
             @RequestParam("ngayKetThuc") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayKetThuc) {
@@ -52,7 +52,7 @@ public class ThongKeController {
     }
 
     // API thống kê doanh thu theo tour
-    @GetMapping("/doanh-thu-theo-tour")
+    @GetMapping("/table-doanh-thu-theo-tour")
     public List<DoanhThuTheoTour> thongKeDoanhThuTheoTourTrongKhoangThoiGian(
             @RequestParam("ngayBatDau") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayBatDau,
             @RequestParam("ngayKetThuc") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayKetThuc) {
