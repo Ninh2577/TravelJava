@@ -5,64 +5,19 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.DTO.ChiTietHoaDonDTO;
-import com.example.DTO.DoanhThuDTO;
 import com.example.Entity.HoaDon;
 
-import java.util.Date;
 import java.util.List;
 
-//public interface HoaDonRepository extends JpaRepository<HoaDon, Integer>{
-//
-//}
-
 public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
-    List<HoaDon> findByNguoiDung_Id(Long userId);
+        List<HoaDon> findByNguoiDung_Id(Long userId);
 
-    @Query("SELECT new com.example.DTO.ChiTietHoaDonDTO(cthd.id, cthd.ngayDat, t.tenTour, t.soLuongNguoi, cthd.thanhTien, hd.trangThai, hd.phuongThucThanhToan) "
-            + "FROM HoaDon hd "
-            + "JOIN ChiTietHoaDon cthd ON hd.id = cthd.hoaDon.id "
-            + "JOIN BienTheTour bt ON cthd.bienTheTour.id = bt.id "
-            + "JOIN Tour t ON bt.tour.id = t.id "
-            + "WHERE hd.nguoiDung.id = :userId "
-            + "ORDER BY cthd.ngayDat DESC")
-    List<ChiTietHoaDonDTO> findHoaDonByUserId(@Param("userId") Integer userId);
-
-    // Truy vấn tổng doanh thu theo ngày thanh toán trong khoảng thời gian
-    @Query("SELECT hd.ngayThanhToan, SUM(hd.tongTien) " +
-            "FROM HoaDon hd " +
-            "WHERE hd.ngayThanhToan BETWEEN :startDate AND :endDate " +
-            "AND hd.trangThai = true " +
-            "GROUP BY hd.ngayThanhToan " +
-            "ORDER BY hd.ngayThanhToan ASC")
-    List<Object[]> findRevenueByDateRange(Date startDate, Date endDate);
-
-    // tổng sl tour được đặt trong năm
-    @Query("SELECT new com.example.DTO.DoanhThuDTO( "
-            + "hd.ngayThanhToan, " // Ngày thanh toán
-            + "COUNT(DISTINCT btt.id)) " // Đếm số lượng tour đã đặt (sử dụng DISTINCT để tránh đếm trùng)
-            + "FROM HoaDon hd "
-            + "JOIN ChiTietHoaDon cth ON hd.id = cth.hoaDon.id "
-            + "JOIN BienTheTour btt ON cth.bienTheTour.id = btt.id "
-            + "WHERE cth.trangThai = true " // Chỉ tính các hóa đơn đã thanh toán
-            + "AND hd.ngayThanhToan BETWEEN :startDate AND :endDate " // Thống kê trong khoảng thời gian
-            + "GROUP BY hd.ngayThanhToan " // Chỉ nhóm theo ngày thanh toán
-            + "ORDER BY hd.ngayThanhToan ASC") // Sắp xếp theo ngày thanh toán
-    List<DoanhThuDTO> findTourStatisticsByDateRange(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
-
-    // @Query("SELECT new com.example.DTO.DoanhThuDTO( "
-    // + "hd.ngayThanhToan, "
-    // + "t.tenTour, "
-    // + "COUNT(d.id)) "
-    // + "FROM Tour t "
-    // + "JOIN BienTheTour btt ON t.id = btt.tour.id "
-    // + "JOIN ChiTietHoaDon cth ON btt.id = cth.bienTheTour.id "
-    // + "JOIN HoaDon hd ON cth.hoaDon.id = hd.id "
-    // + "JOIN DanhSachNguoiDiCung d ON cth.id = d.chiTietHoaDon.id "
-    // + "WHERE cth.trangThai = true "
-    // + "AND hd.ngayThanhToan BETWEEN :startDate AND :endDate "
-    // + "GROUP BY t.id, t.tenTour, hd.ngayThanhToan "
-    // + "ORDER BY COUNT(d.id) DESC")
-    // List<DoanhThuDTO> findTourStatisticsByDateRange(@Param("startDate") Date
-    // startDate, @Param("endDate") Date endDate);
-
+        @Query("SELECT new com.example.DTO.ChiTietHoaDonDTO(cthd.id, cthd.ngayDat, t.tenTour, t.soLuongNguoi, cthd.thanhTien, hd.trangThai, hd.phuongThucThanhToan) "
+                        + "FROM HoaDon hd "
+                        + "JOIN ChiTietHoaDon cthd ON hd.id = cthd.hoaDon.id "
+                        + "JOIN BienTheTour bt ON cthd.bienTheTour.id = bt.id "
+                        + "JOIN Tour t ON bt.tour.id = t.id "
+                        + "WHERE hd.nguoiDung.id = :userId "
+                        + "ORDER BY cthd.ngayDat DESC")
+        List<ChiTietHoaDonDTO> findHoaDonByUserId(@Param("userId") Integer userId);
 }
