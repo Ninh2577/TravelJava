@@ -63,27 +63,22 @@ public class BaiVietController {
 
 
     // API cập nhật bài viết theo ID
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateBaiViet(@PathVariable Integer id, @RequestBody BaiViet baiViet) {
-        try {
-            // Lấy ID của người dùng từ bài viết
-            Integer idNguoiDung = baiViet.getNguoiDung().getId();
-            
-            // Tìm người dùng theo ID từ cơ sở dữ liệu
-            NguoiDung nguoiDung = nguoiDungRepository.findById(idNguoiDung)
-                    .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với ID: " + idNguoiDung));
-            
-            // Gán đối tượng NguoiDung vào BaiViet
-            baiViet.setNguoiDung(nguoiDung);
-            
-            // Cập nhật bài viết
-            BaiViet updatedBaiViet = baiVietService.updateBaiViet(id, baiViet);
-            
-            return new ResponseEntity<>(updatedBaiViet, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
-    }
+	@PutMapping("/update/{id}")
+	public ResponseEntity<?> updateBaiViet(@PathVariable Integer id, @RequestBody BaiViet baiViet) {
+		 System.out.println("Cập nhật bài viết với ID: " + id); 
+	    try {
+	        Integer idNguoiDung = baiViet.getNguoiDung().getId();
+	        NguoiDung nguoiDung = nguoiDungRepository.findById(idNguoiDung)
+	                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với ID: " + idNguoiDung));
+	        baiViet.setNguoiDung(nguoiDung);
+	        
+	        BaiViet updatedBaiViet = baiVietService.updateBaiViet(id, baiViet);
+	        return new ResponseEntity<>(updatedBaiViet, HttpStatus.OK);
+	    } catch (RuntimeException e) {
+	        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); // Trả về 404 nếu không tìm thấy bài viết
+	    }
+	}
+
 	
 	// API xóa bài viết theo ID
 	@DeleteMapping("/delete/{id}")
