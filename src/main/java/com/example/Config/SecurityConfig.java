@@ -82,22 +82,23 @@ public class SecurityConfig {
                                 } else {
                                     response.sendRedirect("http://localhost:3000/");
                                 }
-                            }else {
-                        // Nếu người dùng chưa có tài khoản, tạo mới
-                        VaiTro vaiTro = new VaiTro();
-                        vaiTro.setId(3); // Vai trò mặc định (người dùng thường hoặc khách)
-                        
-                        NguoiDung nguoiDung = new NguoiDung();
-                        nguoiDung.setHoTen((String) googleUser.getAttributes().get("name"));
-                        nguoiDung.setEmail(email);
-                        nguoiDung.setHinhAnh((String) googleUser.getAttributes().get("picture"));
-                        nguoiDung.setVaiTro(vaiTro);
-                        
-                        nguoiDungRepository.save(nguoiDung);
+                            } else {
+                                // Nếu người dùng chưa có tài khoản, tạo mới
+                                VaiTro vaiTro = new VaiTro();
+                                vaiTro.setId(3); // Vai trò mặc định (người dùng thường hoặc khách)
 
-                        // Sau khi tạo tài khoản, điều hướng người dùng đến trang chính hoặc trang admin
-                        response.sendRedirect("http://localhost:3000/");  // Hoặc /admin nếu bạn muốn chuyển hướng đến admin
-                    }
+                                NguoiDung nguoiDung = new NguoiDung();
+                                nguoiDung.setHoTen((String) googleUser.getAttributes().get("name"));
+                                nguoiDung.setEmail(email);
+                                nguoiDung.setHinhAnh((String) googleUser.getAttributes().get("picture"));
+                                nguoiDung.setVaiTro(vaiTro);
+
+                                nguoiDungRepository.save(nguoiDung);
+
+                                // Sau khi tạo tài khoản, điều hướng người dùng đến trang chính hoặc trang admin
+                                response.sendRedirect("http://localhost:3000/"); // Hoặc /admin nếu bạn muốn chuyển
+                                                                                 // hướng đến admin
+                            }
                         }))
                 .build();
     }

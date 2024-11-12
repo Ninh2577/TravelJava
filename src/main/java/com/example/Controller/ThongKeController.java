@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.DTO.DoanhThuDTO;
+import com.example.DTO.SoLuongNguoiDiTour;
 import com.example.Repository.HoaDonRepository;
 
 @RestController
@@ -46,6 +47,19 @@ public class ThongKeController {
 
         // Truy vấn doanh thu
         return hoaDonRepository.findTourStatisticsByDateRange(startDate, endDate);
+    }
+
+    @GetMapping("/TongSoNguoiThamGiaTour")
+    public List<SoLuongNguoiDiTour> getTourPeopleCount23(@RequestParam("startDate") String startDateStr,
+            @RequestParam("endDate") String endDateStr) throws Exception {
+        // Chuyển đổi chuỗi ngày tháng sang đối tượng Date
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date startDate = sdf.parse(startDateStr);
+        Date endDate = sdf.parse(endDateStr);
+        System.out.println("Doanh thu trong khoảng thời gian từ " + startDateStr + " đến " + endDateStr + ":");
+
+        // Truy vấn doanh thu
+        return hoaDonRepository.findTourStatisticsByDateRange2Dtos(startDate, endDate);
     }
 
 }

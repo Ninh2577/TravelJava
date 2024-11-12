@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.example.DTO.ChiTietHoaDonDTO;
 import com.example.DTO.DoanhThuDTO;
+import com.example.DTO.SoLuongNguoiDiTour;
 import com.example.Entity.HoaDon;
 
 import java.util.Date;
@@ -49,20 +50,22 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
             + "ORDER BY hd.ngayThanhToan ASC") // Sắp xếp theo ngày thanh toán
     List<DoanhThuDTO> findTourStatisticsByDateRange(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
-    // @Query("SELECT new com.example.DTO.DoanhThuDTO( "
-    // + "hd.ngayThanhToan, "
-    // + "t.tenTour, "
-    // + "COUNT(d.id)) "
-    // + "FROM Tour t "
-    // + "JOIN BienTheTour btt ON t.id = btt.tour.id "
-    // + "JOIN ChiTietHoaDon cth ON btt.id = cth.bienTheTour.id "
-    // + "JOIN HoaDon hd ON cth.hoaDon.id = hd.id "
-    // + "JOIN DanhSachNguoiDiCung d ON cth.id = d.chiTietHoaDon.id "
-    // + "WHERE cth.trangThai = true "
-    // + "AND hd.ngayThanhToan BETWEEN :startDate AND :endDate "
-    // + "GROUP BY t.id, t.tenTour, hd.ngayThanhToan "
-    // + "ORDER BY COUNT(d.id) DESC")
-    // List<DoanhThuDTO> findTourStatisticsByDateRange(@Param("startDate") Date
-    // startDate, @Param("endDate") Date endDate);
+    @Query("SELECT new com.example.DTO.SoLuongNguoiDiTour( "
+            + "hd.ngayThanhToan, "
+            + "t.tenTour, "
+            + "COUNT(DISTINCT dng.id)) "
+            + "FROM HoaDon hd "
+            + "JOIN ChiTietHoaDon cth ON hd.id = cth.hoaDon.id "
+            + "JOIN BienTheTour btt ON cth.bienTheTour.id = btt.id "
+            + "JOIN Tour t ON btt.tour.id = t.id " // Sửa thành btt.tour.id (trong thực thể BienTheTour)
+            + "JOIN DanhSachNguoiDiCung dng ON cth.id = dng.chiTietHoaDon.id " // Cập nhật đúng cột khóa ngoại (thường
+                                                                               // là cth.id)
+            + "WHERE cth.trangThai = true "
+            + "AND hd.ngayThanhToan BETWEEN :startDate AND :endDate "
+            + "GROUP BY t.tenTour, hd.ngayThanhToan "
+            + "ORDER BY hd.ngayThanhToan ASC")
+    List<SoLuongNguoiDiTour> findTourStatisticsByDateRange2Dtos(
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate);
 
 }
