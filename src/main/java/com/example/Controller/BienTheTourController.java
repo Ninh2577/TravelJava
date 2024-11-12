@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Entity.BienTheTour;
+import com.example.Repository.BienTheTourRepository;
 import com.example.service.BienTheTourService;
 
 @RestController
@@ -25,37 +26,54 @@ public class BienTheTourController {
 
 	@Autowired
 	private BienTheTourService bienTheTourService;
-	
-	@GetMapping 
-	public ResponseEntity<List<BienTheTour>> getAllBienTheTour(){
+	@Autowired
+	private BienTheTourRepository bienTheTourRepository;
+
+	@GetMapping
+	public ResponseEntity<List<BienTheTour>> getAllBienTheTour() {
 		List<BienTheTour> bienTheTours = bienTheTourService.getAllBienTheTour();
 		return ResponseEntity.ok(bienTheTours);
 	}
-	//API POST : Thêm mới Loại Tour
-		@PostMapping("/them")
-		public ResponseEntity<BienTheTour> addBienTheTour(@RequestBody BienTheTour bientheTour){
-			BienTheTour savedBienTheTour = bienTheTourService.addBienTheTour(bientheTour);
-			return ResponseEntity.ok(savedBienTheTour);
+
+	// API POST : Thêm mới Loại Tour
+	@PostMapping("/them")
+	public ResponseEntity<BienTheTour> addBienTheTour(@RequestBody BienTheTour bientheTour) {
+		BienTheTour savedBienTheTour = bienTheTourService.addBienTheTour(bientheTour);
+		return ResponseEntity.ok(savedBienTheTour);
+	}
+
+	// API PUT : Cập nhật Loại Tour
+	@PutMapping("/update/{id}")
+	public ResponseEntity<BienTheTour> updateBienTheTour(@PathVariable("id") Integer id,
+			@RequestBody BienTheTour updateLoaiTour) {
+		BienTheTour bienTheTour = bienTheTourService.updatedBienTheTour(id, updateLoaiTour);
+		if (bienTheTour != null) {
+			return ResponseEntity.ok(bienTheTour);
+		} else {
+			return ResponseEntity.notFound().build();
 		}
-		//API PUT : Cập nhật Loại Tour 
-			@PutMapping("/update/{id}")
-			public ResponseEntity<BienTheTour> updateBienTheTour(@PathVariable("id") Integer id, @RequestBody BienTheTour updateLoaiTour){
-				BienTheTour bienTheTour = bienTheTourService.updatedBienTheTour(id, updateLoaiTour);
-				if(bienTheTour != null) {
-					return ResponseEntity.ok(bienTheTour);		
-				}else {
-					return ResponseEntity.notFound().build();
-				}
-			}
-			// API DELETE: Xóa Loại tour theo ID
-			@DeleteMapping("/delete/{id}")
-			public ResponseEntity<String> deleteBienTheTour(@PathVariable Integer id){
-				try {
-					bienTheTourService.deleteBienTheTour(id);
-					return new ResponseEntity<> ("Biến Thể Tour đã được xóa thành công", HttpStatus.OK);
-					
-				}catch(RuntimeException e){
-					return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-				}
-			}
+	}
+
+	// API DELETE: Xóa Loại tour theo ID
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<String> deleteBienTheTour(@PathVariable Integer id) {
+		try {
+			bienTheTourService.deleteBienTheTour(id);
+			return new ResponseEntity<>("Biến Thể Tour đã được xóa thành công", HttpStatus.OK);
+
+		} catch (RuntimeException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@GetMapping("/tour/{tourId}")
+	public List<BienTheTour> getBienTheToursByTourId(@PathVariable Integer tourId) {
+		return bienTheTourService.getBienTheTourByTourId(tourId);
+	}
+
+
+    @GetMapping("/tours")
+    public List<BienTheTour> getAllBienTheTours() {
+        return bienTheTourRepository.findAll();
+    }
 }

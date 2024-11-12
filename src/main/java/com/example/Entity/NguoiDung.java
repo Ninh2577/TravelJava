@@ -57,10 +57,6 @@ public class NguoiDung implements UserDetails, Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "nguoiDung")
-    private List<DanhSachNguoiDiCung> danhSachNguoiDiCungs;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "nguoiDung")
     private List<GiamGia> giamGias;
 
     @JsonIgnore
@@ -107,4 +103,8 @@ public class NguoiDung implements UserDetails, Serializable {
     public boolean isEnabled() {
         return true; // Cần thêm logic nếu cần
     }
+    public NguoiDung(Integer id) {
+        this.id = id;
+    }
 }
+

@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.DTO.TourDetailsDTO;
+import com.example.Entity.BienTheTour;
 import com.example.Entity.Tour;
+import com.example.Repository.BienTheTourRepository;
 import com.example.projection.TourDetailsProjection;
 import com.example.service.TourService;
 
@@ -27,6 +30,8 @@ public class TourController {
 
 	@Autowired
 	private TourService tourService;
+	@Autowired
+	private BienTheTourRepository bienTheTourRepository;
 
 	@GetMapping
 	public ResponseEntity<List<Tour>> getAllTour() {
@@ -74,18 +79,15 @@ public class TourController {
 		}
 	}
 
-	// GET thông tin Tour -> trang sản phẩm
-	@GetMapping("/sanpham")
-	public ResponseEntity<List<TourDetailsProjection>> getAllTourDetails() {
-		List<TourDetailsProjection> tourDetails = tourService.getAllTourDetails();
-		return ResponseEntity.ok(tourDetails);
+	// GET thông tin trang sản phẩm
+	@GetMapping("/info")
+	public List<TourDetailsDTO> getAllTourInfo() {
+		return tourService.getAllTourInfo();
 	}
 
-	// GET Tour theo id -> trang sản phẩm
-	@GetMapping("/sanpham/{id}")
-	public ResponseEntity<List<TourDetailsProjection>> getTourDetails(@PathVariable Integer id) {
-		List<TourDetailsProjection> tourDetails = tourService.getTourDetailsByTourId(id);
-		return ResponseEntity.ok(tourDetails);
+	// Endpoint to get all BienTheTour by Tour ID
+	@GetMapping("/chitiet/{idTour}")
+	public List<BienTheTour> getBienTheTourByTourId(@PathVariable Integer idTour) {
+		return bienTheTourRepository.findByTourId(idTour);
 	}
-
 }

@@ -20,8 +20,8 @@ public class LichTrinhTour implements Serializable {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "id_Tour")
-    private Tour tour;
+    @JoinColumn(name = "id_BienTheTour")
+    private BienTheTour bienTheTour;
 
     private String tieuDe;
     private String noiDung;
