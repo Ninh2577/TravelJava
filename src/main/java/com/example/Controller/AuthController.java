@@ -2,6 +2,7 @@ package com.example.Controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import javax.crypto.SecretKey;
@@ -11,8 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +36,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
@@ -40,7 +45,8 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -55,13 +61,6 @@ public class AuthController {
 
     @Autowired
     NguoiDungRepository nguoiDungRepository;
-
-    @GetMapping("signingoogle")
-    public Map<String, Object> getMethodName(
-            OAuth2AuthenticationToken oauth2AuthenticationToken) {
-
-        return oauth2AuthenticationToken.getPrincipal().getAttributes();
-    }
 
     // API đăng ký
     @PostMapping("/dangKy")
@@ -86,10 +85,48 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // @PostMapping("/login")
+    @PostMapping("/dangNhap")
+    public ResponseEntity<Map<String, Object>> login(@RequestBody NguoiDung loginRequest,
+            HttpServletResponse response) {
+        try {
+            // Xác thực người dùng
+            NguoiDung nguoiDung = authService.login(loginRequest.getEmail(),
+                    loginRequest.getMatKhau());
+
+            // Tạo JWT token
+            String token = jwtUtil.generateToken(nguoiDung);
+
+            // Lưu tokezzzn vào cookie
+            Cookie cookie = new Cookie("token", token);
+            cookie.setHttpOnly(true); // Bảo mật token không bị truy cập bởi JavaScript
+            cookie.setPath("/"); // Áp dụng cho toàn bộ ứng dụng
+            cookie.setMaxAge(60 * 60 * 10); // 10 giờ
+            cookie.setSecure(true); // Đảm bảo cookie chỉ gửi qua HTTPS
+            response.addCookie(cookie);
+
+            // Tạo đối tượng response với token và thông báo thành công
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("message", "Đăng nhập thành công!");
+            responseBody.put("token", token); // Trả về token trong phản hồi
+            responseBody.put("role", nguoiDung.getVaiTro().getVaiTro());
+            responseBody.put("hoTen", nguoiDung.getHoTen());
+            responseBody.put("email", nguoiDung.getEmail());
+            responseBody.put("diaChi", nguoiDung.getDiaChi());
+            responseBody.put("id", nguoiDung.getId());
+
+            // Trả về phản hồi thành công với mã 200 (OK)
+            return ResponseEntity.ok(responseBody);
+        } catch (Exception e) {
+            // Trả về phản hồi lỗi với mã 400 (Bad Request)
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Đăng nhập thất bại: " + e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+    // @PostMapping("/dangNhap")
     // public ResponseEntity<Map<String, Object>> login(@RequestBody NguoiDung
     // loginRequest,
-    // HttpServletResponse response) {
+    // HttpServletResponse response, HttpServletRequest request) {
     // try {
     // // Xác thực người dùng
     // NguoiDung nguoiDung = authService.login(loginRequest.getEmail(),
@@ -97,6 +134,11 @@ public class AuthController {
 
     // // Tạo JWT token
     // String token = jwtUtil.generateToken(nguoiDung);
+
+    // // Lưu thông tin người dùng vào session
+    // HttpSession session = request.getSession();
+    // session.setAttribute("nguoiDung", nguoiDung);
+    // session.setAttribute("token", token);
 
     // // Lưu tokezzzn vào cookie
     // Cookie cookie = new Cookie("token", token);
@@ -109,12 +151,12 @@ public class AuthController {
     // // Tạo đối tượng response với token và thông báo thành công
     // Map<String, Object> responseBody = new HashMap<>();
     // responseBody.put("message", "Đăng nhập thành công!");
-    // responseBody.put("token", token); // Trả về token trong phản hồi
+    // // responseBody.put("token", token); // Trả về token trong phản hồi
     // responseBody.put("role", nguoiDung.getVaiTro().getVaiTro()); // Thêm vai trò
-    // vào phản hồi
-    // responseBody.put("hoTen", nguoiDung.getHoTen());
-    // responseBody.put("email", nguoiDung.getEmail());
-    // responseBody.put("diaChi", nguoiDung.getDiaChi());
+    // // vào phản hồi
+    // // responseBody.put("hoTen", nguoiDung.getHoTen());
+    // // responseBody.put("email", nguoiDung.getEmail());
+    // // responseBody.put("diaChi", nguoiDung.getDiaChi());
 
     // // Trả về phản hồi thành công với mã 200 (OK)
     // return ResponseEntity.ok(responseBody);
@@ -125,71 +167,63 @@ public class AuthController {
     // return ResponseEntity.badRequest().body(errorResponse);
     // }
     // }
-    @PostMapping("/dangNhap")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody NguoiDung loginRequest,
-            HttpServletResponse response, HttpServletRequest request) {
-        try {
-            // Xác thực người dùng
-            NguoiDung nguoiDung = authService.login(loginRequest.getEmail(), loginRequest.getMatKhau());
 
-            // Tạo JWT token
-            String token = jwtUtil.generateToken(nguoiDung);
-
-            // Lưu thông tin người dùng vào session
-            HttpSession session = request.getSession();
-//            session.setAttribute("nguoiDung", nguoiDung);
-//            session.setAttribute("token", token);
-//            ------------------------------
-
-
-            // Lưu tokezzzn vào cookie
-            Cookie cookie = new Cookie("token", token);
-            cookie.setHttpOnly(true); // Bảo mật token không bị truy cập bởi JavaScript
-            cookie.setPath("/"); // Áp dụng cho toàn bộ ứng dụng
-            cookie.setMaxAge(60 * 60 * 10); // 10 giờ
-            cookie.setSecure(true); // Đảm bảo cookie chỉ gửi qua HTTPS
-            response.addCookie(cookie);
-
-            // Tạo đối tượng response với token và thông báo thành công
-//            Map<String, Object> responseBody = new HashMap<>();
-//            responseBody.put("message", "Đăng nhập thành công!");
-            // responseBody.put("token", token); // Trả về token trong phản hồi
-//            responseBody.put("role", nguoiDung.getVaiTro().getVaiTro()); // Thêm vai trò
-            // vào phản hồi
-            // responseBody.put("hoTen", nguoiDung.getHoTen());
-            // responseBody.put("email", nguoiDung.getEmail());
-            // responseBody.put("diaChi", nguoiDung.getDiaChi());
-
-            // Trả về phản hồi thành công với mã 200 (OK)
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("message", "Đăng nhập thành công!");
-            responseBody.put("token", token); // Trả về token trong phản hồi
-            responseBody.put("role", nguoiDung.getVaiTro().getVaiTro());
-            responseBody.put("hoTen", nguoiDung.getHoTen());
-            responseBody.put("email", nguoiDung.getEmail());
-            responseBody.put("diaChi", nguoiDung.getDiaChi());
-            responseBody.put("id", nguoiDung.getId());
-            System.out.println("hoTen: " + nguoiDung.getHoTen());
-            return ResponseEntity.ok(responseBody);
-        } catch (Exception e) {
-            // Trả về phản hồi lỗi với mã 400 (Bad Request)
+    @GetMapping("/google/tt")
+    public ResponseEntity<Map<String, Object>> getUserGG(@AuthenticationPrincipal OAuth2User googleUser) {
+        if (googleUser == null) {
             Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("message", "Đăng nhập thất bại: " + e.getMessage());
-            return ResponseEntity.badRequest().body(errorResponse);
+            errorResponse.put("message", "Người dùng chưa đăng nhập");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
+
+        String email = (String) googleUser.getAttributes().get("email");
+        String name = (String) googleUser.getAttributes().get("name");
+        String picture = (String) googleUser.getAttributes().get("picture");
+
+        if (email == null || name == null || picture == null) {
+            throw new RuntimeException("Missing user data from Google");
+        }
+
+        NguoiDung nguoiDung = new NguoiDung();
+        Optional<NguoiDung> existingUserOpt = nguoiDungRepository.findByEmail(email);
+        if (existingUserOpt.isPresent()) {
+            nguoiDung = existingUserOpt.get();
+            nguoiDung.setHoTen(name);
+            nguoiDung.setHinhAnh(picture);
+            nguoiDungRepository.save(nguoiDung);
+        } else {
+            VaiTro vaiTro = new VaiTro();
+            vaiTro.setId(3);
+            nguoiDung.setHoTen(name);
+            nguoiDung.setEmail(email);
+            nguoiDung.setHinhAnh(picture);
+            nguoiDung.setVaiTro(vaiTro);
+            nguoiDungRepository.save(nguoiDung);
+        }
+
+        Map<String, Object> userResponse = new HashMap<>();
+        userResponse.put("id", nguoiDung.getId());
+        userResponse.put("hoTen", nguoiDung.getHoTen());
+        userResponse.put("email", nguoiDung.getEmail());
+        userResponse.put("hinhAnh", nguoiDung.getHinhAnh());
+        userResponse.put("diaChi", nguoiDung.getDiaChi());
+        userResponse.put("vaiTro", nguoiDung.getVaiTro().getVaiTro());
+
+        return ResponseEntity.ok(userResponse);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletResponse response) {
-        // Tạo một cookie mới với thời gian sống = 0 để xóa cookie
-        Cookie cookie = new Cookie("token", "");
-        cookie.setHttpOnly(true); // Đảm bảo cookie vẫn không thể truy cập bởi JavaScript
-        cookie.setPath("/"); // Đặt đường dẫn giống như khi tạo cookie
-        cookie.setMaxAge(0); // Đặt thời gian sống của cookie là 0 để xóa nó
-        cookie.setSecure(true); // Nếu đang sử dụng HTTPS
-        response.addCookie(cookie); // Thêm cookie vào phản hồi để xóa nó
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
 
-        // Trả về phản hồi thành công
+        request.getSession().invalidate();
+
+        Cookie cookie = new Cookie("token", "");
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        cookie.setSecure(true);
+        response.addCookie(cookie);
+
         return ResponseEntity.ok().body("Đăng xuất thành công!");
     }
 
@@ -200,17 +234,19 @@ public class AuthController {
             NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
 
             Map<String, Object> userInfo = new HashMap<>();
+            userInfo.put("id", nguoiDung.getId());
             userInfo.put("hoTen", nguoiDung.getHoTen());
             userInfo.put("email", nguoiDung.getEmail());
             userInfo.put("diaChi", nguoiDung.getDiaChi());
             userInfo.put("role", nguoiDung.getVaiTro());
-            userInfo.put("toekn", session.getAttribute("token"));
+            userInfo.put("token", session.getAttribute("token"));
 
             System.out.println("hoTen" + nguoiDung.getHoTen());
             System.out.println("email" + nguoiDung.getEmail());
             System.out.println("diaChi" + nguoiDung.getDiaChi());
             System.out.println("role" + nguoiDung.getVaiTro().getVaiTro());
-            System.out.println("toekn" + session.getAttribute("token"));
+            System.out.println("token" + session.getAttribute("token"));
+            System.out.println("id: " + nguoiDung.getId());
             return ResponseEntity.ok(userInfo);
         } else {
             // Trả về phản hồi lỗi với mã 400 (Bad Request)
@@ -318,4 +354,178 @@ public class AuthController {
             return ResponseEntity.badRequest().body(responseBody);
         }
     }
+
+    @GetMapping("/nguoi-dung/{id}")
+    public ResponseEntity<NguoiDung> getUserById(@PathVariable int id) {
+        Optional<NguoiDung> nguoiDungOptional = nguoiDungService.findNguoiDungById(id);
+        if (nguoiDungOptional.isPresent()) {
+            NguoiDung nguoiDung = nguoiDungOptional.get();
+            // System.out.println("Nguoi dung: " + nguoiDung);
+            return ResponseEntity.ok(nguoiDung);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    
+    @PutMapping("nguoi-dung/doiMatKhau/{id}")
+    public ResponseEntity<Map<String, Object>> updatePassword(
+            @PathVariable int id,
+            @RequestBody Map<String, String> nguoiDungRequest) {
+        // Kiểm tra xem dữ liệu có đủ không
+        // if (!nguoiDungRequest.containsKey("oldPassword") ||
+        // !nguoiDungRequest.containsKey("newPassword")) {
+        // Map<String, Object> errorResponse = new HashMap<>();
+        // errorResponse.put("message", "Cập nhật mật khẩu thất bại.");
+        // errorResponse.put("error", "Thiếu mật khẩu cũ hoặc mật khẩu mới.");
+        // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        // }
+
+        String oldPassword = nguoiDungRequest.get("oldPassword");
+        String newPassword = nguoiDungRequest.get("newPassword");
+
+        // Kiểm tra nếu mật khẩu cũ và mật khẩu mới trùng nhau
+        // if (oldPassword.equals(newPassword)) {
+        // Map<String, Object> errorResponse = new HashMap<>();
+        // errorResponse.put("message", "Cập nhật mật khẩu thất bại.");
+        // errorResponse.put("error", "Mật khẩu mới không được giống mật khẩu cũ.");
+        // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        // }
+
+        // Find user by ID
+        Optional<NguoiDung> nguoiDungOptional = nguoiDungRepository.findById(id);
+        if (!nguoiDungOptional.isPresent()) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Cập nhật mật khẩu thất bại.");
+            errorResponse.put("error", "Người dùng không tồn tại.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        }
+
+        NguoiDung nguoiDung = nguoiDungOptional.get();
+        System.out.println("Mật khẩu cũ trong DB: " + nguoiDung.getMatKhau());
+        System.out.println("Mật khẩu cũ gửi từ client: " + oldPassword);
+
+        // Kiểm tra mật khẩu cũ
+        if (!passwordEncoder.matches(oldPassword, nguoiDung.getMatKhau())) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Cập nhật mật khẩu thất bại.");
+            errorResponse.put("error", "Mật khẩu cũ không đúng.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+
+        // Cập nhật mật khẩu mới (sau khi mã hóa)
+        nguoiDung.setMatKhau(passwordEncoder.encode(newPassword));
+        nguoiDungRepository.save(nguoiDung);
+
+        // Tạo thông báo thành công
+        Map<String, Object> successResponse = new HashMap<>();
+        successResponse.put("message", "Cập nhật mật khẩu thành công.");
+        return ResponseEntity.ok(successResponse);
+    }
+
+    @PutMapping("/nguoi-dung/capNhatTaiKhoan/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable int id, @RequestBody NguoiDung capNhattt) {
+        try {
+            NguoiDung user = authService.capNhatThongTin(id, capNhattt);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+
+            return ResponseEntity.status(400).body("Error updating user: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/cap-nhat-hinh-anh/{id}")
+    public ResponseEntity<NguoiDung> capNhatHinhAnh(@PathVariable int id, @RequestBody NguoiDung capNhattt) {
+        try {
+            // Cập nhật hình ảnh và trả về đối tượng người dùng đã cập nhật
+            NguoiDung updatedUser = authService.capNhatHinhAnh(id, capNhattt);
+            return ResponseEntity.ok(updatedUser); // Trả về người dùng đã cập nhật
+        } catch (Exception e) {
+            // Trả về lỗi nếu có vấn đề
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
+
+// @PutMapping("nguoi-dung/doiMatKhau/{id}")
+    // public ResponseEntity<String> updatePassword(
+    // @PathVariable int id,
+    // @RequestBody Map<String, String> nguoiDungRequest) {
+    // // Kiểm tra xem dữ liệu có đủ không
+    // if (!nguoiDungRequest.containsKey("oldPassword") ||
+    // !nguoiDungRequest.containsKey("newPassword")) {
+    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Thiếu mật khẩu cũ
+    // hoặc mật khẩu mới.");
+    // }
+
+    // String oldPassword = nguoiDungRequest.get("oldPassword");
+    // String newPassword = nguoiDungRequest.get("newPassword");
+    // // Find user by ID
+    // Optional<NguoiDung> nguoiDungOptional = nguoiDungRepository.findById(id);
+    // if (!nguoiDungOptional.isPresent()) {
+    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Người dùng không tồn
+    // tại.");
+    // }
+
+    // NguoiDung nguoiDung = nguoiDungOptional.get();
+    // System.out.println("Mật khẩu cũ trong DB: " + nguoiDung.getMatKhau());
+    // System.out.println("Mật khẩu cũ gửi từ client: " + oldPassword);
+    // // Kiểm tra mật khẩu cũ
+    // if (!passwordEncoder.matches(oldPassword, nguoiDung.getMatKhau())) {
+    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mật khẩu cũ không
+    // đúng.");
+    // }
+
+    // // Update the password with the new one (after encoding)
+    // nguoiDung.setMatKhau(passwordEncoder.encode(newPassword));
+    // nguoiDungRepository.save(nguoiDung);
+
+    // return ResponseEntity.ok("Cập nhật mật khẩu thành công.");
+    // }
+
+
+      // @PostMapping("/dangNhap")
+    // public ResponseEntity<Map<String, Object>> login(@RequestBody NguoiDung
+    // loginRequest,
+    // HttpServletResponse response, HttpServletRequest request) {
+    // try {
+    // // Xác thực người dùng
+    // NguoiDung nguoiDung = authService.login(loginRequest.getEmail(),
+    // loginRequest.getMatKhau());
+
+    // // Tạo JWT token
+    // String token = jwtUtil.generateToken(nguoiDung);
+
+    // // Lưu thông tin người dùng vào session
+    // HttpSession session = request.getSession();
+    // session.setAttribute("nguoiDung", nguoiDung);
+    // session.setAttribute("token", token);
+
+    // // Lưu tokezzzn vào cookie
+    // Cookie cookie = new Cookie("token", token);
+    // cookie.setHttpOnly(true); // Bảo mật token không bị truy cập bởi JavaScript
+    // cookie.setPath("/"); // Áp dụng cho toàn bộ ứng dụng
+    // cookie.setMaxAge(60 * 60 * 10); // 10 giờ
+    // cookie.setSecure(true); // Đảm bảo cookie chỉ gửi qua HTTPS
+    // response.addCookie(cookie);
+
+    // // Tạo đối tượng response với token và thông báo thành công
+    // Map<String, Object> responseBody = new HashMap<>();
+    // responseBody.put("message", "Đăng nhập thành công!");
+    // // responseBody.put("token", token); // Trả về token trong phản hồi
+    // responseBody.put("role", nguoiDung.getVaiTro().getVaiTro()); // Thêm vai trò
+    // // vào phản hồi
+    // // responseBody.put("hoTen", nguoiDung.getHoTen());
+    // // responseBody.put("email", nguoiDung.getEmail());
+    // // responseBody.put("diaChi", nguoiDung.getDiaChi());
+
+    // // Trả về phản hồi thành công với mã 200 (OK)
+    // return ResponseEntity.ok(responseBody);
+    // } catch (Exception e) {
+    // // Trả về phản hồi lỗi với mã 400 (Bad Request)
+    // Map<String, Object> errorResponse = new HashMap<>();
+    // errorResponse.put("message", "Đăng nhập thất bại: " + e.getMessage());
+    // return ResponseEntity.badRequest().body(errorResponse);
+    // }
+    // }
 }
