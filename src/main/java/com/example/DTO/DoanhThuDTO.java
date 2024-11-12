@@ -1,5 +1,7 @@
 package com.example.DTO;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class DoanhThuDTO {
-    private int nam;
-    private String loaiTour;
-    private double tongDoanhThu;
-    private long tongHoaDon;
+    private Date nam;
+    // private String tenTour;
+    private Long soLuongTour;
 }
