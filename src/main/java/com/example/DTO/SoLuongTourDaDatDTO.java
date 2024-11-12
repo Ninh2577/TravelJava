@@ -1,13 +1,15 @@
 package com.example.DTO;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data 
-public class DoanhThuNgayDTO {
-    private int ngay;
-    private double tongDoanhThu;
+@Data
+public class SoLuongTourDaDatDTO {
+    private Date nam;
+    private Long soLuongTour;
 }
