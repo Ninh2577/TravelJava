@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.Entity.DanhMucTour;
 import com.example.Repository.DanhMucTourRepository;
+import com.example.Repository.DanhMucTourRepository.TourRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -16,32 +17,36 @@ public class DanhMucTourService {
 
 	@Autowired
 	private DanhMucTourRepository danhMucTourRepository;
-	//GET danh sách Danh Mục Tour
-	public List<DanhMucTour> getAllDanhMucTour(){
+
+	// GET danh sách Danh Mục Tour
+	public List<DanhMucTour> getAllDanhMucTour() {
 		return danhMucTourRepository.findAll();
 	}
-	//POST danh sách Danh Mục Tour
+
+	// POST danh sách Danh Mục Tour
 	public DanhMucTour addDanhMucTour(DanhMucTour danhMucTour) {
 		return danhMucTourRepository.save(danhMucTour);
 	}
-	//PUT danh sách Danh Mục Tour
+
+	// PUT danh sách Danh Mục Tour
 	@Transactional
-	public DanhMucTour updateDanhMucTour(Integer id , DanhMucTour updateDanhMucTour) {
+	public DanhMucTour updateDanhMucTour(Integer id, DanhMucTour updateDanhMucTour) {
 		Optional<DanhMucTour> existingDanhMucTour = danhMucTourRepository.findById(id);
-		if(existingDanhMucTour.isPresent()) {
+		if (existingDanhMucTour.isPresent()) {
 			DanhMucTour danhMucTour = existingDanhMucTour.get();
 			danhMucTour.setTenDanhMuc(updateDanhMucTour.getTenDanhMuc());
 			return danhMucTourRepository.save(danhMucTour);
 		}
 		return null;
 	}
-	//DELETE danh sách Danh Mục Tour
+
+	// DELETE danh sách Danh Mục Tour
 	@Transactional
 	public void deleteDanhMucTour(Integer id) {
 		Optional<DanhMucTour> optionalDanhMucTour = danhMucTourRepository.findById(id);
-		if(optionalDanhMucTour.isPresent()) {
+		if (optionalDanhMucTour.isPresent()) {
 			danhMucTourRepository.deleteById(id);
-		}else {
+		} else {
 			throw new RuntimeException("Danh Mục Tour không tồn tại với ID:" + id);
 		}
 	}
