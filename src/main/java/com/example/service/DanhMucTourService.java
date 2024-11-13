@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.Entity.DanhMucTour;
 import com.example.Repository.DanhMucTourRepository;
-import com.example.Repository.DanhMucTourRepository.TourRepository;
 
 import jakarta.transaction.Transactional;
 
