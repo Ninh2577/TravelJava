@@ -78,5 +78,11 @@ public class TourService {
 	public List<TourDetailsDTO> getAllTourInfo() {
 	    return bienTheTourRepository.findAllTourInfo(); 
 	}
+
+
+
+	public List<Object[]> getToursByDanhMuc(Integer idDanhMucTour) {
+        return tourRepository.findToursByDanhMuc(idDanhMucTour);
+    }
 	
 }
