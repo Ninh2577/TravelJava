@@ -79,5 +79,13 @@ public interface ThongKeRepository extends JpaRepository<HoaDon, Integer> {
     	       "WHERE hd.ngayThanhToan BETWEEN :startDate AND :endDate " +
     	       "AND hd.trangThai = true")
     	Double calculateTotalAmountInRange(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    
+ // Query đếm tổng số lượng tour đã đặt
+    @Query("SELECT COUNT(DISTINCT cth.id) " +
+           "FROM HoaDon hd " +
+           "JOIN ChiTietHoaDon cth ON hd.id = cth.hoaDon.id " +
+           "WHERE hd.ngayThanhToan BETWEEN :startDate AND :endDate " +
+           "AND hd.trangThai = true")
+    Integer countTotalBookedTours(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
 }

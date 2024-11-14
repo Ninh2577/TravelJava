@@ -59,7 +59,7 @@ public class ThongKeController {
         return thongKeService.thongKeDoanhThuTheoTourTrongKhoangThoiGian(ngayBatDau, ngayKetThuc);
     }
     
-    @GetMapping("/tong-doanh-thu-nam")
+    @GetMapping("/tong-doanh-thu")
     public ResponseEntity<Double> getTotalAmountInRange(
         @RequestParam("ngayBatDau") @DateTimeFormat(pattern = "dd/MM/yyyy") Date startDate,
         @RequestParam("ngayKetThuc") @DateTimeFormat(pattern = "dd/MM/yyyy") Date endDate) {
@@ -67,4 +67,14 @@ public class ThongKeController {
         Double totalAmount = thongKeService.calculateTotalAmountInRange(startDate, endDate);
         return ResponseEntity.ok(totalAmount); // Trả về tổng doanh thu dưới dạng Double
     }
+ // Endpoint API lấy tổng số lượng tour đã đặt
+    @GetMapping("/tong-so-luong-tour-da-dat")
+    public ResponseEntity<Integer> getTotalBookedTours(
+        @RequestParam("ngayBatDau") @DateTimeFormat(pattern = "dd/MM/yyyy") Date startDate,
+        @RequestParam("ngayKetThuc") @DateTimeFormat(pattern = "dd/MM/yyyy") Date endDate) {
+
+        Integer totalBookedTours = thongKeService.getTotalBookedTours(startDate, endDate);
+        return ResponseEntity.ok(totalBookedTours);
+    }
+
 }
