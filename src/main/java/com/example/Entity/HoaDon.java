@@ -21,7 +21,7 @@ public class HoaDon implements Serializable {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "id_NguoiDung")
+    @JoinColumn(name = "id_NguoiDung", nullable = false)
     private NguoiDung nguoiDung;
 
     private float tongTien;
@@ -32,8 +32,7 @@ public class HoaDon implements Serializable {
     private boolean phuongThucThanhToan;
     private boolean trangThai;
     
-    @OneToOne(mappedBy = "hoaDon")
+    @OneToOne(mappedBy = "hoaDon", cascade = CascadeType.ALL)
     @JsonBackReference
-    private ChiTietHoaDon chiTietHoaDon; // Mối quan hệ 1-1 với đặt tour
-    
+    private ChiTietHoaDon chiTietHoaDon;
 }

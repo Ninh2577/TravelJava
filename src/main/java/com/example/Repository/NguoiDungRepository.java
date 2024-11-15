@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.Entity.NguoiDung;
+import com.example.Entity.ChiTietGioHang;
+
 
 public interface NguoiDungRepository extends JpaRepository<NguoiDung, Integer>{
 	List<NguoiDung> findByVaiTroId(Integer vaiTroId);
@@ -17,4 +19,6 @@ public interface NguoiDungRepository extends JpaRepository<NguoiDung, Integer>{
 	List<NguoiDung> searchNguoiDungByFields(@Param("vaiTroId") Integer vaiTroId, @Param("hoTen") String hoTen,
 			@Param("soDienThoai") String soDienThoai, @Param("email") String email, @Param("diaChi") String diaChi,
 			@Param("tuoi") Integer tuoi);
+	
+	NguoiDung findByChiTietGioHangs(List<ChiTietGioHang> chiTietGioHangs);
 }
