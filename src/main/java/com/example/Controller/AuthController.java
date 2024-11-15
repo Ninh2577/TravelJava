@@ -96,13 +96,13 @@ public class AuthController {
             // Tạo JWT token
             String token = jwtUtil.generateToken(nguoiDung);
 
-            // Lưu tokezzzn vào cookie
-            Cookie cookie = new Cookie("token", token);
-            cookie.setHttpOnly(true); // Bảo mật token không bị truy cập bởi JavaScript
-            cookie.setPath("/"); // Áp dụng cho toàn bộ ứng dụng
-            cookie.setMaxAge(60 * 60 * 10); // 10 giờ
-            cookie.setSecure(true); // Đảm bảo cookie chỉ gửi qua HTTPS
-            response.addCookie(cookie);
+            // // Lưu tokezzzn vào cookie
+            // Cookie cookie = new Cookie("token", token);
+            // cookie.setHttpOnly(true); // Bảo mật token không bị truy cập bởi JavaScript
+            // cookie.setPath("/"); // Áp dụng cho toàn bộ ứng dụng
+            // cookie.setMaxAge(60 * 60 * 10); // 10 giờ
+            // cookie.setSecure(true); // Đảm bảo cookie chỉ gửi qua HTTPS
+            // response.addCookie(cookie);
 
             // Tạo đối tượng response với token và thông báo thành công
             Map<String, Object> responseBody = new HashMap<>();
@@ -120,54 +120,10 @@ public class AuthController {
             // Trả về phản hồi lỗi với mã 400 (Bad Request)
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("message", "Đăng nhập thất bại: " + e.getMessage());
-            return ResponseEntity.badRequest().body(errorResponse);
+            return ResponseEntity.badRequest(). body(errorResponse);
         }
     }
-    // @PostMapping("/dangNhap")
-    // public ResponseEntity<Map<String, Object>> login(@RequestBody NguoiDung
-    // loginRequest,
-    // HttpServletResponse response, HttpServletRequest request) {
-    // try {
-    // // Xác thực người dùng
-    // NguoiDung nguoiDung = authService.login(loginRequest.getEmail(),
-    // loginRequest.getMatKhau());
-
-    // // Tạo JWT token
-    // String token = jwtUtil.generateToken(nguoiDung);
-
-    // // Lưu thông tin người dùng vào session
-    // HttpSession session = request.getSession();
-    // session.setAttribute("nguoiDung", nguoiDung);
-    // session.setAttribute("token", token);
-
-    // // Lưu tokezzzn vào cookie
-    // Cookie cookie = new Cookie("token", token);
-    // cookie.setHttpOnly(true); // Bảo mật token không bị truy cập bởi JavaScript
-    // cookie.setPath("/"); // Áp dụng cho toàn bộ ứng dụng
-    // cookie.setMaxAge(60 * 60 * 10); // 10 giờ
-    // cookie.setSecure(true); // Đảm bảo cookie chỉ gửi qua HTTPS
-    // response.addCookie(cookie);
-
-    // // Tạo đối tượng response với token và thông báo thành công
-    // Map<String, Object> responseBody = new HashMap<>();
-    // responseBody.put("message", "Đăng nhập thành công!");
-    // // responseBody.put("token", token); // Trả về token trong phản hồi
-    // responseBody.put("role", nguoiDung.getVaiTro().getVaiTro()); // Thêm vai trò
-    // // vào phản hồi
-    // // responseBody.put("hoTen", nguoiDung.getHoTen());
-    // // responseBody.put("email", nguoiDung.getEmail());
-    // // responseBody.put("diaChi", nguoiDung.getDiaChi());
-
-    // // Trả về phản hồi thành công với mã 200 (OK)
-    // return ResponseEntity.ok(responseBody);
-    // } catch (Exception e) {
-    // // Trả về phản hồi lỗi với mã 400 (Bad Request)
-    // Map<String, Object> errorResponse = new HashMap<>();
-    // errorResponse.put("message", "Đăng nhập thất bại: " + e.getMessage());
-    // return ResponseEntity.badRequest().body(errorResponse);
-    // }
-    // }
-
+ 
     @GetMapping("/google/tt")
     public ResponseEntity<Map<String, Object>> getUserGG(@AuthenticationPrincipal OAuth2User googleUser) {
         if (googleUser == null) {
@@ -216,14 +172,6 @@ public class AuthController {
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
 
         request.getSession().invalidate();
-
-        Cookie cookie = new Cookie("token", "");
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-        cookie.setSecure(true);
-        response.addCookie(cookie);
-
         return ResponseEntity.ok().body("Đăng xuất thành công!");
     }
 
@@ -367,7 +315,6 @@ public class AuthController {
         }
     }
 
-    
     @PutMapping("nguoi-dung/doiMatKhau/{id}")
     public ResponseEntity<Map<String, Object>> updatePassword(
             @PathVariable int id,
@@ -446,8 +393,7 @@ public class AuthController {
         }
     }
 
-
-// @PutMapping("nguoi-dung/doiMatKhau/{id}")
+    // @PutMapping("nguoi-dung/doiMatKhau/{id}")
     // public ResponseEntity<String> updatePassword(
     // @PathVariable int id,
     // @RequestBody Map<String, String> nguoiDungRequest) {
@@ -483,8 +429,7 @@ public class AuthController {
     // return ResponseEntity.ok("Cập nhật mật khẩu thành công.");
     // }
 
-
-      // @PostMapping("/dangNhap")
+    // @PostMapping("/dangNhap")
     // public ResponseEntity<Map<String, Object>> login(@RequestBody NguoiDung
     // loginRequest,
     // HttpServletResponse response, HttpServletRequest request) {

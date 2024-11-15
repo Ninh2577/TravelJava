@@ -30,7 +30,7 @@ public class MailerService {
 		list.add(mailModel);
 	}
 
-	@Scheduled(fixedRate = 10000)
+	@Scheduled(fixedRate = 1000)
 	public void run() {
 		System.out.println("send mail");
 		while (!list.isEmpty()) {
@@ -63,8 +63,8 @@ public class MailerService {
 	public void sendOtpEmail(String toEmail, String otp) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(toEmail);
-		message.setSubject("[TVG] - Xác nhận thông tin tài khoản");
-	    message.setText("Mã xác thực tài khoản của bạn là: " + otp + "\nMã xác thực có hiệu lực trong vòng 2 phút.");
+		message.setSubject("Xác nhận thông tin tài khoản");
+		message.setText("Mã xác thực tài khoản của bạn là: " + otp + "\nMã xác thực có hiệu lực trong vòng 2 phút.");
 		sender.send(message);
 	}
 }
