@@ -1,5 +1,9 @@
 package com.example.service;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +54,67 @@ public class AuthService {
 		} else {
 			throw new RuntimeException("Người dùng không tồn tại");
 		}
+	}
+
+	public NguoiDung capNhatThongTin(int id, NguoiDung capNhattt) throws Exception {
+		Optional<NguoiDung> nguoiDungOptional = nguoiDungRepository.findById(id);
+		// Kiểm tra nếu không tìm thấy người dùng
+		if (!nguoiDungOptional.isPresent()) {
+			throw new Exception("Người dùng không tồn tại!");
+		}
+		// Lấy đối tượng người dùng hiện tại
+		NguoiDung existingUser = nguoiDungOptional.get();
+
+		// Kiểm tra xem email mới có tồn tại trong hệ thống không
+		if (!existingUser.getEmail().equals(capNhattt.getEmail())) {
+			Optional<NguoiDung> emailExist = nguoiDungRepository.findByEmail(capNhattt.getEmail());
+			if (emailExist.isPresent()) {
+				throw new Exception("Email này đã tồn tại trong hệ thống!");
+			}
+		}
+		// Cập nhật thông tin người dùng từ đối tượng capNhattt
+		existingUser.setHoTen(capNhattt.getHoTen());
+		existingUser.setEmail(capNhattt.getEmail());
+		existingUser.setSoDienThoai(capNhattt.getSoDienThoai());
+		existingUser.setGioiTinh(capNhattt.isGioiTinh());
+		existingUser.setNamSinh(capNhattt.getNamSinh());
+		existingUser.setDiaChi(capNhattt.getDiaChi());
+		// Kiểm tra nếu mật khẩu mới không rỗng thì mã hóa mật khẩu và cập nhật
+		if (capNhattt.getMatKhau() != null && !capNhattt.getMatKhau().isEmpty()) {
+			String encodedPassword = passwordEncoder.encode(capNhattt.getMatKhau());
+			existingUser.setMatKhau(encodedPassword); // Gán mật khẩu đã mã hóa
+		}
+		// Tính tuổi mới
+		if (capNhattt.getNamSinh() != null) {
+			Date namSinhDate = capNhattt.getNamSinh(); // lấy ngày sinh kiểu Date
+			LocalDate birthDate = namSinhDate.toInstant()
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate();
+
+			LocalDate currentDate = LocalDate.now();
+
+			// Tính tuổi chính xác
+			int age = Period.between(birthDate, currentDate).getYears();
+			existingUser.setTuoi(age); // Gán tuổi đã tính vào đối tượng NguoiDung
+		}
+		return nguoiDungRepository.save(existingUser);
+	}
+
+	public NguoiDung capNhatHinhAnh(int id, NguoiDung capNhattt) throws Exception {
+		Optional<NguoiDung> nguoiDungOptional = nguoiDungRepository.findById(id);
+		// Kiểm tra nếu không tìm thấy người dùng
+		if (!nguoiDungOptional.isPresent()) {
+			throw new Exception("Người dùng không tồn tại!");
+		}
+		// Lấy đối tượng người dùng hiện tại
+		NguoiDung existingUser = nguoiDungOptional.get();
+
+		// Kiểm tra và cập nhật hình ảnh
+		if (capNhattt.getHinhAnh() != null) {
+			existingUser.setHinhAnh(capNhattt.getHinhAnh()); // Cập nhật trường avatar mới
+		}
+
+		// Lưu lại người dùng sau khi cập nhật hình ảnh
+		return nguoiDungRepository.save(existingUser);
 	}
 }
