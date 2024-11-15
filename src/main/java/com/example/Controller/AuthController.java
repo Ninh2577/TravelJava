@@ -119,9 +119,10 @@ public class AuthController {
     @GetMapping("/google/tt")
     public ResponseEntity<Map<String, Object>> getUserGG(@AuthenticationPrincipal OAuth2User googleUser) {
         if (googleUser == null) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("message", "Người dùng chưa đăng nhập");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+            // Trả về thông báo rằng người dùng chưa đăng nhập mà không trả về lỗi 401
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Người dùng chưa đăng nhập");
+            return ResponseEntity.ok(response); // Không phải lỗi 401
         }
 
         String email = (String) googleUser.getAttributes().get("email");
@@ -129,7 +130,7 @@ public class AuthController {
         String picture = (String) googleUser.getAttributes().get("picture");
 
         if (email == null || name == null || picture == null) {
-            throw new RuntimeException("Missing user data from Google");
+            throw new RuntimeException("không có dữ liệu từ Google");
         }
 
         NguoiDung nguoiDung = new NguoiDung();
@@ -150,8 +151,10 @@ public class AuthController {
             nguoiDungRepository.save(nguoiDung);
         }
 
+        // Tạo token JWT cho người dùng
+        String token = jwtUtil.generateToken(nguoiDung);
         Map<String, Object> userResponse = new HashMap<>();
-        // userResponse.put("token", token);
+        userResponse.put("token", token);
         userResponse.put("id", nguoiDung.getId());
         userResponse.put("hoTen", nguoiDung.getHoTen());
         userResponse.put("email", nguoiDung.getEmail());
