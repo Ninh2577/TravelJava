@@ -96,14 +96,6 @@ public class AuthController {
             // Tạo JWT token
             String token = jwtUtil.generateToken(nguoiDung);
 
-            // // Lưu tokezzzn vào cookie
-            // Cookie cookie = new Cookie("token", token);
-            // cookie.setHttpOnly(true); // Bảo mật token không bị truy cập bởi JavaScript
-            // cookie.setPath("/"); // Áp dụng cho toàn bộ ứng dụng
-            // cookie.setMaxAge(60 * 60 * 10); // 10 giờ
-            // cookie.setSecure(true); // Đảm bảo cookie chỉ gửi qua HTTPS
-            // response.addCookie(cookie);
-
             // Tạo đối tượng response với token và thông báo thành công
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("message", "Đăng nhập thành công!");
@@ -120,10 +112,10 @@ public class AuthController {
             // Trả về phản hồi lỗi với mã 400 (Bad Request)
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("message", "Đăng nhập thất bại: " + e.getMessage());
-            return ResponseEntity.badRequest(). body(errorResponse);
+            return ResponseEntity.badRequest().body(errorResponse);
         }
     }
- 
+
     @GetMapping("/google/tt")
     public ResponseEntity<Map<String, Object>> getUserGG(@AuthenticationPrincipal OAuth2User googleUser) {
         if (googleUser == null) {
@@ -142,6 +134,7 @@ public class AuthController {
 
         NguoiDung nguoiDung = new NguoiDung();
         Optional<NguoiDung> existingUserOpt = nguoiDungRepository.findByEmail(email);
+        // String token = jwtUtil.generateToken(nguoiDung);
         if (existingUserOpt.isPresent()) {
             nguoiDung = existingUserOpt.get();
             nguoiDung.setHoTen(name);
@@ -158,6 +151,7 @@ public class AuthController {
         }
 
         Map<String, Object> userResponse = new HashMap<>();
+        // userResponse.put("token", token);
         userResponse.put("id", nguoiDung.getId());
         userResponse.put("hoTen", nguoiDung.getHoTen());
         userResponse.put("email", nguoiDung.getEmail());
