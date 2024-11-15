@@ -31,4 +31,4 @@ public class ChiTietGioHang implements Serializable {
     private float tongTien;
     private String moTa;
     private Integer soNguoi;
-}
+} 
