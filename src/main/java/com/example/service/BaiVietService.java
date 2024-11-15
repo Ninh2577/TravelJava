@@ -17,7 +17,7 @@ public class BaiVietService {
 	private BaiVietRepository baiVietRepository;
 
 	public List<BaiViet> getBaiViet() {
-		return baiVietRepository.findAll(Sort.by(Sort.Order.desc("ngayDang"))); // Lấy tất cả bài viết từ repository
+	    return baiVietRepository.findAllByOrderByIdDesc(); // Sắp xếp theo ID giảm dần
 	}
 
 	// Phương thức lấy bài viết theo ID
