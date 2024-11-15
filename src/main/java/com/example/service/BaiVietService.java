@@ -17,7 +17,7 @@ public class BaiVietService {
 	private BaiVietRepository baiVietRepository;
 
 	public List<BaiViet> getBaiViet() {
-		return baiVietRepository.findAll(Sort.by(Sort.Order.desc("ngayDang"))); // Lấy tất cả bài viết từ repository
+	    return baiVietRepository.findAllByOrderByIdDesc(); // Sắp xếp theo ID giảm dần
 	}
 
 	// Phương thức lấy bài viết theo ID
@@ -32,13 +32,15 @@ public class BaiVietService {
 
 	// Phương thức cập nhật bài viết
 	public BaiViet updateBaiViet(Integer id, BaiViet baiViet) {
-		if (baiVietRepository.existsById(id)) {
-			baiViet.setId(id);
-			return baiVietRepository.save(baiViet); // Lưu bài viết đã cập nhật
-		} else {
-			throw new RuntimeException("Bài viết không tồn tại với ID: " + id); // Hoặc trả về Optional<BaiViet>
-		}
+	    Optional<BaiViet> existingBaiViet = baiVietRepository.findById(id);
+	    if (existingBaiViet.isPresent()) {
+	        baiViet.setId(id);
+	        return baiVietRepository.save(baiViet); // Lưu bài viết đã cập nhật
+	    } else {
+	        throw new RuntimeException("Bài viết không tồn tại với ID: " + id);
+	    }
 	}
+
 
 	// Phương thức xóa bài viết
 	public void deleteBaiViet(Integer id) {

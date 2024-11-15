@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 
 import com.example.DTO.TourDetailsDTO;
 import com.example.Entity.BienTheTour;
+import com.example.Entity.ChiTietGioHang;
+
 
 public interface BienTheTourRepository extends JpaRepository<BienTheTour, Integer> {
 	List<BienTheTour> findByTourId(Integer tourId);
@@ -21,4 +23,5 @@ public interface BienTheTourRepository extends JpaRepository<BienTheTour, Intege
 	    List<TourDetailsDTO> findAllTourInfo();
 	 @Query("SELECT b FROM BienTheTour b WHERE b.tour.id = :idTour")
 	    List<BienTheTour> findByToursId(@Param("idTour") Integer idTour);
+  List<BienTheTour> findByChiTietGioHangs(List<ChiTietGioHang> chiTietGioHangs);
 }

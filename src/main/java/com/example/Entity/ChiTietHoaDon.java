@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @Entity
 @NoArgsConstructor
@@ -30,10 +29,10 @@ public class ChiTietHoaDon implements Serializable {
     private boolean trangThai;
 
     @OneToOne
-    @JoinColumn(name = "id_HoaDon", unique = true) // Đảm bảo tính duy nhất
-    @JsonBackReference
-    private HoaDon hoaDon; // Mối quan hệ 1-1 với HoaDon
+    @JoinColumn(name = "id_HoaDon", unique = true, nullable = false)
+    private HoaDon hoaDon;
+
     @ManyToOne
-    @JoinColumn(name = "id_BienTheTour")
+    @JoinColumn(name = "id_BienTheTour", nullable = false)
     private BienTheTour bienTheTour;
 }
