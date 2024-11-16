@@ -90,4 +90,11 @@ public class TourController {
 	public List<BienTheTour> getBienTheTourByTourId(@PathVariable Integer idTour) {
 		return bienTheTourRepository.findByTourId(idTour);
 	}
+
+
+
+    @GetMapping("/byDanhMuc/{id}")
+    public List<Object[]> getToursByDanhMuc(@PathVariable("id") Integer idDanhMucTour) {
+        return tourService.getToursByDanhMuc(idDanhMucTour);
+    }
 }

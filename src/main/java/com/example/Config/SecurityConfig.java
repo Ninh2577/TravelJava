@@ -53,55 +53,39 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasAnyAuthority("admin", "nhanvien")
                         .anyRequest().permitAll())
                 .oauth2Login(oauth2 -> oauth2
-                        // .successHandler((request, response, authentication) -> {
-                        // // Lấy thông tin người dùng từ OAuth2User
-                        // OAuth2User googleUser = (OAuth2User) authentication.getPrincipal();
-                        // String role = (String) googleUser.getAttributes().get("role");
-                        // System.out.println("roles: " + role);
-
-                        // // Kiểm tra vai trò và điều hướng dựa trên vai trò
-                        // if ("admin".equals(role) || "nhanvien".equals(role)) {
-                        // response.sendRedirect("http://localhost:3000/admin");
-                        // } else {
-                        // response.sendRedirect("http://localhost:3000/");
-                        // }
-                        // }))
                         .successHandler((request, response, authentication) -> {
                             OAuth2User googleUser = (OAuth2User) authentication.getPrincipal();
                             String email = (String) googleUser.getAttributes().get("email");
                             Optional<NguoiDung> nguoiDungOpt = nguoiDungRepository.findByEmail(email);
-
+    
                             if (nguoiDungOpt.isPresent()) {
                                 NguoiDung nguoiDung = nguoiDungOpt.get();
                                 String role = nguoiDung.getVaiTro().getVaiTro();
-                                System.out.println("roles: " + role);
-
-                                // Điều hướng dựa trên vai trò người dùng
                                 if ("admin".equals(role) || "nhanvien".equals(role)) {
                                     response.sendRedirect("http://localhost:3000/admin");
                                 } else {
                                     response.sendRedirect("http://localhost:3000/");
                                 }
                             } else {
-                                // Nếu người dùng chưa có tài khoản, tạo mới
                                 VaiTro vaiTro = new VaiTro();
-                                vaiTro.setId(3); // Vai trò mặc định (người dùng thường hoặc khách)
-
-                                NguoiDung nguoiDung = new NguoiDung();
-                                nguoiDung.setHoTen((String) googleUser.getAttributes().get("name"));
-                                nguoiDung.setEmail(email);
-                                nguoiDung.setHinhAnh((String) googleUser.getAttributes().get("picture"));
-                                nguoiDung.setVaiTro(vaiTro);
-
-                                nguoiDungRepository.save(nguoiDung);
-
-                                // Sau khi tạo tài khoản, điều hướng người dùng đến trang chính hoặc trang admin
-                                response.sendRedirect("http://localhost:3000/"); // Hoặc /admin nếu bạn muốn chuyển
-                                                                                 // hướng đến admin
+                                vaiTro.setId(3); // Vai trò mặc định (User)
+    
+                                NguoiDung newNguoiDung = new NguoiDung();
+                                newNguoiDung.setHoTen((String) googleUser.getAttributes().get("name"));
+                                newNguoiDung.setEmail(email);
+                                newNguoiDung.setHinhAnh((String) googleUser.getAttributes().get("picture"));
+                                newNguoiDung.setVaiTro(vaiTro);
+    
+                                nguoiDungRepository.save(newNguoiDung);
+                                response.sendRedirect("http://localhost:3000/");
                             }
                         }))
+                .authenticationProvider(authenticationProvider())
+                .exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler))
+                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+    
 
     // Password Encoding
     @Bean
