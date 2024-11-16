@@ -57,7 +57,7 @@ public class SecurityConfig {
                             OAuth2User googleUser = (OAuth2User) authentication.getPrincipal();
                             String email = (String) googleUser.getAttributes().get("email");
                             Optional<NguoiDung> nguoiDungOpt = nguoiDungRepository.findByEmail(email);
-    
+
                             if (nguoiDungOpt.isPresent()) {
                                 NguoiDung nguoiDung = nguoiDungOpt.get();
                                 String role = nguoiDung.getVaiTro().getVaiTro();
@@ -69,13 +69,13 @@ public class SecurityConfig {
                             } else {
                                 VaiTro vaiTro = new VaiTro();
                                 vaiTro.setId(3); // Vai trò mặc định (User)
-    
+
                                 NguoiDung newNguoiDung = new NguoiDung();
                                 newNguoiDung.setHoTen((String) googleUser.getAttributes().get("name"));
                                 newNguoiDung.setEmail(email);
                                 newNguoiDung.setHinhAnh((String) googleUser.getAttributes().get("picture"));
                                 newNguoiDung.setVaiTro(vaiTro);
-    
+
                                 nguoiDungRepository.save(newNguoiDung);
                                 response.sendRedirect("http://localhost:3000/");
                             }
@@ -85,7 +85,6 @@ public class SecurityConfig {
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-    
 
     // Password Encoding
     @Bean
