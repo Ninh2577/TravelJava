@@ -35,4 +35,13 @@ public class ThongKeService {
     public List<DoanhThuTheoTour> thongKeDoanhThuTheoTourTrongKhoangThoiGian(Date ngayBatDau, Date ngayKetThuc) {
         return thongKeRepository.findThongKeDoanhThuTheoTourTrongKhoangThoiGian(ngayBatDau, ngayKetThuc);
     }
+    
+    public Double calculateTotalAmountInRange(Date startDate, Date endDate) {
+        return thongKeRepository.calculateTotalAmountInRange(startDate, endDate); // Gọi query từ repository
+    }
+ // Phương thức Service để lấy tổng số lượng tour đã đặt
+    public Integer getTotalBookedTours(Date startDate, Date endDate) {
+        return thongKeRepository.countTotalBookedTours(startDate, endDate);
+    }
+
 }

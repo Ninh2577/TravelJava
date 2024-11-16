@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import com.example.DTO.DoanhThuTheoTour;
 import com.example.DTO.SoLuongNguoiDiTour;
 import com.example.DTO.SoLuongTourDaDatDTO;
 import com.example.Repository.HoaDonRepository;
+import com.example.service.HoaDonService;
 import com.example.service.ThongKeService;
 
 @RestController
@@ -26,67 +28,6 @@ public class ThongKeController {
     @Autowired
     private ThongKeService thongKeService;
 
-    // @GetMapping("/doanh-thu")
-    // public List<Object[]> getRevenueByDateRange(@RequestParam("startDate") String
-    // startDateStr,
-    // @RequestParam("endDate") String endDateStr) throws Exception {
-    // // Chuyển đổi chuỗi ngày tháng sang đối tượng Date
-    // SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    // Date startDate = sdf.parse(startDateStr);
-    // Date endDate = sdf.parse(endDateStr);
-    // System.out.println("Doanh thu trong khoảng thời gian từ " + startDateStr + "
-    // đến " + endDateStr + ":");
-
-    // // Truy vấn doanh thu
-    // return hoaDonRepository.findRevenueByDateRange(startDate, endDate);
-    // }
-
-    // @GetMapping("/tongSoTourDuocDat")
-    // public List<DoanhThuDTO> getTourPeopleCount(@RequestParam("startDate") String
-    // startDateStr,
-    // @RequestParam("endDate") String endDateStr) throws Exception {
-    // // Chuyển đổi chuỗi ngày tháng sang đối tượng Date
-    // SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    // Date startDate = sdf.parse(startDateStr);
-    // Date endDate = sdf.parse(endDateStr);
-    // System.out.println("Doanh thu trong khoảng thời gian từ " + startDateStr + "
-    // đến " + endDateStr + ":");
-
-    // // Truy vấn doanh thu
-    // return hoaDonRepository.findTourStatisticsByDateRange(startDate, endDate);
-    // }
-
-    // @GetMapping("/TongSoNguoiThamGiaTour")
-    // public List<SoLuongNguoiDiTour>
-    // getTourPeopleCount23(@RequestParam("startDate") String startDateStr,
-    // @RequestParam("endDate") String endDateStr) throws Exception {
-    // // Chuyển đổi chuỗi ngày tháng sang đối tượng Date
-    // SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    // Date startDate = sdf.parse(startDateStr);
-    // Date endDate = sdf.parse(endDateStr);
-    // System.out.println("Doanh thu trong khoảng thời gian từ " + startDateStr + "
-    // đến " + endDateStr + ":");
-
-    // // Truy vấn doanh thu
-    // return hoaDonRepository.findTourStatisticsByDateRange2Dtos(startDate,
-    // endDate);
-    // }
-
-    // @GetMapping("/doanhThuTheoTour")
-    // public List<DoanhThuTheoTour>
-    // getTourPeopleCount232(@RequestParam("startDate") String startDateStr,
-    // @RequestParam("endDate") String endDateStr) throws Exception {
-    // // Chuyển đổi chuỗi ngày tháng sang đối tượng Date
-    // SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    // Date startDate = sdf.parse(startDateStr);
-    // Date endDate = sdf.parse(endDateStr);
-    // System.out.println("Doanh thu trong khoảng thời gian từ " + startDateStr + "
-    // đến " + endDateStr + ":");
-
-    // // Truy vấn doanh thu
-    // return hoaDonRepository.findTourRevenueByDateRange(startDate, endDate);
-    // }
-    // API thống kê tổng doanh thu theo thời gian
     @GetMapping("/bieu-do-doanh-thu")
     public List<Object[]> thongKeTongDoanhThuTheoTG(
             @RequestParam("ngayBatDau") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayBatDau,
@@ -116,6 +57,24 @@ public class ThongKeController {
             @RequestParam("ngayBatDau") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayBatDau,
             @RequestParam("ngayKetThuc") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayKetThuc) {
         return thongKeService.thongKeDoanhThuTheoTourTrongKhoangThoiGian(ngayBatDau, ngayKetThuc);
+    }
+    
+    @GetMapping("/tong-doanh-thu")
+    public ResponseEntity<Double> getTotalAmountInRange(
+        @RequestParam("ngayBatDau") @DateTimeFormat(pattern = "dd/MM/yyyy") Date startDate,
+        @RequestParam("ngayKetThuc") @DateTimeFormat(pattern = "dd/MM/yyyy") Date endDate) {
+
+        Double totalAmount = thongKeService.calculateTotalAmountInRange(startDate, endDate);
+        return ResponseEntity.ok(totalAmount); // Trả về tổng doanh thu dưới dạng Double
+    }
+ // Endpoint API lấy tổng số lượng tour đã đặt
+    @GetMapping("/tong-so-luong-tour-da-dat")
+    public ResponseEntity<Integer> getTotalBookedTours(
+        @RequestParam("ngayBatDau") @DateTimeFormat(pattern = "dd/MM/yyyy") Date startDate,
+        @RequestParam("ngayKetThuc") @DateTimeFormat(pattern = "dd/MM/yyyy") Date endDate) {
+
+        Integer totalBookedTours = thongKeService.getTotalBookedTours(startDate, endDate);
+        return ResponseEntity.ok(totalBookedTours);
     }
 
 }
