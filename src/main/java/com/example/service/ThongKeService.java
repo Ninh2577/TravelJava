@@ -22,14 +22,22 @@ public class ThongKeService {
     }
 
     // Thống kê tổng số lượng tour được đặt trong khoảng thời gian
-    public List<SoLuongTourDaDatDTO> thongKeTourTheoKhoangThoiGian(Date ngayBatDau, Date ngayKetThuc) {
-        return thongKeRepository.ThongKeTourTheoKhoangThoiGian(ngayBatDau, ngayKetThuc);
+    // public List<SoLuongTourDaDatDTO> thongKeTourTheoKhoangThoiGian(Date ngayBatDau, Date ngayKetThuc) {
+    //     return thongKeRepository.ThongKeTourTheoKhoangThoiGian(ngayBatDau, ngayKetThuc);
+    // }
+    public List<Object[]> countBookedToursByDate(Date startDate, Date endDate) {
+        return thongKeRepository.countTotalBookedToursByDate(startDate, endDate);
     }
 
     // Thống kê số lượng người tham gia mỗi tour
-    public List<SoLuongNguoiDiTour> thongKeSoLuongNguoiDiTourTheoKhoangThoiGian(Date ngayBatDau, Date ngayKetThuc) {
-        return thongKeRepository.findThongKeSoLuongNguoiDiTourTheoKhoangThoiGian(ngayBatDau, ngayKetThuc);
+    // public List<SoLuongNguoiDiTour> thongKeSoLuongNguoiDiTourTheoKhoangThoiGian(Date ngayBatDau, Date ngayKetThuc) {
+    //     return thongKeRepository.findThongKeSoLuongNguoiDiTourTheoKhoangThoiGian(ngayBatDau, ngayKetThuc);
+    // }
+    public List<Object[]> thongKeSoLuongNguoiDiTourTheoKhoangThoiGian(Date ngayBatDau, Date ngayKetThuc) {
+        return thongKeRepository.countTotalBookedToursByDateWithTour(ngayBatDau, ngayKetThuc);
     }
+    
+
 
     // Thống kê doanh thu theo tour
     public List<DoanhThuTheoTour> thongKeDoanhThuTheoTourTrongKhoangThoiGian(Date ngayBatDau, Date ngayKetThuc) {
