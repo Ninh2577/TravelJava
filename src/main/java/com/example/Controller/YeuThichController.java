@@ -38,15 +38,11 @@ public class YeuThichController {
     @PostMapping("/add")
     public ResponseEntity<?> addYeuThich(@RequestBody YeuThichDTO yeuThichDTO) {
         try {
-            // Gọi service để lưu yêu thích
             YeuThich yeuThich = yeuThichService.saveYeuThich(yeuThichDTO.getUserId(), yeuThichDTO.getTourId());
-
-            // Tạo đối tượng DTO từ Entity để trả về
             YeuThichDTO savedYeuThichDTO = new YeuThichDTO(
                     yeuThich.getNguoiDung().getId(), 
                     yeuThich.getTour().getId()
-            );
-            
+            ); 
             return ResponseEntity.ok(savedYeuThichDTO);
         } catch (RuntimeException e) {
             Logger logger = LoggerFactory.getLogger(YeuThichController.class);
@@ -60,29 +56,15 @@ public class YeuThichController {
     @GetMapping("/likedTours/{userId}")
     public ResponseEntity<?> getLikedToursByUserId(@PathVariable Integer userId) {
         try {
-            // Gọi repository để lấy danh sách tour yêu thích của người dùng
-            List<Tour> likedTours = yeuThichRepository.findLikedToursByUserId(userId);
-            
-            // Nếu không có tour yêu thích nào, trả về phản hồi thích hợp
-            if (likedTours.isEmpty()) {
+             List<Tour> likedTours = yeuThichRepository.findLikedToursByUserId(userId);
+           if (likedTours.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy tour yêu thích nào.");
             }
-
             return ResponseEntity.ok(likedTours);
         } catch (Exception e) {
-            // Trường hợp có lỗi hệ thống
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi hệ thống.");
         }
     }
     
-//  @PostMapping("/add")
-//  public ResponseEntity<?> addYeuThich(@RequestBody YeuThichDTO dto) {
-//      try {
-//          // Gửi cả ngày bắt đầu và ngày kết thúc
-//          yeuThichService.saveYeuThich(dto.getUserId(), dto.getTourId(), dto.getStartDate(), dto.getEndDate());
-//          return ResponseEntity.ok(Collections.singletonMap("message", "Yêu thích đã được lưu thành công"));
-//      } catch (Exception e) {
-//          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", e.getMessage()));
-//      }
-//  }
+
 }
