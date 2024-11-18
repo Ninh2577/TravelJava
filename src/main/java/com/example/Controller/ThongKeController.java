@@ -36,20 +36,36 @@ public class ThongKeController {
     }
 
     // API thống kê tổng số lượng tour được đặt
+    // @GetMapping("/bieu-do-so-luong-tour")
+    // public List<SoLuongTourDaDatDTO> thongKeTourTheoKhoangThoiGian(
+    //         @RequestParam("ngayBatDau") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayBatDau,
+    //         @RequestParam("ngayKetThuc") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayKetThuc) {
+    //     return thongKeService.thongKeTourTheoKhoangThoiGian(ngayBatDau, ngayKetThuc);
+    // }
     @GetMapping("/bieu-do-so-luong-tour")
-    public List<SoLuongTourDaDatDTO> thongKeTourTheoKhoangThoiGian(
+    public List<Object[]> thongKeTourTheoKhoangThoiGian(
             @RequestParam("ngayBatDau") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayBatDau,
             @RequestParam("ngayKetThuc") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayKetThuc) {
-        return thongKeService.thongKeTourTheoKhoangThoiGian(ngayBatDau, ngayKetThuc);
+        return thongKeService.countBookedToursByDate(ngayBatDau, ngayKetThuc);
     }
 
     // API thống kê số lượng người tham gia mỗi tour
+    // @GetMapping("/table-so-luong-nguoi-tham-gia")
+    // public List<SoLuongNguoiDiTour> thongKeSoLuongNguoiDiTourTheoKhoangThoiGian(
+    //         @RequestParam("ngayBatDau") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayBatDau,
+    //         @RequestParam("ngayKetThuc") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayKetThuc) {
+    //     return thongKeService.thongKeSoLuongNguoiDiTourTheoKhoangThoiGian(ngayBatDau, ngayKetThuc);
+    // }
     @GetMapping("/table-so-luong-nguoi-tham-gia")
-    public List<SoLuongNguoiDiTour> thongKeSoLuongNguoiDiTourTheoKhoangThoiGian(
+    public List<Object[]> thongKeSoLuongNguoiDiTourTheoKhoangThoiGian(
             @RequestParam("ngayBatDau") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayBatDau,
             @RequestParam("ngayKetThuc") @DateTimeFormat(pattern = "dd/MM/yyyy") Date ngayKetThuc) {
+
+        // Gọi phương thức trong service để lấy dữ liệu
         return thongKeService.thongKeSoLuongNguoiDiTourTheoKhoangThoiGian(ngayBatDau, ngayKetThuc);
     }
+
+
 
     // API thống kê doanh thu theo tour
     @GetMapping("/table-doanh-thu-theo-tour")

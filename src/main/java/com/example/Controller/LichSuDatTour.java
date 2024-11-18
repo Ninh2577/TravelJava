@@ -21,7 +21,10 @@ public class LichSuDatTour {
     @GetMapping("/lich-su-dat-tour/{userId}") // Thay đổi để nhận ID người dùng từ URL
     public ResponseEntity<List<ChiTietHoaDonDTO>> getAllLichSuDatTour(@PathVariable Integer userId) {
         try {
+            System.out.println("userId: " + userId); // Log userId nhận được
+
             List<ChiTietHoaDonDTO> lichSuDatTour = hoaDonRepository.findHoaDonByUserId(userId);
+            System.out.println("ls: " + lichSuDatTour); // Log danh sách lich su dat tour
             return ResponseEntity.ok(lichSuDatTour);
         } catch (Exception e) {
             e.printStackTrace(); // Log lỗi nếu có
