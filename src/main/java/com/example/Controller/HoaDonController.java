@@ -163,7 +163,7 @@ public class HoaDonController {
 
 		// Cập nhật số lượng còn lại của BienTheTour
 		int soLuongGioHang = ctg1h.getSoNguoi(); // Số lượng từ giỏ hàng
-		int soLuongHienTai = bienthetour.getSoLuongTong(); // Số lượng hiện tại của BienTheTour
+		int soLuongHienTai = bienthetour.getSoLuongCon(); // Số lượng hiện tại của BienTheTour
 		bienthetour.setSoLuongCon(soLuongHienTai - soLuongGioHang);
 		bienthetourRepository.save(bienthetour); // Cập nhật lại BienTheTour với số lượng còn lại
 
@@ -240,7 +240,7 @@ public class HoaDonController {
 
 			// Update BienTheTour stock
 			int soLuongGioHang = ctg1h.getSoNguoi(); // Get quantity from cart
-			int soLuongHienTai = bienthetour.getSoLuongTong(); // Get current stock
+			int soLuongHienTai = bienthetour.getSoLuongCon(); // Get current stock
 			bienthetour.setSoLuongCon(soLuongHienTai - soLuongGioHang);
 			bienthetourRepository.save(bienthetour); // Update stock
 
