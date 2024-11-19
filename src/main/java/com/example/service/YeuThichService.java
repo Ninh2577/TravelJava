@@ -29,53 +29,55 @@ public class YeuThichService {
     public List<YeuThich> getAllYeuThich() {
         return yeuThichRepository.findAll();
     }
-
-    public YeuThich saveYeuThich(Integer userId, Integer tourId) {
-        NguoiDung nguoiDung = nguoiDungRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        Tour tour = tourRepository.findById(tourId)
-                .orElseThrow(() -> new RuntimeException("Tour not found"));
-
-        YeuThich existingYeuThich = yeuThichRepository.findByNguoiDungAndTour(nguoiDung, tour)
-                .orElse(null);
-        if (existingYeuThich != null) {
-            yeuThichRepository.delete(existingYeuThich);
-            return existingYeuThich; 
-        }
-
-        YeuThich yeuThich = new YeuThich();
-        yeuThich.setNguoiDung(nguoiDung);
-        yeuThich.setTour(tour);
-        yeuThich.setThich(true);
-
-        return yeuThichRepository.save(yeuThich);
+    
+    public void deleteAllLikedToursByUserId(Integer userId) {
+        yeuThichRepository.deleteAllByUserId(userId);
     }
 
+//    public YeuThich saveYeuThich(Integer userId, Integer tourId) {
+//        NguoiDung nguoiDung = nguoiDungRepository.findById(userId)
+//                .orElseThrow(() -> new RuntimeException("User not found"));
+//        Tour tour = tourRepository.findById(tourId)
+//                .orElseThrow(() -> new RuntimeException("Tour not found"));
+//
+//        YeuThich existingYeuThich = yeuThichRepository.findByNguoiDungAndTour(nguoiDung, tour)
+//                .orElse(null);
+//        if (existingYeuThich != null) {
+//            yeuThichRepository.delete(existingYeuThich);
+//            return existingYeuThich; 
+//        }
+//
+//        YeuThich yeuThich = new YeuThich();
+//        yeuThich.setNguoiDung(nguoiDung);
+//        yeuThich.setTour(tour);
+//        yeuThich.setThich(true);
+//
+//        return yeuThichRepository.save(yeuThich);
+//    }
 
-//  public YeuThich saveYeuThich(Integer userId, Integer tourId) {
-//      NguoiDung nguoiDung = nguoiDungRepository.findById(userId)
-//              .orElseThrow(() -> new RuntimeException("User not found"));
-//      Tour tour = tourRepository.findById(tourId)
-//              .orElseThrow(() -> new RuntimeException("Tour not found"));
-//
-//      // Kiểm tra xem người dùng đã yêu thích tour này chưa
-//      YeuThich existingYeuThich = yeuThichRepository.findByNguoiDungAndTour(nguoiDung, tour)
-//              .orElse(null);
-//
-//      if (existingYeuThich != null) {
-//          // Nếu đã yêu thích, cập nhật lại trạng thái yêu thích
-//          existingYeuThich.setThich(!existingYeuThich.isThich());
-//          return yeuThichRepository.save(existingYeuThich);
-//      }
-//
-//      // Nếu chưa yêu thích, tạo mới
-//      YeuThich yeuThich = new YeuThich();
-//      yeuThich.setNguoiDung(nguoiDung);
-//      yeuThich.setTour(tour);
-//      yeuThich.setThich(true);
-//
-//      return yeuThichRepository.save(yeuThich);
-//  }
+
+  public YeuThich saveYeuThich(Integer userId, Integer tourId) {
+      NguoiDung nguoiDung = nguoiDungRepository.findById(userId)
+              .orElseThrow(() -> new RuntimeException("User not found"));
+      Tour tour = tourRepository.findById(tourId)
+              .orElseThrow(() -> new RuntimeException("Tour not found"));
+
+      YeuThich existingYeuThich = yeuThichRepository.findByNguoiDungAndTour(nguoiDung, tour)
+              .orElse(null);
+
+      if (existingYeuThich != null) {
+          existingYeuThich.setThich(!existingYeuThich.isThich());
+          return yeuThichRepository.save(existingYeuThich);
+      }
+
+      // Nếu chưa yêu thích, tạo mới
+      YeuThich yeuThich = new YeuThich();
+      yeuThich.setNguoiDung(nguoiDung);
+      yeuThich.setTour(tour);
+      yeuThich.setThich(true);
+
+      return yeuThichRepository.save(yeuThich);
+  }
   
 }
 
