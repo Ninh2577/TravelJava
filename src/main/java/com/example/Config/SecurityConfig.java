@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,6 +28,8 @@ import com.example.Repository.NguoiDungRepository;
 import com.example.Utils.CustomAccessDeniedHandler;
 import com.example.Utils.JwtAuthFilter;
 import com.example.service.NguoiDungService;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -48,6 +51,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .cors(Customizer.withDefaults()) // Thêm cấu hình CORS
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/**").hasAnyAuthority("admin", "nhanvien")
@@ -79,6 +83,15 @@ public class SecurityConfig {
                                 nguoiDungRepository.save(newNguoiDung);
                                 response.sendRedirect("http://localhost:3000/");
                             }
+                        }))
+                .logout(logout -> logout
+                        .logoutUrl("/api/logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID", "SESSION", "OAUTH2_AUTHORIZATION_REQUEST")
+                        .clearAuthentication(true)
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                            response.getWriter().write("Đăng xuất thành công!");
                         }))
                 .authenticationProvider(authenticationProvider())
                 .exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler))

@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -105,7 +106,7 @@ public class AuthController {
             responseBody.put("email", nguoiDung.getEmail());
             responseBody.put("diaChi", nguoiDung.getDiaChi());
             responseBody.put("id", nguoiDung.getId());
-
+            responseBody.put("hinhAnh", nguoiDung.getHinhAnh());
             // Trả về phản hồi thành công với mã 200 (OK)
             return ResponseEntity.ok(responseBody);
         } catch (Exception e) {
@@ -166,9 +167,15 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response,
+            org.springframework.security.core.Authentication authentication) {
+        System.out.println("Logout request received");
 
-        request.getSession().invalidate();
+        if (authentication != null) {
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        }
+        request.getSession().invalidate(); // Hủy session
+        System.out.println("User logged out successfully");
         return ResponseEntity.ok().body("Đăng xuất thành công!");
     }
 
