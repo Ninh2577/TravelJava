@@ -91,6 +91,9 @@ public class AuthController {
             HttpServletResponse response) {
         try {
             // Xác thực người dùng
+            System.out.println("Email nhận được: " + loginRequest.getEmail());
+            System.out.println("Mật khẩu nhận được: " + loginRequest.getMatKhau());
+
             NguoiDung nguoiDung = authService.login(loginRequest.getEmail(),
                     loginRequest.getMatKhau());
 
