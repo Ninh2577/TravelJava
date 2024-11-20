@@ -28,8 +28,3 @@ public class VaiTro implements Serializable {
     @OneToMany(mappedBy = "vaiTro")
     private List<NguoiDung> nguoiDungs;
 }
-
-//
-//@JsonIgnore
-//@OneToMany(mappedBy = "nguoiDung")
-//private List<DatTour> datTours;
