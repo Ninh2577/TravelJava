@@ -29,8 +29,8 @@ public class LichTrinhTour implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date ngay;
 
-    private LocalTime thoiGianBatDau;
-    private LocalTime thoiGianKetThuc;
+    private String thoiGianBatDau;
+    private String thoiGianKetThuc;
 
     private String moTa;
 }
