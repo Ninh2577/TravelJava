@@ -28,6 +28,7 @@
 package com.example.service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
@@ -129,16 +130,38 @@ public class HoaDonService {
 
 	@Transactional
 	public void huyHoaDon(Integer chiTietHoaDonId) {
-		// Lấy ngày bắt đầu của Biến Thể Tour
+		// // Lấy ngày bắt đầu của Biến Thể Tour
+		// LocalDate ngayBatDau =
+		// hoaDonRepository.findNgayBatDauByChiTietHoaDonId(chiTietHoaDonId);
+		// System.out.println("Ngay bat dau: " + ngayBatDau);
+
+		// // Kiểm tra ngày hiện tại và khoảng cách 7 ngày
+		// if (ngayBatDau == null || !ngayBatDau.isBefore(LocalDate.now().minusDays(7)))
+		// {
+		// System.out.println("Ngày hiện tại: " + LocalDate.now());
+		// System.out.println("Ngày bắt đầu - 7 ngày: " + ngayBatDau.minusDays(7));
+		// throw new RuntimeException("Không thể hủy hóa đơn. Phải cách ngày bắt đầu ít
+		// nhất 7 ngày.");
+		// }
+		// Lấy ngày bắt đầu từ cơ sở dữ liệu
 		LocalDate ngayBatDau = hoaDonRepository.findNgayBatDauByChiTietHoaDonId(chiTietHoaDonId);
-		System.out.println("Ngay bat dau: "+ngayBatDau);
+		System.out.println("Ngày bắt đầu: " + ngayBatDau);
 
 		// Kiểm tra ngày hiện tại và khoảng cách 7 ngày
-		if (ngayBatDau == null || LocalDate.now().isBefore(ngayBatDau.plusDays(7))) {
-			System.out.println("Ngay hien tai: " + LocalDate.now());
-       	 	System.out.println("Ngay bat dau + 7 ngay: " + ngayBatDau.plusDays(7));
+		if (ngayBatDau == null) {
+			throw new RuntimeException("Ngày bắt đầu không hợp lệ.");
+		}
+
+		// Tính số ngày giữa ngày bắt đầu và ngày hiện tại
+		long daysBetween = ChronoUnit.DAYS.between(ngayBatDau, LocalDate.now()) + 1;
+		System.out.println("Khoảng cách giữa ngày bắt đầu và ngày hiện tại: " + daysBetween + " ngày.");
+
+		// Kiểm tra nếu khoảng cách ngày nhỏ hơn hoặc bằng 7 ngày
+		if (daysBetween <= 7) {
+			System.out.println("Ngày hiện tại: " + LocalDate.now());
+			System.out.println("Ngày bắt đầu: " + ngayBatDau);
 			throw new RuntimeException("Không thể hủy hóa đơn. Phải cách ngày bắt đầu ít nhất 7 ngày.");
-		}	
+		}
 
 		// Lấy thông tin Chi Tiết Hóa Đơn
 		ChiTietHoaDon chiTietHoaDon = chiTietHoaDonRepository.findById(chiTietHoaDonId)
