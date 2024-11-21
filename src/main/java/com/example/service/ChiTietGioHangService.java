@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.DTO.ChiTietGioHangRequestDTO;
+import com.example.DTO.GioHangDTO;
 import com.example.Entity.BienTheTour;
 import com.example.Entity.ChiTietGioHang;
 import com.example.Entity.MediaTour;
@@ -76,5 +77,15 @@ public class ChiTietGioHangService {
 	        chiTietGioHangRepository.save(chiTietGioHang);
 	    }
 	}
+
+
+
+
+	// -----------------------------------------
+	// Phương thức lấy chi tiết giỏ hàng theo người dùng
+    public List<GioHangDTO> getCartDetailsByUserId(Integer idNguoiDung) {
+        // Gọi repository để lấy dữ liệu
+        return chiTietGioHangRepository.findCartDetailsByUserId(idNguoiDung);
+    }
 
 }
