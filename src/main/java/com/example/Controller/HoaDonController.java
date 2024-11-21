@@ -1,3 +1,39 @@
+//package com.example.Controller;
+//
+//import java.util.List;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.web.bind.annotation.CrossOrigin;
+//import org.springframework.web.bind.annotation.GetMapping;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.RestController;
+//
+//import com.example.Entity.HoaDon;
+//import com.example.service.HoaDonService;
+//import com.example.service.HotelsService;
+//
+//@RestController
+//@RequestMapping("/api/hoadon")
+//@CrossOrigin(origins = "http://localhost/3000")
+//public class HoaDonController {
+//
+//	@Autowired
+//	private HoaDonService hoaDonService;
+//	
+////	@GetMapping
+////	public ResponseEntity<List<HoaDon>> getAllHoaDon(){
+////		List<HoaDon> hoaDons = hoaDonService.getAllHoaDon();
+////		return ResponseEntity.ok(hoaDons);
+////	}
+//	  @GetMapping("/user")
+//	    public ResponseEntity<List<HoaDon>> getHoaDonsByUserId(@RequestParam Long userId) {
+//	        List<HoaDon> hoaDons = hoaDonService.findHoaDonByUserId(userId);
+//	        return ResponseEntity.ok(hoaDons);
+//	    }
+//}
+
 package com.example.Controller;
 
 import java.util.Date;
@@ -14,6 +50,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.DTO.ChiTietHoaDonsDTO;
 import com.example.DTO.HoaDonDTO;
 import com.example.Entity.BienTheTour;
 import com.example.Entity.ChiTietGioHang;
@@ -127,7 +165,7 @@ public class HoaDonController {
 
 		// Cập nhật số lượng còn lại của BienTheTour
 		int soLuongGioHang = ctg1h.getSoNguoi(); // Số lượng từ giỏ hàng
-		int soLuongHienTai = bienthetour.getSoLuongTong(); // Số lượng hiện tại của BienTheTour
+		int soLuongHienTai = bienthetour.getSoLuongCon(); // Số lượng hiện tại của BienTheTour
 		bienthetour.setSoLuongCon(soLuongHienTai - soLuongGioHang);
 		bienthetourRepository.save(bienthetour); // Cập nhật lại BienTheTour với số lượng còn lại
 
@@ -204,7 +242,7 @@ public class HoaDonController {
 
 			// Update BienTheTour stock
 			int soLuongGioHang = ctg1h.getSoNguoi(); // Get quantity from cart
-			int soLuongHienTai = bienthetour.getSoLuongTong(); // Get current stock
+			int soLuongHienTai = bienthetour.getSoLuongCon(); // Get current stock
 			bienthetour.setSoLuongCon(soLuongHienTai - soLuongGioHang);
 			bienthetourRepository.save(bienthetour); // Update stock
 
@@ -221,5 +259,12 @@ public class HoaDonController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
 		}
 	}
-
+	  @GetMapping("/{id}")
+	    public ResponseEntity<List<ChiTietHoaDonsDTO>> getChiTietHoaDonById(@PathVariable("id") Integer idHoaDon) {
+	        List<ChiTietHoaDonsDTO> chiTietHoaDonList = hoaDonService.getChiTietHoaDonById(idHoaDon);
+	        if (chiTietHoaDonList.isEmpty()) {
+	            return ResponseEntity.noContent().build();
+	        }
+	        return ResponseEntity.ok(chiTietHoaDonList);
+	    }
 }

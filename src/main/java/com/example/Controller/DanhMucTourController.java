@@ -24,23 +24,25 @@ import com.example.service.DanhMucTourService;
 @CrossOrigin(origins = "http://localhost:3000")
 public class DanhMucTourController {
 
-	@Autowired 
+	@Autowired
 	private DanhMucTourService danhMucTourService;
-	
+
 	@GetMapping
-	public ResponseEntity<List<DanhMucTour>> getAllDanhMucTour(){
+	public ResponseEntity<List<DanhMucTour>> getAllDanhMucTour() {
 		List<DanhMucTour> danhMucTours = danhMucTourService.getAllDanhMucTour();
 		return ResponseEntity.ok(danhMucTours);
 	}
+
 	@PostMapping("/them")
 	public ResponseEntity<DanhMucTour> addTour(@RequestBody DanhMucTour danhMucTour) {
 		DanhMucTour savedDanhMucTour = danhMucTourService.addDanhMucTour(danhMucTour);
 		return ResponseEntity.ok(savedDanhMucTour);
 	}
-	
+
 	// API PUT: Cập nhật tour theo ID
 	@PutMapping("/update/{id}")
-	public ResponseEntity<DanhMucTour> updateDanhMucTour(@PathVariable("id") Integer id, @RequestBody DanhMucTour updatedDanhMucTour) {
+	public ResponseEntity<DanhMucTour> updateDanhMucTour(@PathVariable("id") Integer id,
+			@RequestBody DanhMucTour updatedDanhMucTour) {
 		DanhMucTour danhMucTour = danhMucTourService.updateDanhMucTour(id, updatedDanhMucTour);
 		if (danhMucTour != null) {
 			return ResponseEntity.ok(danhMucTour);
@@ -48,6 +50,7 @@ public class DanhMucTourController {
 			return ResponseEntity.notFound().build();
 		}
 	}
+
 	// API DELETE: xóa tour theo ID
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteDanhMucTour(@PathVariable Integer id) {
@@ -58,4 +61,5 @@ public class DanhMucTourController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
+
 }

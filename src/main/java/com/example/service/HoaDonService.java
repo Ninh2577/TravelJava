@@ -1,3 +1,30 @@
+//package com.example.service;
+//
+//import java.util.List;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.stereotype.Service;
+//
+//import com.example.Entity.HoaDon;
+//import com.example.Repository.HoaDonRepository;
+//
+//
+//
+//@Service
+//public class HoaDonService {
+//
+//	@Autowired
+//	private HoaDonRepository hoaDonRepository;
+//	
+//	// GET phương thức Hóa đơn 
+//	public List<HoaDon> getAllHoaDon(){
+//		return hoaDonRepository.findAll();
+//	}
+//	public List<HoaDon> findHoaDonByUserId(Long userId) {
+//        return hoaDonRepository.findByNguoiDung_Id(userId);
+//    }
+//}
+
 package com.example.service;
 
 import java.util.Date;
@@ -7,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.DTO.ChiTietHoaDonsDTO;
 import com.example.DTO.HoaDonDTO;
 import com.example.Entity.BienTheTour;
 import com.example.Entity.ChiTietGioHang;
@@ -91,10 +119,18 @@ public class HoaDonService {
 	    chiTietHoaDon.setGiaNguoiLon(chiTietGioHang.getBienTheTour().getGiaNguoiLon());  
 	    chiTietHoaDon.setGiaTreEm(chiTietGioHang.getBienTheTour().getGiaTreEm());  
 	    chiTietHoaDon.setMoTa(savedHoaDon.isPhuongThucThanhToan() ? "Thanh toán trực tuyến" : "Tiền mặt");  
-
+  
 	    // Lưu ChiTietHoaDon  
 	    chiTietHoaDonRepository.save(chiTietHoaDon);  
 
 	    return savedHoaDon; // Trả về hóa đơn đã lưu  
 	}
+	
+	// GET api gọi chi tiết hóa đơn 
+//	public List<ChiTietHoaDonsDTO> getChiTietHoaDonById(Integer idHoaDon){
+//		return hoaDonRepository.findHoaDonDetailsById(idHoaDon);
+//	}
+	 public List<ChiTietHoaDonsDTO> getChiTietHoaDonById(Integer idHoaDon) {
+	        return hoaDonRepository.getHoaDonChiTietDanhSachNguoiDiCung(idHoaDon);
+	    }
 }

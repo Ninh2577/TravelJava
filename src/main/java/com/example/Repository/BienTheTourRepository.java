@@ -1,5 +1,6 @@
 package com.example.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +14,8 @@ import com.example.Entity.ChiTietGioHang;
 
 public interface BienTheTourRepository extends JpaRepository<BienTheTour, Integer> {
 	List<BienTheTour> findByTourId(Integer tourId);
-
+	 BienTheTour findByTourIdAndNgayBatDau(Integer tourId, Date ngayBatDau);
+	 
 	 @Query("SELECT new com.example.DTO.TourDetailsDTO("
 	            + "t.id, t.tenTour, t.hinhAnh, t.soNgay, b.ngayBatDau, "
 	            + "b.giaNguoiLon, p.tenPhuongTien, h.danhGiaKhachSan) "
@@ -23,5 +25,9 @@ public interface BienTheTourRepository extends JpaRepository<BienTheTour, Intege
 	    List<TourDetailsDTO> findAllTourInfo();
 	 @Query("SELECT b FROM BienTheTour b WHERE b.tour.id = :idTour")
 	    List<BienTheTour> findByToursId(@Param("idTour") Integer idTour);
+	
+	    // Tìm biến thể tour theo tourId, ngày bắt đầu và ngày kết thúc
+	    BienTheTour findByTourIdAndNgayBatDauAndNgayKetThuc(Integer tourId, Date ngayBatDau, Date ngayKetThuc);
+
   List<BienTheTour> findByChiTietGioHangs(List<ChiTietGioHang> chiTietGioHangs);
 }
