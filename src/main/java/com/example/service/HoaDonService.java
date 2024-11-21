@@ -27,6 +27,7 @@
 
 package com.example.service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -55,25 +56,25 @@ public class HoaDonService {
 
 	@Autowired
 	private HoaDonRepository hoaDonRepository;
-	
+
 	@Autowired
 	private NguoiDungRepository nguoiDungRepository;
-	
+
 	@Autowired
-    private GioHangDanhSachNguoiDiCungRepository gioHangDanhSachNguoiDiCungRepository;
+	private GioHangDanhSachNguoiDiCungRepository gioHangDanhSachNguoiDiCungRepository;
 
-    @Autowired
-    private DanhSachNguoiDiCungRepository danhSachNguoiDiCungRepository;
+	@Autowired
+	private DanhSachNguoiDiCungRepository danhSachNguoiDiCungRepository;
 
-    @Autowired
-    private ChiTietGioHangRepository chiTietGioHangRepository;
+	@Autowired
+	private ChiTietGioHangRepository chiTietGioHangRepository;
 
-    @Autowired
-    private ChiTietHoaDonRepository chiTietHoaDonRepository;
-    
-    @Autowired
-    private BienTheTourRepository bienTheTourRepository;
-    
+	@Autowired
+	private ChiTietHoaDonRepository chiTietHoaDonRepository;
+
+	@Autowired
+	private BienTheTourRepository bienTheTourRepository;
+
 	// GET phương thức Hóa đơn
 	public List<HoaDon> getAllHoaDon() {
 		return hoaDonRepository.findAll();
@@ -83,45 +84,75 @@ public class HoaDonService {
 	public HoaDon addHoaDon(HoaDon hoaDon) {
 		return hoaDonRepository.save(hoaDon);
 	}
-	@Transactional  
-	public HoaDon addHoaDon(HoaDonDTO hoaDonDTO) {  
-	    // Lấy thông tin người dùng (giả sử ID là 2 cho ví dụ này)  
-	    NguoiDung nguoiDung = nguoiDungRepository.findById(2)  
-	        .orElseThrow(() -> new IllegalArgumentException("NguoiDung với id 2 không được tìm thấy."));  
 
-	    // Tạo và lưu HoaDon  
-	    HoaDon hoaDon = new HoaDon();  
-	    hoaDon.setNguoiDung(nguoiDung);  
-	    hoaDon.setTongTien(hoaDonDTO.getTongTien());  
-	    hoaDon.setNgayThanhToan(new Date());  
-	    hoaDon.setPhuongThucThanhToan(hoaDonDTO.isPhuongThucThanhToan());  
-	    hoaDon.setTrangThai(true); // Giả định 'true' đã chỉ định hóa đơn đang hoạt động  
-	    
-	    HoaDon savedHoaDon = hoaDonRepository.save(hoaDon);  
+	@Transactional
+	public HoaDon addHoaDon(HoaDonDTO hoaDonDTO) {
+		// Lấy thông tin người dùng (giả sử ID là 2 cho ví dụ này)
+		NguoiDung nguoiDung = nguoiDungRepository.findById(2)
+				.orElseThrow(() -> new IllegalArgumentException("NguoiDung với id 2 không được tìm thấy."));
 
-	 // Lấy ChiTietGioHang (Chi tiết giỏ hàng)  
-	    ChiTietGioHang chiTietGioHang = chiTietGioHangRepository.findById(hoaDonDTO.getIdChiTietGioHang())  
-	        .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy ChiTietGioHang với ID này."));  
+		// Tạo và lưu HoaDon
+		HoaDon hoaDon = new HoaDon();
+		hoaDon.setNguoiDung(nguoiDung);
+		hoaDon.setTongTien(hoaDonDTO.getTongTien());
+		hoaDon.setNgayThanhToan(new Date());
+		hoaDon.setPhuongThucThanhToan(hoaDonDTO.isPhuongThucThanhToan());
+		hoaDon.setTrangThai(true); // Giả định 'true' đã chỉ định hóa đơn đang hoạt động
 
-	    // Kiểm tra xem người dùng hiện tại có quyền truy cập vào ChiTietGioHang  
-	    if (!chiTietGioHang.getNguoiDung().getId().equals(hoaDonDTO.getIdNguoiDung())) {  
-	        throw new SecurityException("Người dùng không có quyền truy cập vào ChiTietGioHang này.");  
-	    } 
+		HoaDon savedHoaDon = hoaDonRepository.save(hoaDon);
 
-	    // Tạo và lưu ChiTietHoaDon  
-	    ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();  
-	    chiTietHoaDon.setHoaDon(savedHoaDon); // Liên kết ChiTietHoaDon với HoaDon  
-	    chiTietHoaDon.setBienTheTour(chiTietGioHang.getBienTheTour());  
-	    chiTietHoaDon.setNgayDat(savedHoaDon.getNgayThanhToan());  
-	    chiTietHoaDon.setTrangThai(savedHoaDon.isTrangThai());  
-	    chiTietHoaDon.setThanhTien(savedHoaDon.getTongTien());  
-	    chiTietHoaDon.setGiaNguoiLon(chiTietGioHang.getBienTheTour().getGiaNguoiLon());  
-	    chiTietHoaDon.setGiaTreEm(chiTietGioHang.getBienTheTour().getGiaTreEm());  
-	    chiTietHoaDon.setMoTa(savedHoaDon.isPhuongThucThanhToan() ? "Thanh toán trực tuyến" : "Tiền mặt");  
+		// Lấy ChiTietGioHang (Chi tiết giỏ hàng)
+		ChiTietGioHang chiTietGioHang = chiTietGioHangRepository.findById(hoaDonDTO.getIdChiTietGioHang())
+				.orElseThrow(() -> new IllegalArgumentException("Không tìm thấy ChiTietGioHang với ID này."));
 
-	    // Lưu ChiTietHoaDon  
-	    chiTietHoaDonRepository.save(chiTietHoaDon);  
+		// Kiểm tra xem người dùng hiện tại có quyền truy cập vào ChiTietGioHang
+		if (!chiTietGioHang.getNguoiDung().getId().equals(hoaDonDTO.getIdNguoiDung())) {
+			throw new SecurityException("Người dùng không có quyền truy cập vào ChiTietGioHang này.");
+		}
 
-	    return savedHoaDon; // Trả về hóa đơn đã lưu  
+		// Tạo và lưu ChiTietHoaDon
+		ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
+		chiTietHoaDon.setHoaDon(savedHoaDon); // Liên kết ChiTietHoaDon với HoaDon
+		chiTietHoaDon.setBienTheTour(chiTietGioHang.getBienTheTour());
+		chiTietHoaDon.setNgayDat(savedHoaDon.getNgayThanhToan());
+		chiTietHoaDon.setTrangThai(savedHoaDon.isTrangThai());
+		chiTietHoaDon.setThanhTien(savedHoaDon.getTongTien());
+		chiTietHoaDon.setGiaNguoiLon(chiTietGioHang.getBienTheTour().getGiaNguoiLon());
+		chiTietHoaDon.setGiaTreEm(chiTietGioHang.getBienTheTour().getGiaTreEm());
+		chiTietHoaDon.setMoTa(savedHoaDon.isPhuongThucThanhToan() ? "Thanh toán trực tuyến" : "Tiền mặt");
+
+		// Lưu ChiTietHoaDon
+		chiTietHoaDonRepository.save(chiTietHoaDon);
+
+		return savedHoaDon; // Trả về hóa đơn đã lưu
 	}
+
+	@Transactional
+	public void huyHoaDon(Integer chiTietHoaDonId) {
+		// Lấy ngày bắt đầu của Biến Thể Tour
+		LocalDate ngayBatDau = hoaDonRepository.findNgayBatDauByChiTietHoaDonId(chiTietHoaDonId);
+		System.out.println("Ngay bat dau: "+ngayBatDau);
+
+		// Kiểm tra ngày hiện tại và khoảng cách 7 ngày
+		if (ngayBatDau == null || LocalDate.now().isBefore(ngayBatDau.plusDays(7))) {
+			System.out.println("Ngay hien tai: " + LocalDate.now());
+       	 	System.out.println("Ngay bat dau + 7 ngay: " + ngayBatDau.plusDays(7));
+			throw new RuntimeException("Không thể hủy hóa đơn. Phải cách ngày bắt đầu ít nhất 7 ngày.");
+		}	
+
+		// Lấy thông tin Chi Tiết Hóa Đơn
+		ChiTietHoaDon chiTietHoaDon = chiTietHoaDonRepository.findById(chiTietHoaDonId)
+				.orElseThrow(() -> new RuntimeException("Không tìm thấy chi tiết hóa đơn."));
+
+		// Cập nhật trạng thái của HoaDon thành "Đã hủy"
+		HoaDon hoaDon = chiTietHoaDon.getHoaDon();
+		hoaDon.setTrangThai(false);
+		hoaDonRepository.save(hoaDon);
+
+		// Tăng số lượng còn lại trong Biến Thể Tour
+		BienTheTour bienTheTour = chiTietHoaDon.getBienTheTour();
+		bienTheTour.setSoLuongCon(bienTheTour.getSoLuongCon() + 1);
+		bienTheTourRepository.save(bienTheTour);
+	}
+
 }

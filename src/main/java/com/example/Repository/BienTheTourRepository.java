@@ -22,18 +22,9 @@ public interface BienTheTourRepository extends JpaRepository<BienTheTour, Intege
 		        + "(SELECT MIN(bt.giaNguoiLon) FROM BienTheTour bt WHERE bt.tour.id = t.id), "
 		        + "(SELECT pt.tenPhuongTien FROM BienTheTour bt JOIN bt.phuongTien pt WHERE bt.tour.id = t.id AND bt.ngayBatDau = (SELECT MIN(bt2.ngayBatDau) FROM BienTheTour bt2 WHERE bt2.tour.id = t.id)), "
 		        + "(SELECT h.danhGiaKhachSan FROM BienTheTour bt JOIN bt.hotels h WHERE bt.tour.id = t.id AND bt.ngayBatDau = (SELECT MIN(bt2.ngayBatDau) FROM BienTheTour bt2 WHERE bt2.tour.id = t.id))) "
-		        + "FROM Tour t")
+		        + "FROM Tour t "
+		        + "WHERE EXISTS (SELECT 1 FROM BienTheTour bt WHERE bt.tour.id = t.id)")
 		List<TourDetailsDTO> findAllTourInfo();
-	 
-//	 @Query("SELECT new com.example.DTO.TourDetailsDTO("
-//		        + "t.id, t.tenTour, t.hinhAnh, t.soNgay, b.ngayBatDau, "
-//		        + "b.giaNguoiLon, p.tenPhuongTien, h.danhGiaKhachSan) "
-//		        + "FROM BienTheTour b "
-//		        + "JOIN b.tour t "
-//		        + "JOIN b.phuongTien p "
-//		        + "JOIN b.hotels h")
-//		List<TourDetailsDTO> findAllTourInfo();
-
 
 	 @Query("SELECT b FROM BienTheTour b WHERE b.tour.id = :idTour")
 	    List<BienTheTour> findByToursId(@Param("idTour") Integer idTour);
