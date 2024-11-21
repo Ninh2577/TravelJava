@@ -81,9 +81,9 @@ public class ThongKeController {
         @RequestParam("ngayKetThuc") @DateTimeFormat(pattern = "dd/MM/yyyy") Date endDate) {
 
         Double totalAmount = thongKeService.calculateTotalAmountInRange(startDate, endDate);
-        return ResponseEntity.ok(totalAmount); // Trả về tổng doanh thu dưới dạng Double
+        return ResponseEntity.ok(totalAmount);
     }
- // Endpoint API lấy tổng số lượng tour đã đặt
+
     @GetMapping("/tong-so-luong-tour-da-dat")
     public ResponseEntity<Integer> getTotalBookedTours(
         @RequestParam("ngayBatDau") @DateTimeFormat(pattern = "dd/MM/yyyy") Date startDate,
