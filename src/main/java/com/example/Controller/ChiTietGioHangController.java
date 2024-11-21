@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.DTO.ChiTietGioHangRequestDTO;
+import com.example.DTO.GioHangDTO;
 import com.example.Entity.ChiTietGioHang;
 import com.example.Entity.MediaTour;
 import com.example.service.ChiTietGioHangService;
@@ -80,4 +81,12 @@ public class ChiTietGioHangController {
 		chiTietGioHangService.updateSoNguoi(id);
 		return ResponseEntity.ok().build();
 	}
+
+
+	// -----------------------------------------------
+	@GetMapping("/user/{idNguoiDung}")
+    public ResponseEntity<List<GioHangDTO>> getCartDetailsByUserId(@PathVariable Integer idNguoiDung) {
+        List<GioHangDTO> cartDetails = chiTietGioHangService.getCartDetailsByUserId(idNguoiDung);
+        return ResponseEntity.ok(cartDetails);
+    }
 }
