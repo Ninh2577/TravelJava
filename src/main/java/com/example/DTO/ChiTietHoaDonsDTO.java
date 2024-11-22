@@ -17,6 +17,7 @@ public class ChiTietHoaDonsDTO {
     private Date ngayThanhToan;
     private boolean phuongThucThanhToan;
     private boolean hoaDonTrangThai;
+    private String ghiChu;
     
     private Integer chiTietHoaDonId;
     private Date ngayDat;
