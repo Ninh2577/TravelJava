@@ -28,6 +28,7 @@
 package com.example.service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.DTO.ChiTietHoaDonsDTO;
 import com.example.DTO.HoaDonDTO;
 import com.example.Entity.BienTheTour;
 import com.example.Entity.ChiTietGioHang;
@@ -129,16 +131,25 @@ public class HoaDonService {
 
 	@Transactional
 	public void huyHoaDon(Integer chiTietHoaDonId) {
-		// Lấy ngày bắt đầu của Biến Thể Tour
-		LocalDate ngayBatDau = hoaDonRepository.findNgayBatDauByChiTietHoaDonId(chiTietHoaDonId);
-		System.out.println("Ngay bat dau: "+ngayBatDau);
 
-		// Kiểm tra ngày hiện tại và khoảng cách 7 ngày
-		if (ngayBatDau == null || LocalDate.now().isBefore(ngayBatDau.plusDays(7))) {
-			System.out.println("Ngay hien tai: " + LocalDate.now());
-       	 	System.out.println("Ngay bat dau + 7 ngay: " + ngayBatDau.plusDays(7));
-			throw new RuntimeException("Không thể hủy hóa đơn. Phải cách ngày bắt đầu ít nhất 7 ngày.");
-		}	
+		// Lấy ngày bắt đầu từ cơ sở dữ liệu
+		LocalDate ngayBatDau = hoaDonRepository.findNgayBatDauByChiTietHoaDonId(chiTietHoaDonId);
+		System.out.println("Ngày bắt đầu: " + ngayBatDau);
+
+		// Kiểm tra ngày bắt đầu có hợp lệ hay không
+		if (ngayBatDau == null) {
+			throw new RuntimeException("Ngày bắt đầu không hợp lệ.");
+		}
+
+		// Tính số ngày còn lại từ ngày hiện tại đến ngày bắt đầu
+		long daysRemaining = ChronoUnit.DAYS.between(LocalDate.now(), ngayBatDau);
+		System.out.println("ngày hiện tại: " + LocalDate.now());
+		System.out.println("Số ngày còn lại đến ngày bắt đầu: " + daysRemaining + " ngày.");
+
+		// Kiểm tra nếu số ngày còn lại nhỏ hơn 7
+		if (daysRemaining < 7) {
+			throw new RuntimeException("Không thể hủy hóa đơn. Cần ít nhất 7 ngày trước ngày bắt đầu để hủy.");
+		}
 
 		// Lấy thông tin Chi Tiết Hóa Đơn
 		ChiTietHoaDon chiTietHoaDon = chiTietHoaDonRepository.findById(chiTietHoaDonId)
@@ -155,4 +166,7 @@ public class HoaDonService {
 		bienTheTourRepository.save(bienTheTour);
 	}
 
+	public List<ChiTietHoaDonsDTO> getChiTietHoaDonById(Integer idHoaDon) {
+        return hoaDonRepository.getHoaDonChiTietDanhSachNguoiDiCung(idHoaDon);
+    }
 }

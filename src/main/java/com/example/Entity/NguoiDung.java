@@ -68,6 +68,7 @@ public class NguoiDung implements UserDetails, Serializable {
     private List<DanhGia> danhGias;
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(vaiTro.getVaiTro())); // Giả sử vaiTro là một chuỗi.
     }
@@ -85,11 +86,13 @@ public class NguoiDung implements UserDetails, Serializable {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true; // Cần thêm logic nếu cần
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true; // Cần thêm logic nếu cần
     }
