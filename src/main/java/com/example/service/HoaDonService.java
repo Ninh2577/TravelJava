@@ -131,37 +131,24 @@ public class HoaDonService {
 
 	@Transactional
 	public void huyHoaDon(Integer chiTietHoaDonId) {
-		// // Lấy ngày bắt đầu của Biến Thể Tour
-		// LocalDate ngayBatDau =
-		// hoaDonRepository.findNgayBatDauByChiTietHoaDonId(chiTietHoaDonId);
-		// System.out.println("Ngay bat dau: " + ngayBatDau);
 
-		// // Kiểm tra ngày hiện tại và khoảng cách 7 ngày
-		// if (ngayBatDau == null || !ngayBatDau.isBefore(LocalDate.now().minusDays(7)))
-		// {
-		// System.out.println("Ngày hiện tại: " + LocalDate.now());
-		// System.out.println("Ngày bắt đầu - 7 ngày: " + ngayBatDau.minusDays(7));
-		// throw new RuntimeException("Không thể hủy hóa đơn. Phải cách ngày bắt đầu ít
-		// nhất 7 ngày.");
-		// }
 		// Lấy ngày bắt đầu từ cơ sở dữ liệu
 		LocalDate ngayBatDau = hoaDonRepository.findNgayBatDauByChiTietHoaDonId(chiTietHoaDonId);
 		System.out.println("Ngày bắt đầu: " + ngayBatDau);
 
-		// Kiểm tra ngày hiện tại và khoảng cách 7 ngày
+		// Kiểm tra ngày bắt đầu có hợp lệ hay không
 		if (ngayBatDau == null) {
 			throw new RuntimeException("Ngày bắt đầu không hợp lệ.");
 		}
 
-		// Tính số ngày giữa ngày bắt đầu và ngày hiện tại
-		long daysBetween = ChronoUnit.DAYS.between(ngayBatDau, LocalDate.now()) + 1;
-		System.out.println("Khoảng cách giữa ngày bắt đầu và ngày hiện tại: " + daysBetween + " ngày.");
+		// Tính số ngày còn lại từ ngày hiện tại đến ngày bắt đầu
+		long daysRemaining = ChronoUnit.DAYS.between(LocalDate.now(), ngayBatDau);
+		System.out.println("ngày hiện tại: " + LocalDate.now());
+		System.out.println("Số ngày còn lại đến ngày bắt đầu: " + daysRemaining + " ngày.");
 
-		// Kiểm tra nếu khoảng cách ngày nhỏ hơn hoặc bằng 7 ngày
-		if (daysBetween <= 7) {
-			System.out.println("Ngày hiện tại: " + LocalDate.now());
-			System.out.println("Ngày bắt đầu: " + ngayBatDau);
-			throw new RuntimeException("Không thể hủy hóa đơn. Phải cách ngày bắt đầu ít nhất 7 ngày.");
+		// Kiểm tra nếu số ngày còn lại nhỏ hơn 7
+		if (daysRemaining < 7) {
+			throw new RuntimeException("Không thể hủy hóa đơn. Cần ít nhất 7 ngày trước ngày bắt đầu để hủy.");
 		}
 
 		// Lấy thông tin Chi Tiết Hóa Đơn
