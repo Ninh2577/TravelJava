@@ -2,6 +2,7 @@ package com.example.Entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -35,4 +36,7 @@ public class ChiTietHoaDon implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_BienTheTour", nullable = false)
     private BienTheTour bienTheTour;
+    
+    @OneToMany(mappedBy = "chiTietHoaDon", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DanhSachNguoiDiCung> danhSachNguoiDiCungList;
 }
