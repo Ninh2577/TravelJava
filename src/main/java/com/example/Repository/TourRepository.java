@@ -17,4 +17,5 @@ public interface TourRepository extends JpaRepository<Tour, Integer> {
             "WHERE dt.id = :idDanhMucTour")
     List<Object[]> findToursByDanhMuc(@Param("idDanhMucTour") Integer idDanhMucTour);
 
+
 }

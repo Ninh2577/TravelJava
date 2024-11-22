@@ -79,10 +79,11 @@ public class TourService {
 	    return bienTheTourRepository.findAllTourInfo(); 
 	}
 
-
-
 	public List<Object[]> getToursByDanhMuc(Integer idDanhMucTour) {
         return tourRepository.findToursByDanhMuc(idDanhMucTour);
     }
+	  public List<TourDetailsDTO> searchToursByName(String tenTour) {
+	        return bienTheTourRepository.findAllByTenToursContaining(tenTour);
+	    }
 	
 }

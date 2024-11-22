@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import com.example.DTO.TourDetailsDTO;
 import com.example.Entity.BienTheTour;
 import com.example.Entity.ChiTietGioHang;
+import com.example.Entity.Tour;
 
 
 public interface BienTheTourRepository extends JpaRepository<BienTheTour, Integer> {
@@ -30,4 +31,15 @@ public interface BienTheTourRepository extends JpaRepository<BienTheTour, Intege
 	    BienTheTour findByTourIdAndNgayBatDauAndNgayKetThuc(Integer tourId, Date ngayBatDau, Date ngayKetThuc);
 
   List<BienTheTour> findByChiTietGioHangs(List<ChiTietGioHang> chiTietGioHangs);
+
+  @Query("SELECT new com.example.DTO.TourDetailsDTO(" +
+	       "t.id, t.tenTour, t.hinhAnh, t.soNgay, b.ngayBatDau, " +
+	       "b.giaNguoiLon, p.tenPhuongTien, h.danhGiaKhachSan) " +
+	       "FROM BienTheTour b " +
+	       "JOIN b.tour t " +
+	       "JOIN b.phuongTien p " +
+	       "JOIN b.hotels h " + // Note the space added here
+	       "WHERE LOWER(t.tenTour) LIKE LOWER(CONCAT('%', :tenTour, '%'))")
+	List<TourDetailsDTO> findAllByTenToursContaining(@Param("tenTour") String tenTour);
+
 }
