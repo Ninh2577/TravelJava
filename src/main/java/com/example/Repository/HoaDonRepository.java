@@ -32,7 +32,7 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
 
         
         @Query("SELECT new com.example.DTO.ChiTietHoaDonsDTO( "
-		                + "h.id, h.nguoiDung.id, h.tongTien, h.ngayThanhToan, h.phuongThucThanhToan, h.trangThai, "
+		                + "h.id, h.nguoiDung.id, h.tongTien, h.ngayThanhToan, h.phuongThucThanhToan, h.trangThai, h.ghiChu,"
 		                + "c.id, c.ngayDat, c.trangThai, c.thanhTien, c.giaNguoiLon, c.giaTreEm, c.moTa, c.bienTheTour.id, "
 		                + "d.id, d.hoTen, d.email, d.soDienThoai, d.namSinh, "
 		                + "nguoiDung.hoTen, nguoiDung.soDienThoai, nguoiDung.email, nguoiDung.diaChi, "

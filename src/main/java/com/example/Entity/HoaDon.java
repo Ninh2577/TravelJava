@@ -31,6 +31,7 @@ public class HoaDon implements Serializable {
 
     private boolean phuongThucThanhToan;
     private boolean trangThai;
+    private String ghiChu;
     
     @OneToOne(mappedBy = "hoaDon", cascade = CascadeType.ALL)
     @JsonBackReference
