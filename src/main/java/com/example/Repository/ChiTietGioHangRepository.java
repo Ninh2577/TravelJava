@@ -34,6 +34,7 @@ public interface ChiTietGioHangRepository extends JpaRepository<ChiTietGioHang, 
 	@Query("SELECT new com.example.DTO.GioHangDTO(" +
 			"ctgh.id, " +
 			"t.tenTour, " +
+			"bt.id," +
 			"bt.ngayBatDau, " +
 			"bt.ngayKetThuc, " +
 			"bt.giaNguoiLon, " +
