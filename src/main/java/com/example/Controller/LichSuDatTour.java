@@ -40,10 +40,14 @@ public class LichSuDatTour {
     }
 
     @PostMapping("/huy")
-    public ResponseEntity<?> huyHoaDon(@RequestBody Map<String, Integer> payload) {
-        Integer chiTietHoaDonId = payload.get("chiTietHoaDonId");
+    public ResponseEntity<?> huyHoaDon(@RequestBody Map<String, Object> payload) {
+        Integer chiTietHoaDonId = (Integer) payload.get("chiTietHoaDonId");
+        String cancelReason = (String) payload.get("cancelReason"); // Lý do hủy được lấy từ payload
+        System.out.println("Ngày bắt đầu: " + chiTietHoaDonId);
+        System.out.println("Ngày bắt đầu: " + cancelReason);
+
         try {
-            hoaDonService.huyHoaDon(chiTietHoaDonId);
+            hoaDonService.huyHoaDon(chiTietHoaDonId, cancelReason); // Truyền lý do hủy vào service
             return ResponseEntity.ok("Hủy hóa đơn thành công.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

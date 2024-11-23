@@ -55,18 +55,15 @@ import com.example.Repository.NguoiDungRepository;
 
 @Service
 public class HoaDonService {
-
+ 
+	@Autowired
+	private MailerService emailService;
+	
 	@Autowired
 	private HoaDonRepository hoaDonRepository;
 
 	@Autowired
 	private NguoiDungRepository nguoiDungRepository;
-
-	@Autowired
-	private GioHangDanhSachNguoiDiCungRepository gioHangDanhSachNguoiDiCungRepository;
-
-	@Autowired
-	private DanhSachNguoiDiCungRepository danhSachNguoiDiCungRepository;
 
 	@Autowired
 	private ChiTietGioHangRepository chiTietGioHangRepository;
@@ -130,43 +127,58 @@ public class HoaDonService {
 	}
 
 	@Transactional
-	public void huyHoaDon(Integer chiTietHoaDonId) {
+	public void huyHoaDon(Integer chiTietHoaDonId, String cancelReason) {
+		 System.out.println("id: " + chiTietHoaDonId);
+	    // Lấy ngày bắt đầu từ cơ sở dữ liệu
+	    LocalDate ngayBatDau = hoaDonRepository.findNgayBatDauByChiTietHoaDonId(chiTietHoaDonId);
+	    System.out.println("Ngày bắt đầu: " + ngayBatDau);
 
-		// Lấy ngày bắt đầu từ cơ sở dữ liệu
-		LocalDate ngayBatDau = hoaDonRepository.findNgayBatDauByChiTietHoaDonId(chiTietHoaDonId);
-		System.out.println("Ngày bắt đầu: " + ngayBatDau);
+	    // Kiểm tra ngày bắt đầu có hợp lệ hay không
+	    if (ngayBatDau == null) {
+	        throw new RuntimeException("Ngày bắt đầu không hợp lệ.");
+	    }
 
-		// Kiểm tra ngày bắt đầu có hợp lệ hay không
-		if (ngayBatDau == null) {
-			throw new RuntimeException("Ngày bắt đầu không hợp lệ.");
-		}
+	    // Tính số ngày còn lại từ ngày hiện tại đến ngày bắt đầu
+	    long daysRemaining = ChronoUnit.DAYS.between(LocalDate.now(), ngayBatDau);
+	    System.out.println("ngày hiện tại: " + LocalDate.now());
+	    System.out.println("Số ngày còn lại đến ngày bắt đầu: " + daysRemaining + " ngày.");
 
-		// Tính số ngày còn lại từ ngày hiện tại đến ngày bắt đầu
-		long daysRemaining = ChronoUnit.DAYS.between(LocalDate.now(), ngayBatDau);
-		System.out.println("ngày hiện tại: " + LocalDate.now());
-		System.out.println("Số ngày còn lại đến ngày bắt đầu: " + daysRemaining + " ngày.");
+	    // Kiểm tra nếu số ngày còn lại nhỏ hơn 7
+	    if (daysRemaining < 7) {
+	        throw new RuntimeException("Không thể hủy hóa đơn. Cần ít nhất 7 ngày trước ngày bắt đầu để hủy.");
+	    }
 
-		// Kiểm tra nếu số ngày còn lại nhỏ hơn 7
-		if (daysRemaining < 7) {
-			throw new RuntimeException("Không thể hủy hóa đơn. Cần ít nhất 7 ngày trước ngày bắt đầu để hủy.");
-		}
+	    // Lấy thông tin Chi Tiết Hóa Đơn
+	    ChiTietHoaDon chiTietHoaDon = chiTietHoaDonRepository.findById(chiTietHoaDonId)
+	            .orElseThrow(() -> new RuntimeException("Không tìm thấy chi tiết hóa đơn."));
 
-		// Lấy thông tin Chi Tiết Hóa Đơn
-		ChiTietHoaDon chiTietHoaDon = chiTietHoaDonRepository.findById(chiTietHoaDonId)
-				.orElseThrow(() -> new RuntimeException("Không tìm thấy chi tiết hóa đơn."));
+	    // Cập nhật trạng thái của HoaDon thành "Đã hủy"
+	    HoaDon hoaDon = chiTietHoaDon.getHoaDon();
+	    hoaDon.setTrangThai(false);
+	    hoaDon.setGhiChu(cancelReason);
+	    hoaDonRepository.save(hoaDon);
+	    
 
-		// Cập nhật trạng thái của HoaDon thành "Đã hủy"
-		HoaDon hoaDon = chiTietHoaDon.getHoaDon();
-		hoaDon.setTrangThai(false);
-		hoaDonRepository.save(hoaDon);
+	    // Tăng số lượng còn lại trong Biến Thể Tour
+	    BienTheTour bienTheTour = chiTietHoaDon.getBienTheTour();
+	    bienTheTour.setSoLuongCon(bienTheTour.getSoLuongCon() + 1);
+	    bienTheTourRepository.save(bienTheTour);
 
-		// Tăng số lượng còn lại trong Biến Thể Tour
-		BienTheTour bienTheTour = chiTietHoaDon.getBienTheTour();
-		bienTheTour.setSoLuongCon(bienTheTour.getSoLuongCon() + 1);
-		bienTheTourRepository.save(bienTheTour);
+	    // Gửi email thông báo hủy tour
+	    String userName = hoaDon.getNguoiDung().getHoTen(); // Tên người dùng
+	    String toEmail = hoaDon.getNguoiDung().getEmail(); // Địa chỉ email người dùng
+	    float totalAmount = hoaDon.getTongTien(); // Tổng tiền hóa đơn
+	    Date paymentDate = hoaDon.getNgayThanhToan(); // Ngày thanh toán
+
+	    // Gọi phương thức gửi email
+	    emailService.sendCancelTourEmail(toEmail, userName, totalAmount, paymentDate, cancelReason);
 	}
+
 
 	public List<ChiTietHoaDonsDTO> getChiTietHoaDonById(Integer idHoaDon) {
         return hoaDonRepository.getHoaDonChiTietDanhSachNguoiDiCung(idHoaDon);
     }
+	
+	
+
 }

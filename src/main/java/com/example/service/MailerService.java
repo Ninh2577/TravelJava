@@ -2,7 +2,11 @@ package com.example.service;
 
 import java.util.List;
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -67,4 +71,45 @@ public class MailerService {
 		message.setText("Mã xác thực tài khoản của bạn là: " + otp + "\nMã xác thực có hiệu lực trong vòng 2 phút.");
 		sender.send(message);
 	}
+	
+//	public void sendCancelTourEmail(String toEmail, String userName, float totalAmount, Date paymentDate, String cancelReason) {
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setTo(toEmail);
+//        message.setSubject("Thông báo hủy tour");
+//        message.setText(
+//            "Kính gửi " + userName + ",\n\n" +
+//            "Chúng tôi xin thông báo rằng tour của bạn đã bị hủy.\n" +
+//            "Thông tin hóa đơn như sau:\n" +
+//            "- Tổng tiền: " + new DecimalFormat("#,###.##").format(totalAmount) + " VND\n" +
+//            "- Ngày thanh toán: " + new SimpleDateFormat("dd/MM/yyyy").format(paymentDate) + "\n" +
+//            "- Lý do hủy: " + cancelReason + "\n\n" +
+//            "Xin cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.\n\n" +
+//            "Trân trọng,\n" +
+//            "Đội ngũ hỗ trợ"
+//        );
+//        sender.send(message);
+//    }
+	
+	public void sendCancelTourEmail(String toEmail, String userName, float totalAmount, Date paymentDate, String cancelReason) {
+	    String subject = "Thông Báo Hủy Tour";
+	    String body = "Kính gửi " + userName + ",\n\n"
+	            + "Chúng tôi xin thông báo rằng tour của bạn đã bị hủy với lý do: " + cancelReason + ".\n"
+	            + "Tổng tiền đã thanh toán là: " + totalAmount + " VNĐ.\n"
+	            + "Ngày thanh toán: " + paymentDate + ".\n\n"
+	            + "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.";
+	    
+	    // Cấu hình email
+	    SimpleMailMessage message = new SimpleMailMessage();
+	    message.setFrom("noreply@tourservice.com");
+	    message.setTo(toEmail);
+	    message.setSubject(subject);
+	    message.setText(body);
+
+	    // Gửi email
+	    sender.send(message);
+	    System.out.println("Gửi email đến: " + toEmail); // Kiểm tra xem địa chỉ email có đúng không
+
+	}
+
+
 }
