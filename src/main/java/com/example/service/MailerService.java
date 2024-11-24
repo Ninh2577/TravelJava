@@ -30,7 +30,7 @@ public class MailerService {
 		list.add(mailModel);
 	}
 
-	@Scheduled(fixedRate = 1000)
+	@Scheduled(fixedRate = 10000)
 	public void run() {
 		System.out.println("send mail");
 		while (!list.isEmpty()) {
