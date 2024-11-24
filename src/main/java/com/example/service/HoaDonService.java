@@ -36,6 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.DTO.ChiTietHoaDonsDTO;
 import com.example.DTO.HoaDonDTO;
 import com.example.Entity.BienTheTour;
 import com.example.Entity.ChiTietGioHang;
@@ -165,4 +166,7 @@ public class HoaDonService {
 		bienTheTourRepository.save(bienTheTour);
 	}
 
+	public List<ChiTietHoaDonsDTO> getChiTietHoaDonById(Integer idHoaDon) {
+        return hoaDonRepository.getHoaDonChiTietDanhSachNguoiDiCung(idHoaDon);
+    }
 }
