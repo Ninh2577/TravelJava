@@ -18,4 +18,5 @@ public class GioHangDTO {
     private Float giaTreEm;
     private Integer soNguoi;
     private Float tongTien;
+    private String soNgay;
 }

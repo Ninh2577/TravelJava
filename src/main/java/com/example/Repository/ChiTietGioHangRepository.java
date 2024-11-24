@@ -32,18 +32,20 @@ public interface ChiTietGioHangRepository extends JpaRepository<ChiTietGioHang, 
 	// Truy vấn để lấy thông tin chi tiết giỏ hàng bao gồm tên tour, ngày bắt đầu,
 	// ngày kết thúc, giá người lớn, giá trẻ em, số lượng tổng, và tổng tiền
 	@Query("SELECT new com.example.DTO.GioHangDTO(" +
-			"ctgh.id, " +
-			"t.tenTour, " +
-			"bt.id," +
-			"bt.ngayBatDau, " +
-			"bt.ngayKetThuc, " +
-			"bt.giaNguoiLon, " +
-			"bt.giaTreEm, " +
-			"ctgh.soNguoi, " +
-			"ctgh.tongTien) " +
-			"FROM ChiTietGioHang ctgh " +
-			"JOIN BienTheTour bt ON ctgh.bienTheTour.id = bt.id " +
-			"JOIN Tour t ON bt.tour.id = t.id " +
-			"WHERE ctgh.nguoiDung.id = :idNguoiDung")
-	List<GioHangDTO> findCartDetailsByUserId(@Param("idNguoiDung") Integer idNguoiDung);
+        "ctgh.id, " +
+        "t.tenTour, " +
+        "bt.id, " +
+        "bt.ngayBatDau, " +
+        "bt.ngayKetThuc, " +
+        "bt.giaNguoiLon, " +
+        "bt.giaTreEm, " +
+        "ctgh.soNguoi, " +
+        "ctgh.tongTien, " +
+        "t.soNgay) " + // Thêm số ngày từ bảng Tour
+        "FROM ChiTietGioHang ctgh " +
+        "JOIN BienTheTour bt ON ctgh.bienTheTour.id = bt.id " +
+        "JOIN Tour t ON bt.tour.id = t.id " +
+        "WHERE ctgh.nguoiDung.id = :idNguoiDung")
+List<GioHangDTO> findCartDetailsByUserId(@Param("idNguoiDung") Integer idNguoiDung);
+
 }
