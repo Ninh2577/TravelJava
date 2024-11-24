@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -82,11 +83,24 @@ public class ChiTietGioHangController {
 		return ResponseEntity.ok().build();
 	}
 
-
 	// -----------------------------------------------
 	@GetMapping("/user/{idNguoiDung}")
-    public ResponseEntity<List<GioHangDTO>> getCartDetailsByUserId(@PathVariable Integer idNguoiDung) {
-        List<GioHangDTO> cartDetails = chiTietGioHangService.getCartDetailsByUserId(idNguoiDung);
-        return ResponseEntity.ok(cartDetails);
-    }
+	public ResponseEntity<List<GioHangDTO>> getCartDetailsByUserId(@PathVariable Integer idNguoiDung) {
+		List<GioHangDTO> cartDetails = chiTietGioHangService.getCartDetailsByUserId(idNguoiDung);
+		return ResponseEntity.ok(cartDetails);
+	}
+
+	// API để xóa giỏ hàng theo ID
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<String> deleteChiTietGioHang(@PathVariable Integer id) {
+		try {
+			// Gọi service để xóa giỏ hàng
+			chiTietGioHangService.deleteChiTietGioHang(id);
+			// Trả về thông báo xóa thành công
+			return ResponseEntity.ok("Xóa giỏ hàng thành công!");
+		} catch (IllegalArgumentException e) {
+			// Trả về thông báo lỗi nếu không tìm thấy giỏ hàng
+			return ResponseEntity.status(404).body("Giỏ hàng không tồn tại!");
+		}
+	}
 }
