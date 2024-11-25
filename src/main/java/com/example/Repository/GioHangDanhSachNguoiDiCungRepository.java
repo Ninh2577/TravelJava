@@ -24,7 +24,7 @@ public interface GioHangDanhSachNguoiDiCungRepository extends JpaRepository<GioH
 
 	int countByChiTietGioHangId(Integer chiTietGioHangId);
 
-	@Query("SELECT new com.example.DTO.GioHangNguoiDiCungDTO(gndc.hoTen, gndc.namSinh) "
+	@Query("SELECT new com.example.DTO.GioHangNguoiDiCungDTO(gndc.hoTen,gndc.email,gndc.soDienThoai, gndc.namSinh) "
 			+ "FROM GioHangDanhSachNguoiDiCung gndc WHERE gndc.chiTietGioHang.id = :idChiTietGioHang")
 	List<GioHangNguoiDiCungDTO> findDanhSachNguoiDiCung(@Param("idChiTietGioHang") Integer idChiTietGioHang);
 

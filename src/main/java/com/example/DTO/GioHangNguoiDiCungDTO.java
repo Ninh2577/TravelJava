@@ -12,5 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GioHangNguoiDiCungDTO implements Serializable {
     private String hoTen;
+    private String email;
+    private String soDienThoai;
     private Date namSinh;
 }
