@@ -72,27 +72,10 @@ public class MailerService {
 		sender.send(message);
 	}
 	
-//	public void sendCancelTourEmail(String toEmail, String userName, float totalAmount, Date paymentDate, String cancelReason) {
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setTo(toEmail);
-//        message.setSubject("Thông báo hủy tour");
-//        message.setText(
-//            "Kính gửi " + userName + ",\n\n" +
-//            "Chúng tôi xin thông báo rằng tour của bạn đã bị hủy.\n" +
-//            "Thông tin hóa đơn như sau:\n" +
-//            "- Tổng tiền: " + new DecimalFormat("#,###.##").format(totalAmount) + " VND\n" +
-//            "- Ngày thanh toán: " + new SimpleDateFormat("dd/MM/yyyy").format(paymentDate) + "\n" +
-//            "- Lý do hủy: " + cancelReason + "\n\n" +
-//            "Xin cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.\n\n" +
-//            "Trân trọng,\n" +
-//            "Đội ngũ hỗ trợ"
-//        );
-//        sender.send(message);
-//    }
-	
-	public void sendCancelTourEmail(String toEmail, String userName, float totalAmount, Date paymentDate, String cancelReason) {
+	public void sendCancelTourEmail(String toEmail, String userName, float totalAmount, Date paymentDate, String cancelReason, String tenTour) {
 	    String subject = "Thông Báo Hủy Tour";
 	    String body = "Kính gửi " + userName + ",\n\n"
+	    		+ "Tên tour: " + tenTour + "\n"
 	            + "Chúng tôi xin thông báo rằng tour của bạn đã bị hủy với lý do: " + cancelReason + ".\n"
 	            + "Tổng tiền đã thanh toán là: " + totalAmount + " VNĐ.\n"
 	            + "Ngày thanh toán: " + paymentDate + ".\n\n"

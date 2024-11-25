@@ -31,7 +31,6 @@ public class LichSuDatTour {
             System.out.println("userId: " + userId); // Log userId nhận được
 
             List<ChiTietHoaDonDTO> lichSuDatTour = hoaDonRepository.findHoaDonByUserId(userId);
-            System.out.println("ls: " + lichSuDatTour); // Log danh sách lich su dat tour
             return ResponseEntity.ok(lichSuDatTour);
         } catch (Exception e) {
             e.printStackTrace(); // Log lỗi nếu có
@@ -44,7 +43,7 @@ public class LichSuDatTour {
         Integer chiTietHoaDonId = (Integer) payload.get("chiTietHoaDonId");
         String cancelReason = (String) payload.get("cancelReason"); // Lý do hủy được lấy từ payload
         System.out.println("Ngày bắt đầu: " + chiTietHoaDonId);
-        System.out.println("Ngày bắt đầu: " + cancelReason);
+        System.out.println("form người dùng: " + cancelReason);
 
         try {
             hoaDonService.huyHoaDon(chiTietHoaDonId, cancelReason); // Truyền lý do hủy vào service

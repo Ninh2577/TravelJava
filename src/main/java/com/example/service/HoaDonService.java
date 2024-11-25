@@ -1,29 +1,3 @@
-//package com.example.service;
-//
-//import java.util.List;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import com.example.Entity.HoaDon;
-//import com.example.Repository.HoaDonRepository;
-//
-//
-//
-//@Service
-//public class HoaDonService {
-//
-//	@Autowired
-//	private HoaDonRepository hoaDonRepository;
-//	
-//	// GET phương thức Hóa đơn 
-//	public List<HoaDon> getAllHoaDon(){
-//		return hoaDonRepository.findAll();
-//	}
-//	public List<HoaDon> findHoaDonByUserId(Long userId) {
-//        return hoaDonRepository.findByNguoiDung_Id(userId);
-//    }
-//}
 
 package com.example.service;
 
@@ -129,6 +103,7 @@ public class HoaDonService {
 	@Transactional
 	public void huyHoaDon(Integer chiTietHoaDonId, String cancelReason) {
 		 System.out.println("id: " + chiTietHoaDonId);
+		 System.out.println("Form admin:" + cancelReason);
 	    // Lấy ngày bắt đầu từ cơ sở dữ liệu
 	    LocalDate ngayBatDau = hoaDonRepository.findNgayBatDauByChiTietHoaDonId(chiTietHoaDonId);
 	    System.out.println("Ngày bắt đầu: " + ngayBatDau);
@@ -169,16 +144,13 @@ public class HoaDonService {
 	    String toEmail = hoaDon.getNguoiDung().getEmail(); // Địa chỉ email người dùng
 	    float totalAmount = hoaDon.getTongTien(); // Tổng tiền hóa đơn
 	    Date paymentDate = hoaDon.getNgayThanhToan(); // Ngày thanh toán
+	    String tenTour = bienTheTour.getTour().getTenTour();
 
 	    // Gọi phương thức gửi email
-	    emailService.sendCancelTourEmail(toEmail, userName, totalAmount, paymentDate, cancelReason);
+	    emailService.sendCancelTourEmail(toEmail, userName, totalAmount, paymentDate, cancelReason,tenTour);
 	}
-
 
 	public List<ChiTietHoaDonsDTO> getChiTietHoaDonById(Integer idHoaDon) {
         return hoaDonRepository.getHoaDonChiTietDanhSachNguoiDiCung(idHoaDon);
     }
-	
-	
-
 }
