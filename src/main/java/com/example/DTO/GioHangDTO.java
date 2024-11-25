@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class GioHangDTO {
     private Integer idChiTietGioHang;
     private String tenTour;
+    private Integer idBienThe;
     private Date ngayBatDau;
     private Date ngayKetThuc;
     private Float giaNguoiLon;
