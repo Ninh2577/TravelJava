@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.DTO.TourDetailsDTO;
@@ -96,5 +97,10 @@ public class TourController {
     @GetMapping("/byDanhMuc/{id}")
     public List<Object[]> getToursByDanhMuc(@PathVariable("id") Integer idDanhMucTour) {
         return tourService.getToursByDanhMuc(idDanhMucTour);
+    }
+    
+    @GetMapping("/search")
+    public List<TourDetailsDTO> searchTours(@RequestParam("text") String tenTour) {
+        return tourService.searchToursByName(tenTour);
     }
 }
