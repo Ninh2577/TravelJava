@@ -10,6 +10,8 @@ import com.example.Entity.ChiTietGioHang;
 import com.example.Entity.GioHangDanhSachNguoiDiCung;
 import com.example.Repository.GioHangDanhSachNguoiDiCungRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class GioHangDanhSachNguoiDiCungService {
 
@@ -35,4 +37,13 @@ public class GioHangDanhSachNguoiDiCungService {
 	public List<GioHangNguoiDiCungDTO> getDanhSachNguoiDiCung(Integer idChiTietGioHang) {
 		return gioHangDanhSachNguoiDiCungRepository.findDanhSachNguoiDiCung(idChiTietGioHang);
 	}
+
+
+
+
+	// -------------------------------------------------
+	@Transactional
+	public void deleteByChiTietGioHangId(Long chiTietGioHangId) {
+        gioHangDanhSachNguoiDiCungRepository.deleteByChiTietGioHangId(chiTietGioHangId);
+    }
 }

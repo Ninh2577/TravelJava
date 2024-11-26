@@ -28,4 +28,9 @@ public interface GioHangDanhSachNguoiDiCungRepository extends JpaRepository<GioH
 			+ "FROM GioHangDanhSachNguoiDiCung gndc WHERE gndc.chiTietGioHang.id = :idChiTietGioHang")
 	List<GioHangNguoiDiCungDTO> findDanhSachNguoiDiCung(@Param("idChiTietGioHang") Integer idChiTietGioHang);
 
+
+	// --------------------------------------------
+	void deleteByChiTietGioHangId(Long chiTietGioHangId);
+
+
 }
