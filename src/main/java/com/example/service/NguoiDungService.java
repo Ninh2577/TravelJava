@@ -31,6 +31,11 @@ public class NguoiDungService implements UserDetailsService {
 	public Optional<NguoiDung> findNguoiDungById(int id) {
 		return nguoiDungRepository.findById(id);
 	}
+	// Trong NguoiDungService
+	public Optional<NguoiDung> findNguoiDungByEmail(String email) {
+	    return nguoiDungRepository.findByEmail(email);
+	}
+
 
 	public boolean existsByEmail(String email) {
 		return nguoiDungRepository.existsByEmail(email);
