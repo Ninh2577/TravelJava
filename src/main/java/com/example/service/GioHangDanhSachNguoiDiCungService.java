@@ -46,4 +46,22 @@ public class GioHangDanhSachNguoiDiCungService {
 	public void deleteByChiTietGioHangId(Long chiTietGioHangId) {
         gioHangDanhSachNguoiDiCungRepository.deleteByChiTietGioHangId(chiTietGioHangId);
     }
+
+	// ---------------------------
+	 // Cập nhật danh sách người đi cùng
+	 @Transactional
+	 public List<GioHangDanhSachNguoiDiCung> updateGioHangDanhSachNguoiDiCung(
+			 List<GioHangDanhSachNguoiDiCung> danhSachNguoiDiCung) {
+		 for (GioHangDanhSachNguoiDiCung item : danhSachNguoiDiCung) {
+			 GioHangDanhSachNguoiDiCung existingItem = gioHangDanhSachNguoiDiCungRepository.findById(item.getId())
+					 .orElseThrow(() -> new RuntimeException("Không tìm thấy người đi cùng với ID: " + item.getId()));
+			 existingItem.setHoTen(item.getHoTen());
+			 existingItem.setEmail(item.getEmail());
+			 existingItem.setSoDienThoai(item.getSoDienThoai());
+			 existingItem.setNamSinh(item.getNamSinh());
+			 // Cập nhật các trường khác nếu cần
+			 gioHangDanhSachNguoiDiCungRepository.save(existingItem);
+		 }
+		 return danhSachNguoiDiCung;
+	 }
 }
