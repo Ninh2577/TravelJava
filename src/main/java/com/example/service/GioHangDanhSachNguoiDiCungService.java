@@ -53,14 +53,14 @@ public class GioHangDanhSachNguoiDiCungService {
         gioHangDanhSachNguoiDiCungRepository.deleteById(id);
     }
 
-	@Transactional
-	public void deleteMultiple(List<Integer> ids) {
-		for (Integer id : ids) {
-			// Xử lý xóa từng ID
-			gioHangDanhSachNguoiDiCungRepository.deleteById(id); 
-		}
-	}
-	
+//	@Transactional
+//	public void deleteMultiple(List<Integer> ids) {
+//		for (Integer id : ids) {
+//			// Xử lý xóa từng ID
+//			gioHangDanhSachNguoiDiCungRepository.deleteById(id); 
+//		}
+//	}
+//	
 
 	// ---------------------------
 	 // Cập nhật danh sách người đi cùng
