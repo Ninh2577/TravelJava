@@ -47,6 +47,21 @@ public class GioHangDanhSachNguoiDiCungService {
         gioHangDanhSachNguoiDiCungRepository.deleteByChiTietGioHangId(chiTietGioHangId);
     }
 
+	// -------------------------------------------------
+	@Transactional
+	public void delete(Integer id) {
+        gioHangDanhSachNguoiDiCungRepository.deleteById(id);
+    }
+
+	@Transactional
+	public void deleteMultiple(List<Integer> ids) {
+		for (Integer id : ids) {
+			// Xử lý xóa từng ID
+			gioHangDanhSachNguoiDiCungRepository.deleteById(id); 
+		}
+	}
+	
+
 	// ---------------------------
 	 // Cập nhật danh sách người đi cùng
 	 @Transactional

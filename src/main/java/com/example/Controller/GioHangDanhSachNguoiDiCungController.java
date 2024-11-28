@@ -84,4 +84,34 @@ public class GioHangDanhSachNguoiDiCungController {
 		}
 	}
 
+
+	// @DeleteMapping("/delete2-giohangnguoidicung/{id}")
+	// public ResponseEntity<String> deleteGiohangNguoiDiCungs(@PathVariable Integer id) {
+	// 	System.out.println("id: " + id);
+	// 	try {
+	// 		// Gọi service để xóa theo ID giỏ hàng người đi cùng
+	// 		gioHangDanhSachNguoiDiCungService.delete(id);
+	// 		return ResponseEntity.ok("Xóa thông tin người đi cùng thành công!");
+	// 	} catch (Exception e) {
+	// 		e.printStackTrace(); // In chi tiết exception ra console
+	// 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	// 				.body("Lỗi khi xóa thông tin người đi cùng: " + e.getMessage());
+	// 	}
+	// }
+
+	@DeleteMapping("/delete2-giohangnguoidicung")
+	public ResponseEntity<String> deleteGiohangNguoiDiCungs(@RequestBody List<Integer> ids) {
+		try {
+			// Gọi service để xóa các giỏ hàng người đi cùng theo danh sách ID
+			gioHangDanhSachNguoiDiCungService.deleteMultiple(ids);
+			return ResponseEntity.ok("Xóa thông tin người đi cùng thành công!");
+		} catch (Exception e) {
+			e.printStackTrace(); // In chi tiết exception ra console
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Lỗi khi xóa thông tin người đi cùng: " + e.getMessage());
+		}
+	}
+
+
+
 }
