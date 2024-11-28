@@ -115,7 +115,7 @@ public class HoaDonController {
 //		BienTheTour bienthetour = bienthetourRepository.findById(hoaDonDTO.getIdBienTheTour()).get();
 //		BienTheTour bienthetour = bienthetourRepository.findById(bienTheTour.getId()).get();
 		ChiTietGioHang ctg1h = chiTietGioHangRepository.findById(id).get();
-		NguoiDung nguoiDung = nn.findById(2).get();// 2
+		NguoiDung nguoiDung = nn.findById(7).get();// 2
 		HoaDon hoadon = new HoaDon();
 		hoadon.setNguoiDung(nguoiDung);
 		hoadon.setTongTien(hoaDonDTO.getTongTien()); // Example total price

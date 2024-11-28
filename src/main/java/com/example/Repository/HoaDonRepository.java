@@ -1,12 +1,15 @@
 package com.example.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.DTO.ChiTietHoaDonDTO;
 import com.example.DTO.ChiTietHoaDonsDTO;
 import com.example.Entity.HoaDon;
+
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,7 +28,7 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
                         + "ORDER BY cthd.ngayDat DESC")
         List<ChiTietHoaDonDTO> findHoaDonByUserId(@Param("userId") Integer userId);
 
-        // ----------------------------------------------------
+        // ----------------------	------------------------------
         // cập nhật sl biển thể khi hủy
         @Query("SELECT bt.ngayBatDau FROM BienTheTour bt JOIN ChiTietHoaDon cthd ON cthd.bienTheTour.id = bt.id WHERE cthd.id = :chiTietHoaDonId")
         LocalDate findNgayBatDauByChiTietHoaDonId(@Param("chiTietHoaDonId") Integer chiTietHoaDonId);
@@ -38,7 +41,7 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
 		                + "nguoiDung.hoTen, nguoiDung.soDienThoai, nguoiDung.email, nguoiDung.diaChi, "
 		                + "b.tour.tenTour) "  // Thêm trường 'tenTour' từ bảng 'Tour'
 		                + "FROM HoaDon h "
-		                + "JOIN h.chiTietHoaDon c "
+		                + "JOIN h.chiTietHoaDon c "	
 		                + "LEFT JOIN c.danhSachNguoiDiCungList d "
 		                + "JOIN h.nguoiDung nguoiDung "
 		                + "JOIN c.bienTheTour b "  // Thêm join để lấy thông tin từ 'BienTheTour'
@@ -46,4 +49,9 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
 		                + "WHERE h.id = :idHoaDon")
 		List<ChiTietHoaDonsDTO> getHoaDonChiTietDanhSachNguoiDiCung(@Param("idHoaDon") Integer idHoaDon);
 
-}
+        @Transactional
+        @Modifying
+        @Query("UPDATE HoaDon hd SET hd.ghiChu = :ghiChu WHERE hd.id = :hoaDonId")
+        void updateGhiChu(@Param("hoaDonId") Integer hoaDonId, @Param("ghiChu") String ghiChu);
+
+    }

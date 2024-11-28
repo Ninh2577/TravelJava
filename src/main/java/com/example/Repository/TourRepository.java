@@ -10,11 +10,15 @@ import com.example.Entity.Tour;
 
 public interface TourRepository extends JpaRepository<Tour, Integer> {
     // Thêm phương thức với @Query
-    @Query("SELECT t.id as tour_id, t.tenTour " +
+    @Query("SELECT lt.loaiTour, t.tenTour " +
             "FROM Tour t " +
             "JOIN t.danhMucTour dt " +
-//            "JOIN t.loaiTour lt " + 
+            "JOIN t.loaiTour lt " + 
             "WHERE dt.id = :idDanhMucTour")
     List<Object[]> findToursByDanhMuc(@Param("idDanhMucTour") Integer idDanhMucTour);
 
+    List<Tour> findByDanhMucTour_Id(Integer danhMucTourId);
 }
+
+
+   
