@@ -1,6 +1,7 @@
 package com.example.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,8 +11,10 @@ import com.example.DTO.DanhSachNguoiDiCungDTO;
 import com.example.DTO.GioHangNguoiDiCungDTO;
 import com.example.Entity.ChiTietGioHang;
 import com.example.Entity.GioHangDanhSachNguoiDiCung;
+import com.example.Entity.NguoiDung;
 
 public interface GioHangDanhSachNguoiDiCungRepository extends JpaRepository<GioHangDanhSachNguoiDiCung, Integer> {
+	Optional<GioHangDanhSachNguoiDiCung> findByEmail(String email);
 	// List<GioHangDanhSachNguoiDiCung> findByChiTietGioHangId(int
 	// chiTietGioHangId);
 	@Query("SELECT g FROM GioHangDanhSachNguoiDiCung g WHERE g.chiTietGioHang.id = :idGioHangDanhSachNguoiDiCung")
