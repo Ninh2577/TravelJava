@@ -75,7 +75,7 @@ public class MailerService {
 	public void sendCancelTourEmail(String toEmail, String userName, float totalAmount, Date paymentDate, String cancelReason, String tenTour) {
 	    String subject = "Thông Báo Hủy Tour";
 	    String body = "Kính gửi " + userName + ",\n\n"
-	    		+ "Tên tour: " + tenTour + "\n"
+	    		+ "Tour: " + tenTour + "\n"
 	            + "Chúng tôi xin thông báo rằng tour của bạn đã bị hủy với lý do: " + cancelReason + ".\n"
 	            + "Tổng tiền đã thanh toán là: " + totalAmount + " VNĐ.\n"
 	            + "Ngày thanh toán: " + paymentDate + ".\n\n"
