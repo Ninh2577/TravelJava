@@ -111,11 +111,12 @@ public class HoaDonController {
 	}
 
 	@PostMapping("/them2/{id}")
-	public String addHoaDon2(@PathVariable("id") Integer id, @RequestBody HoaDonDTO hoaDonDTO) {
+	public String addHoaDon2(@PathVariable("id") Integer id,@RequestParam("idNguoiDung") Integer idNguoiDung, @RequestBody HoaDonDTO hoaDonDTO) {
+		System.out.println("userID: "+idNguoiDung);
 //		BienTheTour bienthetour = bienthetourRepository.findById(hoaDonDTO.getIdBienTheTour()).get();
 //		BienTheTour bienthetour = bienthetourRepository.findById(bienTheTour.getId()).get();
 		ChiTietGioHang ctg1h = chiTietGioHangRepository.findById(id).get();
-		NguoiDung nguoiDung = nn.findById(7).get();// 2
+		NguoiDung nguoiDung = nn.findById(idNguoiDung).get();// 2
 		HoaDon hoadon = new HoaDon();
 		hoadon.setNguoiDung(nguoiDung);
 		hoadon.setTongTien(hoaDonDTO.getTongTien()); // Example total price

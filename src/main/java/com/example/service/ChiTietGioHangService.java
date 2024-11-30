@@ -18,6 +18,8 @@ import com.example.Repository.ChiTietGioHangRepository;
 import com.example.Repository.GioHangDanhSachNguoiDiCungRepository;
 import com.example.Repository.NguoiDungRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ChiTietGioHangService {
 
@@ -91,11 +93,12 @@ public class ChiTietGioHangService {
 		return chiTietGioHangRepository.findCartDetailsByUserId(idNguoiDung);
 	}
 
+	@Transactional
 	public ResponseEntity<String> deleteChiTietGioHang(Integer id) {
-		System.out.println("id: "+ id);
+		System.out.println("id: " + id);
 		// Kiểm tra nếu giỏ hàng tồn tại
 		Optional<ChiTietGioHang> chiTietGioHangOptional = chiTietGioHangRepository.findById(id);
-		System.out.println("id:s "+ chiTietGioHangOptional);
+		// System.out.println("id:s " + chiTietGioHangOptional);
 
 		if (chiTietGioHangOptional.isPresent()) {
 			// Xóa giỏ hàng
