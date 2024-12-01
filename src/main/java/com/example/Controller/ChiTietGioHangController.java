@@ -47,9 +47,17 @@ public class ChiTietGioHangController {
 		return ResponseEntity.ok(chiTietGioHang);
 	}
 
-	@GetMapping("/bychitietgiohang/{id}")
-	public List<ChiTietGioHang> getChiTietGiohangByMediaTourId(@PathVariable Integer id) {
-		return chiTietGioHangService.getChiTietGiohangByBienTheTourId(id);
+	// @GetMapping("/bychitietgiohang/{id}")
+	// public List<ChiTietGioHang> getChiTietGiohangByMediaTourId(@PathVariable
+	// Integer id) {
+	// return chiTietGioHangService.getChiTietGiohangByBienTheTourId(id);
+	// }
+
+	@GetMapping("/bychitietgiohang/{idBienTheTour}/{idNguoiDung}")
+	public List<ChiTietGioHang> getChiTietGiohangByMediaTourIdAndNguoiDungId(
+			@PathVariable Integer idBienTheTour,
+			@PathVariable Integer idNguoiDung) {
+		return chiTietGioHangService.getChiTietGiohangByBienTheTourIdAndNguoiDungId(idBienTheTour, idNguoiDung);
 	}
 
 	@GetMapping("/check")

@@ -59,9 +59,14 @@ public class ChiTietGioHangService {
 		return chiTietGioHangRepository.save(chiTietGioHang);
 	}
 
-	public List<ChiTietGioHang> getChiTietGiohangByBienTheTourId(Integer idBienTheTour) {
-		return chiTietGioHangRepository.findByChiTietGioHangId(idBienTheTour);
+	// public List<ChiTietGioHang> getChiTietGiohangByBienTheTourId(Integer idBienTheTour) {
+	// 	return chiTietGioHangRepository.findByChiTietGioHangId(idBienTheTour);
+	// }
+
+	public List<ChiTietGioHang> getChiTietGiohangByBienTheTourIdAndNguoiDungId(Integer idBienTheTour, Integer idNguoiDung) {
+		return chiTietGioHangRepository.findByChiTietGioHangIdAndNguoiDungId(idBienTheTour, idNguoiDung);
 	}
+	
 
 	public boolean checkIfExists(int idNguoiDung, int idBienTheTour) {
 		return chiTietGioHangRepository.existsByIdNguoiDungAndIdBienTheTour(idNguoiDung, idBienTheTour);
