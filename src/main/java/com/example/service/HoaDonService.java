@@ -106,7 +106,7 @@ public class HoaDonService {
 		 System.out.println("Form admin:" + cancelReason);
 	    // Lấy ngày bắt đầu từ cơ sở dữ liệu
 	    LocalDate ngayBatDau = hoaDonRepository.findNgayBatDauByChiTietHoaDonId(chiTietHoaDonId);
-	    System.out.println("Ngày bắt đầu: " + ngayBatDau);
+	    System.out.println("Ngày bắt đầu của hóa đơn: " + ngayBatDau);
 
 	    // Kiểm tra ngày bắt đầu có hợp lệ hay không
 	    if (ngayBatDau == null) {
@@ -115,7 +115,7 @@ public class HoaDonService {
 
 	    // Tính số ngày còn lại từ ngày hiện tại đến ngày bắt đầu
 	    long daysRemaining = ChronoUnit.DAYS.between(LocalDate.now(), ngayBatDau);
-	    System.out.println("ngày hiện tại: " + LocalDate.now());
+	    System.out.println("ngày hiện tại mới sửa: " + LocalDate.now());
 	    System.out.println("Số ngày còn lại đến ngày bắt đầu: " + daysRemaining + " ngày.");
 
 	    // Kiểm tra nếu số ngày còn lại nhỏ hơn 7
