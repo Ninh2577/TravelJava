@@ -85,5 +85,8 @@ public class TourService {
 	  public List<TourDetailsDTO> searchToursByName(String tenTour) {
 	        return bienTheTourRepository.findAllByTenToursContaining(tenTour);
 	    }
-	
+
+	public List<Tour> getAllToursEndDanhMucTour(String tenDanhMuc){
+		return tourRepository.findToursByDanhMucTour(tenDanhMuc);
+	}
 }

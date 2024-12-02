@@ -92,8 +92,6 @@ public class TourController {
 		return bienTheTourRepository.findByTourId(idTour);
 	}
 
-
-
     @GetMapping("/byDanhMuc/{id}")
     public List<Object[]> getToursByDanhMuc(@PathVariable("id") Integer idDanhMucTour) {
         return tourService.getToursByDanhMuc(idDanhMucTour);
@@ -101,5 +99,9 @@ public class TourController {
     @GetMapping("/search")
     public List<TourDetailsDTO> searchTours(@RequestParam("text") String tenTour) {
         return tourService.searchToursByName(tenTour);
+    }
+    @GetMapping("/danhmuctour/{tenDanhMuc}")
+    public List<Tour> getToursEndDanhMucTour(@PathVariable("tenDanhMuc") String idDanhMucTour){
+    	return tourService.getAllToursEndDanhMucTour(idDanhMucTour);
     }
 }

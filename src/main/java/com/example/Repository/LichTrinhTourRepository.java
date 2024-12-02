@@ -12,4 +12,7 @@ public interface LichTrinhTourRepository extends JpaRepository<LichTrinhTour, In
 	@Query("SELECT l FROM LichTrinhTour l WHERE l.bienTheTour.id = :idBienTheTour")
     List<LichTrinhTour> findByBienTheTourId(@Param("idBienTheTour") Integer idBienTheTour);
 
+	// Truy vấn lịch trình tour theo tên tour 
+	@Query("SELECT l FROM LichTrinhTour l JOIN l.bienTheTour b JOIN b.tour t WHERE t.tenTour = :tenTour")
+	List<LichTrinhTour> findLichTrinhTourByBienTheTourByTour (@Param("tenTour") String tenTour);
 }
