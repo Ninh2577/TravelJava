@@ -1,0 +1,178 @@
+2024-11-14T18:42:03.158+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : Starting TravelApplication using Java 21.0.3 with PID 26708 (D:\DATN_BE\TravelJava\target\classes started by quocc in D:\DATN_BE\TravelJava)
+2024-11-14T18:42:03.158+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : No active profile set, falling back to 1 default profile: "default"
+2024-11-14T18:42:03.258+07:00  INFO 26708 --- [travel] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-14T18:42:03.279+07:00  INFO 26708 --- [travel] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 21 ms. Found 20 JPA repository interfaces.
+2024-11-14T18:42:03.358+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-14T18:42:03.359+07:00  INFO 26708 --- [travel] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-14T18:42:03.359+07:00  INFO 26708 --- [travel] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-14T18:42:03.373+07:00  INFO 26708 --- [travel] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2024-11-14T18:42:03.374+07:00  INFO 26708 --- [travel] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 215 ms
+2024-11-14T18:42:03.406+07:00  INFO 26708 --- [travel] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-14T18:42:03.407+07:00  INFO 26708 --- [travel] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-11-14T18:42:03.411+07:00  INFO 26708 --- [travel] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-14T18:42:03.412+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
+2024-11-14T18:42:03.430+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-7 - Added connection ConnectionID:121 ClientConnectionId: 21fee0b3-e169-47a9-9e54-86d4793a74b4
+2024-11-14T18:42:03.430+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
+2024-11-14T18:42:03.430+07:00  WARN 26708 --- [travel] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: SQLServerDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-11-14T18:42:03.611+07:00  INFO 26708 --- [travel] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-14T18:42:03.611+07:00  INFO 26708 --- [travel] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-14T18:42:03.954+07:00  WARN 26708 --- [travel] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-14T18:42:03.966+07:00  INFO 26708 --- [travel] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2024-11-14T18:42:03.966+07:00  WARN 26708 --- [travel] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2024-11-14T18:42:04.129+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-11-14T18:42:04.145+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-14T18:42:04.147+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : Started TravelApplication in 1.03 seconds (process running for 13690.031)
+2024-11-14T18:42:04.148+07:00  INFO 26708 --- [travel] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-11-14T18:43:39.623+07:00  INFO 26708 --- [travel] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2024-11-14T18:43:39.639+07:00  INFO 26708 --- [travel] [Thread-30] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-14T18:43:39.640+07:00  INFO 26708 --- [travel] [Thread-30] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown initiated...
+2024-11-14T18:43:39.641+07:00  INFO 26708 --- [travel] [Thread-30] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown completed.
+2024-11-14T18:43:39.725+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : Starting TravelApplication using Java 21.0.3 with PID 26708 (D:\DATN_BE\TravelJava\target\classes started by quocc in D:\DATN_BE\TravelJava)
+2024-11-14T18:43:39.725+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : No active profile set, falling back to 1 default profile: "default"
+2024-11-14T18:43:39.884+07:00  INFO 26708 --- [travel] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-14T18:43:39.907+07:00  INFO 26708 --- [travel] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 23 ms. Found 20 JPA repository interfaces.
+2024-11-14T18:43:39.996+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-14T18:43:39.997+07:00  INFO 26708 --- [travel] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-14T18:43:39.997+07:00  INFO 26708 --- [travel] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-14T18:43:40.012+07:00  INFO 26708 --- [travel] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2024-11-14T18:43:40.013+07:00  INFO 26708 --- [travel] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 287 ms
+2024-11-14T18:43:40.048+07:00  INFO 26708 --- [travel] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-14T18:43:40.050+07:00  INFO 26708 --- [travel] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-11-14T18:43:40.054+07:00  INFO 26708 --- [travel] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-14T18:43:40.055+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Starting...
+2024-11-14T18:43:40.071+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-8 - Added connection ConnectionID:131 ClientConnectionId: cb7317af-4009-4703-9800-a27c2c43f3e5
+2024-11-14T18:43:40.071+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Start completed.
+2024-11-14T18:43:40.072+07:00  WARN 26708 --- [travel] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: SQLServerDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-11-14T18:43:40.235+07:00  INFO 26708 --- [travel] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-14T18:43:40.235+07:00  INFO 26708 --- [travel] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-14T18:43:40.609+07:00  WARN 26708 --- [travel] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-14T18:43:40.622+07:00  INFO 26708 --- [travel] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2024-11-14T18:43:40.622+07:00  WARN 26708 --- [travel] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2024-11-14T18:43:40.804+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-11-14T18:43:40.814+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-14T18:43:40.816+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : Started TravelApplication in 1.112 seconds (process running for 13786.7)
+2024-11-14T18:43:40.817+07:00  INFO 26708 --- [travel] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-11-14T18:43:45.314+07:00  INFO 26708 --- [travel] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2024-11-14T18:43:45.331+07:00  INFO 26708 --- [travel] [Thread-34] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-14T18:43:45.332+07:00  INFO 26708 --- [travel] [Thread-34] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown initiated...
+2024-11-14T18:43:45.334+07:00  INFO 26708 --- [travel] [Thread-34] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown completed.
+2024-11-14T18:43:45.422+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : Starting TravelApplication using Java 21.0.3 with PID 26708 (D:\DATN_BE\TravelJava\target\classes started by quocc in D:\DATN_BE\TravelJava)
+2024-11-14T18:43:45.422+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : No active profile set, falling back to 1 default profile: "default"
+2024-11-14T18:43:45.549+07:00  INFO 26708 --- [travel] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-14T18:43:45.579+07:00  INFO 26708 --- [travel] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 28 ms. Found 20 JPA repository interfaces.
+2024-11-14T18:43:45.677+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-14T18:43:45.677+07:00  INFO 26708 --- [travel] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-14T18:43:45.677+07:00  INFO 26708 --- [travel] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-14T18:43:45.697+07:00  INFO 26708 --- [travel] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2024-11-14T18:43:45.697+07:00  INFO 26708 --- [travel] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 274 ms
+2024-11-14T18:43:45.741+07:00  INFO 26708 --- [travel] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-14T18:43:45.742+07:00  INFO 26708 --- [travel] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-11-14T18:43:45.748+07:00  INFO 26708 --- [travel] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-14T18:43:45.748+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Starting...
+2024-11-14T18:43:45.761+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-9 - Added connection ConnectionID:141 ClientConnectionId: caa99f95-3222-48d8-a30e-7557a1f7083f
+2024-11-14T18:43:45.762+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Start completed.
+2024-11-14T18:43:45.762+07:00  WARN 26708 --- [travel] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: SQLServerDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-11-14T18:43:45.939+07:00  INFO 26708 --- [travel] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-14T18:43:45.940+07:00  INFO 26708 --- [travel] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-14T18:43:46.295+07:00  WARN 26708 --- [travel] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-14T18:43:46.309+07:00  INFO 26708 --- [travel] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2024-11-14T18:43:46.309+07:00  WARN 26708 --- [travel] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2024-11-14T18:43:46.502+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-11-14T18:43:46.512+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-14T18:43:46.515+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : Started TravelApplication in 1.112 seconds (process running for 13792.398)
+2024-11-14T18:43:46.516+07:00  INFO 26708 --- [travel] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-11-14T18:43:57.460+07:00  INFO 26708 --- [travel] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-11-14T18:43:57.460+07:00  INFO 26708 --- [travel] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-11-14T18:43:57.462+07:00  INFO 26708 --- [travel] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2024-11-14T18:43:59.323+07:00  WARN 26708 --- [travel] [http-nio-8080-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'userId' for method parameter type Integer is not present]
+2024-11-14T18:46:51.905+07:00  INFO 26708 --- [travel] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2024-11-14T18:46:51.923+07:00  INFO 26708 --- [travel] [Thread-38] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-14T18:46:51.924+07:00  INFO 26708 --- [travel] [Thread-38] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Shutdown initiated...
+2024-11-14T18:46:51.925+07:00  INFO 26708 --- [travel] [Thread-38] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Shutdown completed.
+2024-11-14T18:46:52.002+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : Starting TravelApplication using Java 21.0.3 with PID 26708 (D:\DATN_BE\TravelJava\target\classes started by quocc in D:\DATN_BE\TravelJava)
+2024-11-14T18:46:52.002+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : No active profile set, falling back to 1 default profile: "default"
+2024-11-14T18:46:52.115+07:00  INFO 26708 --- [travel] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-14T18:46:52.136+07:00  INFO 26708 --- [travel] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 21 ms. Found 20 JPA repository interfaces.
+2024-11-14T18:46:52.219+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-14T18:46:52.220+07:00  INFO 26708 --- [travel] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-14T18:46:52.220+07:00  INFO 26708 --- [travel] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-14T18:46:52.234+07:00  INFO 26708 --- [travel] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2024-11-14T18:46:52.234+07:00  INFO 26708 --- [travel] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 231 ms
+2024-11-14T18:46:52.269+07:00  INFO 26708 --- [travel] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-14T18:46:52.270+07:00  INFO 26708 --- [travel] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-11-14T18:46:52.276+07:00  INFO 26708 --- [travel] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-14T18:46:52.276+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Starting...
+2024-11-14T18:46:52.293+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-10 - Added connection ConnectionID:151 ClientConnectionId: e2fed9b0-32af-4187-b82d-2dcb3d1248e1
+2024-11-14T18:46:52.293+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Start completed.
+2024-11-14T18:46:52.293+07:00  WARN 26708 --- [travel] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: SQLServerDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-11-14T18:46:52.450+07:00  INFO 26708 --- [travel] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-14T18:46:52.450+07:00  INFO 26708 --- [travel] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-14T18:46:52.810+07:00  WARN 26708 --- [travel] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-14T18:46:52.833+07:00  INFO 26708 --- [travel] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2024-11-14T18:46:52.833+07:00  WARN 26708 --- [travel] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2024-11-14T18:46:53.015+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-11-14T18:46:53.027+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-14T18:46:53.029+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : Started TravelApplication in 1.042 seconds (process running for 13978.913)
+2024-11-14T18:46:53.030+07:00  INFO 26708 --- [travel] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-11-14T18:51:03.706+07:00  INFO 26708 --- [travel] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2024-11-14T18:51:03.722+07:00  INFO 26708 --- [travel] [Thread-42] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-14T18:51:03.722+07:00  INFO 26708 --- [travel] [Thread-42] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Shutdown initiated...
+2024-11-14T18:51:03.723+07:00  INFO 26708 --- [travel] [Thread-42] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Shutdown completed.
+2024-11-14T18:51:03.803+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : Starting TravelApplication using Java 21.0.3 with PID 26708 (D:\DATN_BE\TravelJava\target\classes started by quocc in D:\DATN_BE\TravelJava)
+2024-11-14T18:51:03.803+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : No active profile set, falling back to 1 default profile: "default"
+2024-11-14T18:51:03.934+07:00  INFO 26708 --- [travel] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-14T18:51:03.955+07:00  INFO 26708 --- [travel] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 20 ms. Found 20 JPA repository interfaces.
+2024-11-14T18:51:04.048+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-14T18:51:04.050+07:00  INFO 26708 --- [travel] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-14T18:51:04.050+07:00  INFO 26708 --- [travel] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-14T18:51:04.067+07:00  INFO 26708 --- [travel] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2024-11-14T18:51:04.067+07:00  INFO 26708 --- [travel] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 263 ms
+2024-11-14T18:51:04.120+07:00  INFO 26708 --- [travel] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-14T18:51:04.121+07:00  INFO 26708 --- [travel] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-11-14T18:51:04.126+07:00  INFO 26708 --- [travel] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-14T18:51:04.127+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Starting...
+2024-11-14T18:51:04.144+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-11 - Added connection ConnectionID:161 ClientConnectionId: 0a029ea2-0ac7-4d14-bbe9-981c957a12e8
+2024-11-14T18:51:04.145+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Start completed.
+2024-11-14T18:51:04.145+07:00  WARN 26708 --- [travel] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: SQLServerDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-11-14T18:51:04.313+07:00  INFO 26708 --- [travel] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-14T18:51:04.313+07:00  INFO 26708 --- [travel] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-14T18:51:04.665+07:00  WARN 26708 --- [travel] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-14T18:51:04.680+07:00  INFO 26708 --- [travel] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2024-11-14T18:51:04.680+07:00  WARN 26708 --- [travel] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2024-11-14T18:51:04.876+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-11-14T18:51:04.890+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-14T18:51:04.894+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : Started TravelApplication in 1.107 seconds (process running for 14230.778)
+2024-11-14T18:51:04.895+07:00  INFO 26708 --- [travel] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-11-14T18:51:06.724+07:00  INFO 26708 --- [travel] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
+2024-11-14T18:51:06.739+07:00  INFO 26708 --- [travel] [Thread-46] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-14T18:51:06.740+07:00  INFO 26708 --- [travel] [Thread-46] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Shutdown initiated...
+2024-11-14T18:51:06.740+07:00  INFO 26708 --- [travel] [Thread-46] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Shutdown completed.
+2024-11-14T18:51:06.824+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : Starting TravelApplication using Java 21.0.3 with PID 26708 (D:\DATN_BE\TravelJava\target\classes started by quocc in D:\DATN_BE\TravelJava)
+2024-11-14T18:51:06.825+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : No active profile set, falling back to 1 default profile: "default"
+2024-11-14T18:51:06.943+07:00  INFO 26708 --- [travel] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-14T18:51:06.967+07:00  INFO 26708 --- [travel] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 24 ms. Found 20 JPA repository interfaces.
+2024-11-14T18:51:07.052+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-14T18:51:07.053+07:00  INFO 26708 --- [travel] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-14T18:51:07.053+07:00  INFO 26708 --- [travel] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-14T18:51:07.068+07:00  INFO 26708 --- [travel] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2024-11-14T18:51:07.068+07:00  INFO 26708 --- [travel] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 242 ms
+2024-11-14T18:51:07.103+07:00  INFO 26708 --- [travel] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-14T18:51:07.104+07:00  INFO 26708 --- [travel] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-11-14T18:51:07.108+07:00  INFO 26708 --- [travel] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-14T18:51:07.109+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-12 - Starting...
+2024-11-14T18:51:07.122+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-12 - Added connection ConnectionID:171 ClientConnectionId: e598e34c-e6fd-482a-9a74-2cf93cc29189
+2024-11-14T18:51:07.122+07:00  INFO 26708 --- [travel] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-12 - Start completed.
+2024-11-14T18:51:07.122+07:00  WARN 26708 --- [travel] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: SQLServerDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-11-14T18:51:07.274+07:00  INFO 26708 --- [travel] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-14T18:51:07.275+07:00  INFO 26708 --- [travel] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-14T18:51:07.615+07:00  WARN 26708 --- [travel] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-14T18:51:07.631+07:00  INFO 26708 --- [travel] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2024-11-14T18:51:07.633+07:00  WARN 26708 --- [travel] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2024-11-14T18:51:07.816+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-11-14T18:51:07.828+07:00  INFO 26708 --- [travel] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-14T18:51:07.831+07:00  INFO 26708 --- [travel] [restartedMain] com.example.TravelApplication            : Started TravelApplication in 1.021 seconds (process running for 14233.714)
+2024-11-14T18:51:07.832+07:00  INFO 26708 --- [travel] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-11-14T18:51:09.249+07:00  INFO 26708 --- [travel] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2024-11-14T18:51:09.263+07:00  INFO 26708 --- [travel] [Thread-50] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-14T18:51:09.263+07:00  INFO 26708 --- [travel] [Thread-50] com.zaxxer.hikari.HikariDataSource       : HikariPool-12 - Shutdown initiated...
+2024-11-14T18:51:09.264+07:00  INFO 26708 --- [travel] [Thread-50] com.zaxxer.hikari.HikariDataSource       : HikariPool-12 - Shutdown completed.

@@ -2,7 +2,11 @@ package com.example.service;
 
 import java.util.List;
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -30,7 +34,7 @@ public class MailerService {
 		list.add(mailModel);
 	}
 
-	@Scheduled(fixedRate = 1000)
+	@Scheduled(fixedRate = 10000)
 	public void run() {
 		System.out.println("send mail");
 		while (!list.isEmpty()) {
@@ -67,4 +71,28 @@ public class MailerService {
 		message.setText("Mã xác thực tài khoản của bạn là: " + otp + "\nMã xác thực có hiệu lực trong vòng 2 phút.");
 		sender.send(message);
 	}
+	
+	public void sendCancelTourEmail(String toEmail, String userName, float totalAmount, Date paymentDate, String cancelReason, String tenTour) {
+	    String subject = "Thông Báo Hủy Tour";
+	    String body = "Kính gửi " + userName + ",\n\n"
+	    		+ "Tour: " + tenTour + "\n"
+	            + "Chúng tôi xin thông báo rằng tour của bạn đã bị hủy với lý do: " + cancelReason + ".\n"
+	            + "Tổng tiền đã thanh toán là: " + totalAmount + " VNĐ.\n"
+	            + "Ngày thanh toán: " + paymentDate + ".\n\n"
+	            + "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.";
+	    
+	    // Cấu hình email
+	    SimpleMailMessage message = new SimpleMailMessage();
+	    message.setFrom("noreply@tourservice.com");
+	    message.setTo(toEmail);
+	    message.setSubject(subject);
+	    message.setText(body);
+
+	    // Gửi email
+	    sender.send(message);
+	    System.out.println("Gửi email đến: " + toEmail); // Kiểm tra xem địa chỉ email có đúng không
+
+	}
+
+
 }

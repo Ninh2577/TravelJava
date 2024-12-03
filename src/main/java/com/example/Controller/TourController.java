@@ -1,6 +1,7 @@
 package com.example.Controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.DTO.TourDetailsDTO;
@@ -21,6 +23,7 @@ import com.example.Entity.BienTheTour;
 import com.example.Entity.Tour;
 import com.example.Repository.BienTheTourRepository;
 import com.example.projection.TourDetailsProjection;
+import com.example.service.HoaDonService;
 import com.example.service.TourService;
 
 @RestController
@@ -97,4 +100,25 @@ public class TourController {
     public List<Object[]> getToursByDanhMuc(@PathVariable("id") Integer idDanhMucTour) {
         return tourService.getToursByDanhMuc(idDanhMucTour);
     }
+    
+    @GetMapping("/search")
+    public List<TourDetailsDTO> searchTours(@RequestParam("text") String tenTour) {
+        return tourService.searchToursByName(tenTour);
+    }
+    
+    @PostMapping("/huy")
+    public ResponseEntity<?> huyHoaDon(@RequestBody Map<String, Object> payload) {
+        Integer chiTietHoaDonId = (Integer) payload.get("chiTietHoaDonId");
+        String cancelReason = (String) payload.get("cancelReason"); // Lý do hủy được lấy từ payload
+        System.out.println("Ngày bắt đầu: " + chiTietHoaDonId);
+        System.out.println("form người dùng: " + cancelReason);
+
+        try {
+        	tourService.huyHoaDon(chiTietHoaDonId, cancelReason); // Truyền lý do hủy vào service
+            return ResponseEntity.ok("Hủy hóa đơn thành công.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
 }

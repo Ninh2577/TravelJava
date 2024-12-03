@@ -38,8 +38,11 @@ public class DanhSachNguoiDiCungController {
 	@GetMapping("/{chiTietHoaDonId}")
     public ResponseEntity<List<DanhSachNguoiDiCungDTO>> getDanhSachNguoiDiCung(@PathVariable Integer chiTietHoaDonId,
                                                         @RequestParam Integer userId) {
+		System.out.println("chiTietHoaDonId" + chiTietHoaDonId);
+		System.out.println("userId" + userId);
        try {
 		List<DanhSachNguoiDiCungDTO> danhSachNguoiDiCung =	danhSachNguoiDiCungService.getDanhSachNguoiDiCung(chiTietHoaDonId, userId);
+		System.out.println("danhSachNguoiDiCung" + danhSachNguoiDiCung);
             return ResponseEntity.ok(danhSachNguoiDiCung);
         } catch (Exception e) {
             e.printStackTrace(); // Log lỗi nếu có

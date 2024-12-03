@@ -50,6 +50,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.DTO.ChiTietHoaDonsDTO;
 import com.example.DTO.HoaDonDTO;
 import com.example.Entity.BienTheTour;
 import com.example.Entity.ChiTietGioHang;
@@ -109,11 +111,12 @@ public class HoaDonController {
 	}
 
 	@PostMapping("/them2/{id}")
-	public String addHoaDon2(@PathVariable("id") Integer id, @RequestBody HoaDonDTO hoaDonDTO) {
+	public String addHoaDon2(@PathVariable("id") Integer id,@RequestParam("idNguoiDung") Integer idNguoiDung, @RequestBody HoaDonDTO hoaDonDTO) {
+		System.out.println("userID: "+idNguoiDung);
 //		BienTheTour bienthetour = bienthetourRepository.findById(hoaDonDTO.getIdBienTheTour()).get();
 //		BienTheTour bienthetour = bienthetourRepository.findById(bienTheTour.getId()).get();
 		ChiTietGioHang ctg1h = chiTietGioHangRepository.findById(id).get();
-		NguoiDung nguoiDung = nn.findById(2).get();// 2
+		NguoiDung nguoiDung = nn.findById(idNguoiDung).get();// 2
 		HoaDon hoadon = new HoaDon();
 		hoadon.setNguoiDung(nguoiDung);
 		hoadon.setTongTien(hoaDonDTO.getTongTien()); // Example total price
@@ -256,6 +259,16 @@ public class HoaDonController {
 			// Handle any errors
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
 		}
+		
+		
 	}
 
+	@GetMapping("/{id}")
+    public ResponseEntity<List<ChiTietHoaDonsDTO>> getChiTietHoaDonById(@PathVariable("id") Integer idHoaDon) {
+        List<ChiTietHoaDonsDTO> chiTietHoaDonList = hoaDonService.getChiTietHoaDonById(idHoaDon);
+        if (chiTietHoaDonList.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(chiTietHoaDonList);
+    }
 }

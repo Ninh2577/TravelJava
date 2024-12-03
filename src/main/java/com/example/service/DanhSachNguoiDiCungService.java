@@ -21,6 +21,8 @@ public class DanhSachNguoiDiCungService {
 	}
 
 	public List<DanhSachNguoiDiCungDTO> getDanhSachNguoiDiCung(Integer chiTietHoaDonId, Integer userId) {
+		System.out.println("chiTietHoaDonId"+chiTietHoaDonId);
+		System.out.println("userId"+userId);
         return danhSachNguoiDiCungRepository.findNguoiDiCungByChiTietHoaDonIdAndUserId(chiTietHoaDonId, userId);
     }
 }

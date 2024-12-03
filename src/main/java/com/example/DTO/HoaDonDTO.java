@@ -1,6 +1,9 @@
 package com.example.DTO;
 
 import java.util.Date;
+
+import com.example.Entity.Tour;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +19,6 @@ public class HoaDonDTO {
     private boolean trangThai;
     private Date ngayThanhToan; // Payment date
     private Integer idBienTheTour;  // ID for BienTheTour
+    private String Tour;
    // ID for ChiTietGioHang
 }
