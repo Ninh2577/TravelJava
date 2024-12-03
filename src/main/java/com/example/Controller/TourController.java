@@ -30,8 +30,7 @@ import com.example.service.TourService;
 @RequestMapping("/api/tours")
 @CrossOrigin(origins = "http://localhost:3000")
 public class TourController {
-    @Autowired
-    private HoaDonService hoaDonService;
+
 	@Autowired
 	private TourService tourService;
 	@Autowired
@@ -115,7 +114,7 @@ public class TourController {
         System.out.println("form người dùng: " + cancelReason);
 
         try {
-            hoaDonService.huyHoaDon(chiTietHoaDonId, cancelReason); // Truyền lý do hủy vào service
+        	tourService.huyHoaDon(chiTietHoaDonId, cancelReason); // Truyền lý do hủy vào service
             return ResponseEntity.ok("Hủy hóa đơn thành công.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

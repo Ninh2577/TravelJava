@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/admin/api/nguoidung")
+@RequestMapping("/api/nguoidung")
 @CrossOrigin(origins = "http://localhost:3000")
 public class NguoiDungController {
 
