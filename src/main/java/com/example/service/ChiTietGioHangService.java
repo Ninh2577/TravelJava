@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,10 +12,12 @@ import com.example.DTO.ChiTietGioHangRequestDTO;
 import com.example.DTO.GioHangDTO;
 import com.example.Entity.BienTheTour;
 import com.example.Entity.ChiTietGioHang;
+import com.example.Entity.GiamGia;
 import com.example.Entity.MediaTour;
 import com.example.Entity.NguoiDung;
 import com.example.Repository.BienTheTourRepository;
 import com.example.Repository.ChiTietGioHangRepository;
+import com.example.Repository.GiamGiaRepository;
 import com.example.Repository.GioHangDanhSachNguoiDiCungRepository;
 import com.example.Repository.NguoiDungRepository;
 
@@ -22,6 +25,9 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class ChiTietGioHangService {
+
+	@Autowired
+	private GiamGiaRepository giamGiaRepository;
 
 	@Autowired
 	private ChiTietGioHangRepository chiTietGioHangRepository;
@@ -109,6 +115,31 @@ public class ChiTietGioHangService {
 			// Trả về thông báo lỗi nếu không tìm thấy giỏ hàng
 			throw new IllegalArgumentException("Giỏ hàng không tồn tại!");
 		}
+	}
+
+	public float applyDiscount(Integer bienTheTourId, String maGiamGia, float tongTien) {
+		// Kiểm tra biến thể tour
+		Optional<BienTheTour> bienTheTourOpt = bienTheTourRepository.findById(bienTheTourId);
+		if (bienTheTourOpt.isEmpty()) {
+			throw new IllegalArgumentException("Biến thể tour không tồn tại.");
+		}
+
+		BienTheTour bienTheTour = bienTheTourOpt.get();
+
+		// Kiểm tra mã giảm giá
+		GiamGia giamGia = giamGiaRepository.findByMaGiamGia(maGiamGia);
+		if (giamGia == null || !giamGia.getId().equals(bienTheTour.getGiamGia().getId())) {
+			throw new IllegalArgumentException("Mã giảm giá không hợp lệ.");
+		}
+
+		// Kiểm tra thời gian áp dụng mã giảm giá
+		Date now = new Date();
+		if (now.before(giamGia.getNgayBatDau()) || now.after(giamGia.getNgayKetThuc())) {
+			throw new IllegalArgumentException("Mã giảm giá không còn hiệu lực.");
+		}
+
+		// Tính toán tổng tiền sau giảm
+		return tongTien - (giamGia.getPhanTram() / 100.0f) * tongTien;
 	}
 
 }

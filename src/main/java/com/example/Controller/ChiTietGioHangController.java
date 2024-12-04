@@ -20,10 +20,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.DTO.ChiTietGioHangRequestDTO;
+import com.example.DTO.DiscountRequest;
+import com.example.DTO.DiscountResponse;
 import com.example.DTO.GioHangDTO;
 import com.example.Entity.ChiTietGioHang;
 import com.example.Entity.MediaTour;
 import com.example.service.ChiTietGioHangService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+
 
 @RestController
 @RequestMapping("/api/chitietgiohang")
@@ -84,11 +92,11 @@ public class ChiTietGioHangController {
 	}
 
 	// -----------------------------------------------
-	@GetMapping("/user/{idNguoiDung}")
-	public ResponseEntity<List<GioHangDTO>> getCartDetailsByUserId(@PathVariable Integer idNguoiDung) {
-		List<GioHangDTO> cartDetails = chiTietGioHangService.getCartDetailsByUserId(idNguoiDung);
-		return ResponseEntity.ok(cartDetails);
-	}
+	// @GetMapping("/user/{idNguoiDung}")
+	// public ResponseEntity<List<GioHangDTO>> getCartDetailsByUserId(@PathVariable Integer idNguoiDung) {
+	// 	List<GioHangDTO> cartDetails = chiTietGioHangService.getCartDetailsByUserId(idNguoiDung);
+	// 	return ResponseEntity.ok(cartDetails);
+	// }
 
 	// API để xóa giỏ hàng theo ID
 	@DeleteMapping("/delete/{id}")
@@ -103,4 +111,20 @@ public class ChiTietGioHangController {
 			return ResponseEntity.status(404).body("Giỏ hàng không tồn tại!");
 		}
 	}
+
+	@PostMapping("/apply-discount")
+    public ResponseEntity<?> applyDiscount(@RequestBody DiscountRequest request) {
+        try {
+            float tongTienSauGiam = chiTietGioHangService.applyDiscount(
+                request.getBienTheTourId(), 
+                request.getMaGiamGia(),
+                request.getTongTien()
+            );
+
+            DiscountResponse response = new DiscountResponse(tongTienSauGiam);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

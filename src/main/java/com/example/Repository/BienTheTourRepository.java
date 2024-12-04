@@ -2,6 +2,7 @@ package com.example.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,9 +12,9 @@ import com.example.DTO.TourDetailsDTO;
 import com.example.Entity.BienTheTour;
 import com.example.Entity.ChiTietGioHang;
 
-
 public interface BienTheTourRepository extends JpaRepository<BienTheTour, Integer> {
 	List<BienTheTour> findByTourId(Integer tourId);
+	Optional<BienTheTour> findById(Integer id);
 	 BienTheTour findByTourIdAndNgayBatDau(Integer tourId, Date ngayBatDau);
 	 
 	 @Query("SELECT new com.example.DTO.TourDetailsDTO("
