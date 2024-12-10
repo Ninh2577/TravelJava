@@ -90,6 +90,18 @@ public class TourService {
 			return null;
 		}
 	}
+	@Transactional
+	public Tour updateStatus(Integer id, boolean trangThai) {
+	    Optional<Tour> existingTour = tourRepository.findById(id);
+	    if (existingTour.isPresent()) {
+	        Tour tour = existingTour.get();
+	        tour.setTrangThai(trangThai);  // Cập nhật trangThai
+	        return tourRepository.save(tour);  // Lưu tour đã cập nhật
+	    } else {
+	        return null;
+	    }
+	}
+
 
 	// Xóa Tour
 	@Transactional
