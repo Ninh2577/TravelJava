@@ -68,6 +68,15 @@ public class TourController {
 			return ResponseEntity.notFound().build();
 		}
 	}
+	@PutMapping("/update-status/{id}")
+	public ResponseEntity<Tour> updateTourStatus(@PathVariable Integer id, @RequestBody Tour tour) {
+	    // Chỉ truyền giá trị trangThai thay vì toàn bộ đối tượng Tour
+	    Tour updatedTour = tourService.updateStatus(id, tour.isTrangThai());
+	    if (updatedTour != null) {
+	        return ResponseEntity.ok(updatedTour);
+	    }
+	    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	}
 
 	// API DELETE: xóa tour theo ID
 	@DeleteMapping("/delete/{id}")
@@ -104,4 +113,5 @@ public class TourController {
     public List<Tour> getToursEndDanhMucTour(@PathVariable("tenDanhMuc") String idDanhMucTour){
     	return tourService.getAllToursEndDanhMucTour(idDanhMucTour);
     }
+    
 }

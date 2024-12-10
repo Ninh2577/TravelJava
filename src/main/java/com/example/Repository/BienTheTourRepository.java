@@ -17,7 +17,7 @@ public interface BienTheTourRepository extends JpaRepository<BienTheTour, Intege
 
 	BienTheTour findByTourIdAndNgayBatDau(Integer tourId, Date ngayBatDau);
 
-	@Query("SELECT new com.example.DTO.TourDetailsDTO(" + "t.id, t.tenTour, t.hinhAnh, t.soNgay, b.ngayBatDau, "
+	@Query("SELECT new com.example.DTO.TourDetailsDTO(" + "t.id, t.tenTour, t.hinhAnh, t.soNgay, t.trangThai, b.ngayBatDau, "
 			+ "b.giaNguoiLon, p.tenPhuongTien, h.danhGiaKhachSan) " + "FROM BienTheTour b " + "JOIN b.tour t "
 			+ "JOIN b.phuongTien p " + "JOIN b.hotels h")
 	List<TourDetailsDTO> findAllTourInfo();
@@ -30,7 +30,7 @@ public interface BienTheTourRepository extends JpaRepository<BienTheTour, Intege
 
 	List<BienTheTour> findByChiTietGioHangs(List<ChiTietGioHang> chiTietGioHangs);
 
-	@Query("SELECT new com.example.DTO.TourDetailsDTO(" + "t.id, t.tenTour, t.hinhAnh, t.soNgay, b.ngayBatDau, "
+	@Query("SELECT new com.example.DTO.TourDetailsDTO(" + "t.id, t.tenTour, t.hinhAnh, t.soNgay, t.trangThai, b.ngayBatDau, "
 			+ "b.giaNguoiLon, p.tenPhuongTien, h.danhGiaKhachSan) " + "FROM BienTheTour b " + "JOIN b.tour t "
 			+ "JOIN b.phuongTien p " + "JOIN b.hotels h " + // Note the space added here
 			"WHERE LOWER(t.tenTour) LIKE LOWER(CONCAT('%', :tenTour, '%'))")

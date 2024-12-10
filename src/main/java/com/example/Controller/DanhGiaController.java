@@ -31,4 +31,8 @@ public class DanhGiaController {
     public List<DanhGia> getDanhGiaByTourId(@PathVariable Integer id) {
         return danhGiaService.getDanhGiarByTourId(id);
     }
+	@GetMapping("/danhgia/{tenTour}")
+	public List<DanhGia> getTourAllDanhGia(@PathVariable String tenTour){
+		return danhGiaService.getAllTourByDanhGia(tenTour);
+	}
 }

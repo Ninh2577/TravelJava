@@ -14,6 +14,7 @@ public class TourDetailsDTO {
     private String tenTour;
     private String hinhAnh;
     private String soNgay;
+    private boolean trangThai;
     private Date ngayBatDau;
     private float giaNguoiLon;
     private String tenPhuongTien;
