@@ -76,4 +76,8 @@ public class BienTheTourController {
     public List<BienTheTour> getAllBienTheTours() {
         return bienTheTourRepository.findAll();
     }
+    @GetMapping("/bienthetour/{tenTour}")
+    public List<BienTheTour> getAllBienTheTourTour(@PathVariable("tenTour") String tenTour){
+    	return bienTheTourService.getAllBienTheTourEndTour(tenTour);
+    }
 }

@@ -19,20 +19,23 @@ import com.example.service.DanhGiaService;
 @CrossOrigin(origins = "http://localhost/3000")
 public class DanhGiaController {
 
-	@Autowired
-	private DanhGiaService danhGiaService;
-	// GET Phương thức Đánh giá
-	@GetMapping
-	public ResponseEntity<List<DanhGia>> getAllDanhGia(){
-		List<DanhGia> danhGias = danhGiaService.getAllDanhGia();
-		return ResponseEntity.ok(danhGias);
-	}
-	@GetMapping("/bydanhgia/{id}")
+    @Autowired
+    private DanhGiaService danhGiaService;
+
+    // GET Phương thức Đánh giá
+    @GetMapping
+    public ResponseEntity<List<DanhGia>> getAllDanhGia() {
+        List<DanhGia> danhGias = danhGiaService.getAllDanhGia();
+        return ResponseEntity.ok(danhGias);
+    }
+
+    @GetMapping("/bydanhgia/{id}")
     public List<DanhGia> getDanhGiaByTourId(@PathVariable Integer id) {
         return danhGiaService.getDanhGiarByTourId(id);
     }
-	@GetMapping("/danhgia/{tenTour}")
-	public List<DanhGia> getTourAllDanhGia(@PathVariable String tenTour){
-		return danhGiaService.getAllTourByDanhGia(tenTour);
-	}
+
+    @GetMapping("/danhgia/{tenTour}")
+    public List<DanhGia> getTourAllDanhGia(@PathVariable String tenTour) {
+        return danhGiaService.getAllTourByDanhGia(tenTour);
+    }
 }

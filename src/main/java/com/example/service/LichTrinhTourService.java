@@ -58,4 +58,7 @@ public class LichTrinhTourService {
     public List<LichTrinhTour> getLichTrinhTourByBienTheTourId(Integer idBienTheTour) {
         return lichTrinhTourRepository.findByBienTheTourId(idBienTheTour);
     }
+    public List<LichTrinhTour> getAllLichTrinhTourByBienTheTourByTour(String tenTour){
+    	return lichTrinhTourRepository.findLichTrinhTourByBienTheTourByTour(tenTour);
+    }
 }
