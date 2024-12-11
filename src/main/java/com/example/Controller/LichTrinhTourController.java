@@ -68,4 +68,8 @@ public class LichTrinhTourController {
     public List<LichTrinhTour> getLichTrinhTourByBienTheTourId(@PathVariable Integer id) {
         return lichTrinhTourService.getLichTrinhTourByBienTheTourId(id);
     }
+	@GetMapping("/lichtrinhtour/{tenTour}")
+	public List<LichTrinhTour> getLichTrinhTourByBienTheTourByTour(@PathVariable String tenTour){
+		return lichTrinhTourService.getAllLichTrinhTourByBienTheTourByTour(tenTour);
+	}
 }
