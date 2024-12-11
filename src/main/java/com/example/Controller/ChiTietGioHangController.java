@@ -47,9 +47,17 @@ public class ChiTietGioHangController {
 		return ResponseEntity.ok(chiTietGioHang);
 	}
 
-	@GetMapping("/bychitietgiohang/{id}")
-	public List<ChiTietGioHang> getChiTietGiohangByMediaTourId(@PathVariable Integer id) {
-		return chiTietGioHangService.getChiTietGiohangByBienTheTourId(id);
+	// @GetMapping("/bychitietgiohang/{id}")
+	// public List<ChiTietGioHang> getChiTietGiohangByMediaTourId(@PathVariable
+	// Integer id) {
+	// return chiTietGioHangService.getChiTietGiohangByBienTheTourId(id);
+	// }
+
+	@GetMapping("/bychitietgiohang/{idBienTheTour}/{idNguoiDung}")
+	public List<ChiTietGioHang> getChiTietGiohangByMediaTourIdAndNguoiDungId(
+			@PathVariable Integer idBienTheTour,
+			@PathVariable Integer idNguoiDung) {
+		return chiTietGioHangService.getChiTietGiohangByBienTheTourIdAndNguoiDungId(idBienTheTour, idNguoiDung);
 	}
 
 	@GetMapping("/check")
@@ -84,10 +92,9 @@ public class ChiTietGioHangController {
 	}
 
 	// -----------------------------------------------
-	@GetMapping("/user/{idNguoiDung}")
-	public ResponseEntity<List<GioHangDTO>> getCartDetailsByUserId(@PathVariable Integer idNguoiDung) {
-		List<GioHangDTO> cartDetails = chiTietGioHangService.getCartDetailsByUserId(idNguoiDung);
-		return ResponseEntity.ok(cartDetails);
+	@GetMapping("/user")
+	public List<GioHangDTO> getCartDetailsByUserId(@RequestParam Integer idNguoiDung) {
+		return chiTietGioHangService.getCartDetailsByUserId(idNguoiDung);
 	}
 
 	// API để xóa giỏ hàng theo ID

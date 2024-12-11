@@ -26,6 +26,7 @@ import com.example.Entity.NguoiDung;
 import com.example.Entity.VaiTro;
 import com.example.Repository.NguoiDungRepository;
 import com.example.Utils.CustomAccessDeniedHandler;
+import com.example.Utils.CustomOAuth2SuccessHandler;
 import com.example.Utils.JwtAuthFilter;
 import com.example.service.NguoiDungService;
 
@@ -48,56 +49,81 @@ public class SecurityConfig {
         return new NguoiDungService(); // Đảm bảo lớp này sử dụng email làm tên đăng nhập
     }
 
+    // @Bean
+    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    //     return http
+    //             .cors(Customizer.withDefaults()) // Thêm cấu hình CORS
+    //             .csrf(AbstractHttpConfigurer::disable)
+    //             .authorizeHttpRequests(auth -> auth
+    //                     .requestMatchers("/admin/**").hasAnyAuthority("admin", "nhanvien")
+    //                     .anyRequest().permitAll())
+    //             .oauth2Login(oauth2 -> oauth2
+    //                     .successHandler((request, response, authentication) -> {
+    //                         OAuth2User googleUser = (OAuth2User) authentication.getPrincipal();
+    //                         String email = (String) googleUser.getAttributes().get("email");
+    //                         Optional<NguoiDung> nguoiDungOpt = nguoiDungRepository.findByEmail(email);
+
+    //                         if (nguoiDungOpt.isPresent()) {
+    //                             NguoiDung nguoiDung = nguoiDungOpt.get();
+    //                             String role = nguoiDung.getVaiTro().getVaiTro();
+    //                             if ("admin".equals(role) || "nhanvien".equals(role)) {
+    //                                 response.sendRedirect("http://localhost:3000/admin");
+    //                             } else {
+    //                                 response.sendRedirect("http://localhost:3000/");
+    //                             }
+    //                         } else {
+    //                             VaiTro vaiTro = new VaiTro();
+    //                             vaiTro.setId(3); // Vai trò mặc định (User)
+
+    //                             NguoiDung newNguoiDung = new NguoiDung();
+    //                             newNguoiDung.setHoTen((String) googleUser.getAttributes().get("name"));
+    //                             newNguoiDung.setEmail(email);
+    //                             newNguoiDung.setHinhAnh((String) googleUser.getAttributes().get("picture"));
+    //                             newNguoiDung.setVaiTro(vaiTro);
+
+    //                             nguoiDungRepository.save(newNguoiDung);
+    //                             response.sendRedirect("http://localhost:3000/");
+    //                         }
+    //                     }))
+    //             .logout(logout -> logout
+    //                     .logoutUrl("/api/logout")
+    //                     .invalidateHttpSession(true)
+    //                     .deleteCookies("JSESSIONID", "SESSION", "OAUTH2_AUTHORIZATION_REQUEST")
+    //                     .clearAuthentication(true)
+    //                     .logoutSuccessHandler((request, response, authentication) -> {
+    //                         response.setStatus(HttpServletResponse.SC_OK);
+    //                         response.getWriter().write("Đăng xuất thành công!");
+    //                     }))
+    //             .authenticationProvider(authenticationProvider())
+    //             .exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler))
+    //             .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+    //             .build();
+    // }
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .cors(Customizer.withDefaults()) // Thêm cấu hình CORS
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/**").hasAnyAuthority("admin", "nhanvien")
-                        .anyRequest().permitAll())
-                .oauth2Login(oauth2 -> oauth2
-                        .successHandler((request, response, authentication) -> {
-                            OAuth2User googleUser = (OAuth2User) authentication.getPrincipal();
-                            String email = (String) googleUser.getAttributes().get("email");
-                            Optional<NguoiDung> nguoiDungOpt = nguoiDungRepository.findByEmail(email);
+public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomOAuth2SuccessHandler oAuth2SuccessHandler) throws Exception {
+    return http
+            .cors(Customizer.withDefaults()) // Thêm cấu hình CORS
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/admin/**").hasAnyAuthority("admin", "nhanvien")
+                    .anyRequest().permitAll())
+            .oauth2Login(oauth2 -> oauth2
+                    .successHandler(oAuth2SuccessHandler)) // Sử dụng handler đã tách
+            .logout(logout -> logout
+                    .logoutUrl("/api/logout")
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID", "SESSION", "OAUTH2_AUTHORIZATION_REQUEST")
+                    .clearAuthentication(true)
+                    .logoutSuccessHandler((request, response, authentication) -> {
+                        response.setStatus(HttpServletResponse.SC_OK);
+                        response.getWriter().write("Đăng xuất thành công!");
+                    }))
+            .authenticationProvider(authenticationProvider())
+            .exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler))
+            .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
+}
 
-                            if (nguoiDungOpt.isPresent()) {
-                                NguoiDung nguoiDung = nguoiDungOpt.get();
-                                String role = nguoiDung.getVaiTro().getVaiTro();
-                                if ("admin".equals(role) || "nhanvien".equals(role)) {
-                                    response.sendRedirect("http://localhost:3000/admin");
-                                } else {
-                                    response.sendRedirect("http://localhost:3000/");
-                                }
-                            } else {
-                                VaiTro vaiTro = new VaiTro();
-                                vaiTro.setId(3); // Vai trò mặc định (User)
-
-                                NguoiDung newNguoiDung = new NguoiDung();
-                                newNguoiDung.setHoTen((String) googleUser.getAttributes().get("name"));
-                                newNguoiDung.setEmail(email);
-                                newNguoiDung.setHinhAnh((String) googleUser.getAttributes().get("picture"));
-                                newNguoiDung.setVaiTro(vaiTro);
-
-                                nguoiDungRepository.save(newNguoiDung);
-                                response.sendRedirect("http://localhost:3000/");
-                            }
-                        }))
-                .logout(logout -> logout
-                        .logoutUrl("/api/logout")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID", "SESSION", "OAUTH2_AUTHORIZATION_REQUEST")
-                        .clearAuthentication(true)
-                        .logoutSuccessHandler((request, response, authentication) -> {
-                            response.setStatus(HttpServletResponse.SC_OK);
-                            response.getWriter().write("Đăng xuất thành công!");
-                        }))
-                .authenticationProvider(authenticationProvider())
-                .exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler))
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
-    }
 
     // Password Encoding
     @Bean
