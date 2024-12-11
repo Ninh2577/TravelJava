@@ -1,6 +1,7 @@
 package com.example.Controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,21 +69,22 @@ public class TourController {
 			return ResponseEntity.notFound().build();
 		}
 	}
+
 	@PutMapping("/update-status/{id}")
 	public ResponseEntity<Tour> updateTourStatus(@PathVariable Integer id, @RequestBody Tour tour) {
-	    // Chỉ truyền giá trị trangThai thay vì toàn bộ đối tượng Tour
-	    Tour updatedTour = tourService.updateStatus(id, tour.isTrangThai());
-	    if (updatedTour != null) {
-	        return ResponseEntity.ok(updatedTour);
-	    }
-	    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		// Chỉ truyền giá trị trangThai thay vì toàn bộ đối tượng Tour
+		Tour updatedTour = tourService.updateStatus(id, tour.isTrangThai());
+		if (updatedTour != null) {
+			return ResponseEntity.ok(updatedTour);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 
 	// API DELETE: xóa tour theo ID
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteTour(@PathVariable Integer id) {
 		try {
-tourService.deleteTour(id);
+			tourService.deleteTour(id);
 			return new ResponseEntity<>("Người dùng đã được xóa thành công", HttpStatus.OK);
 		} catch (RuntimeException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -101,17 +103,34 @@ tourService.deleteTour(id);
 		return bienTheTourRepository.findByTourId(idTour);
 	}
 
-    @GetMapping("/byDanhMuc/{id}")
-    public List<Object[]> getToursByDanhMuc(@PathVariable("id") Integer idDanhMucTour) {
-        return tourService.getToursByDanhMuc(idDanhMucTour);
-    }   
-    @GetMapping("/search")
-    public List<TourDetailsDTO> searchTours(@RequestParam("text") String tenTour) {
-        return tourService.searchToursByName(tenTour);
-    }
-    @GetMapping("/danhmuctour/{tenDanhMuc}")
-    public List<Tour> getToursEndDanhMucTour(@PathVariable("tenDanhMuc") String idDanhMucTour){
-    	return tourService.getAllToursEndDanhMucTour(idDanhMucTour);
-    }
-    
+	@GetMapping("/byDanhMuc/{id}")
+	public List<Object[]> getToursByDanhMuc(@PathVariable("id") Integer idDanhMucTour) {
+		return tourService.getToursByDanhMuc(idDanhMucTour);
+	}
+
+	@GetMapping("/search")
+	public List<TourDetailsDTO> searchTours(@RequestParam("text") String tenTour) {
+		return tourService.searchToursByName(tenTour);
+	}
+
+	@GetMapping("/danhmuctour/{tenDanhMuc}")
+	public List<Tour> getToursEndDanhMucTour(@PathVariable("tenDanhMuc") String idDanhMucTour) {
+		return tourService.getAllToursEndDanhMucTour(idDanhMucTour);
+	}
+
+	// -----------------------------------huyTourAdmin
+	@PostMapping("/huy")
+	public ResponseEntity<?> huyHoaDon(@RequestBody Map<String, Object> payload) {
+		Integer chiTietHoaDonId = (Integer) payload.get("chiTietHoaDonId");
+		String cancelReason = (String) payload.get("cancelReason"); // Lý do hủy được lấy từ payload
+		System.out.println("Ngày bắt đầu: " + chiTietHoaDonId);
+		System.out.println("form người dùng: " + cancelReason);
+
+		try {
+			tourService.huyHoaDon(chiTietHoaDonId, cancelReason); // Truyền lý do hủy vào service
+			return ResponseEntity.ok("Hủy hóa đơn thành công.");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
 }

@@ -18,6 +18,9 @@ import com.example.Entity.MailModel;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import java.text.SimpleDateFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 @Service
 public class MailerService {
@@ -71,28 +74,65 @@ public class MailerService {
 		message.setText("Mã xác thực tài khoản của bạn là: " + otp + "\nMã xác thực có hiệu lực trong vòng 2 phút.");
 		sender.send(message);
 	}
-	
-	public void sendCancelTourEmail(String toEmail, String userName, float totalAmount, Date paymentDate, String cancelReason, String tenTour) {
-	    String subject = "Thông Báo Hủy Tour";
-	    String body = "Kính gửi " + userName + ",\n\n"
-	    		+ "Tour: " + tenTour + "\n"
-	            + "Chúng tôi xin thông báo rằng tour của bạn đã bị hủy với lý do: " + cancelReason + ".\n"
-	            + "Tổng tiền đã thanh toán là: " + totalAmount + " VNĐ.\n"
-	            + "Ngày thanh toán: " + paymentDate + ".\n\n"
-	            + "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.";
-	    
-	    // Cấu hình email
-	    SimpleMailMessage message = new SimpleMailMessage();
-	    message.setFrom("noreply@tourservice.com");
-	    message.setTo(toEmail);
-	    message.setSubject(subject);
-	    message.setText(body);
 
-	    // Gửi email
-	    sender.send(message);
-	    System.out.println("Gửi email đến: " + toEmail); // Kiểm tra xem địa chỉ email có đúng không
+	// public void sendCancelTourEmail(String toEmail, String userName, float
+	// totalAmount, Date paymentDate, String cancelReason, String tenTour) {
+	// String subject = "Thông Báo Hủy Tour";
+	// String body = "Kính gửi " + userName + ",\n\n"
+	// + "Tour: " + tenTour + "\n"
+	// + "Chúng tôi xin thông báo rằng tour của bạn đã bị hủy với lý do: " +
+	// cancelReason + ".\n"
+	// + "Tổng tiền đã thanh toán là: " + totalAmount + " VNĐ.\n"
+	// + "Ngày thanh toán: " + paymentDate + ".\n\n"
+	// + "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.";
 
+	// // Cấu hình email
+	// SimpleMailMessage message = new SimpleMailMessage();
+	// message.setFrom("noreply@tourservice.com");
+	// message.setTo(toEmail);
+	// message.setSubject(subject);
+	// message.setText(body);
+
+	// // Gửi email
+	// sender.send(message);
+	// System.out.println("Gửi email đến: " + toEmail); // Kiểm tra xem địa chỉ
+	// email có đúng không
+
+	// }
+
+	// -----------temp
+
+	public void sendCancelTourEmail(String toEmail, String userName, float totalAmount, Date paymentDate,
+			String cancelReason, String tenTour) {
+		String subject = "Thông Báo Hủy Tour";
+
+		// Định dạng ngày theo kiểu dd-MM-yyyy
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		String formattedDate = dateFormat.format(paymentDate);
+
+		// Định dạng tiền theo kiểu VNĐ
+		NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+		String formattedAmount = currencyFormat.format(totalAmount);
+
+		// Loại bỏ ký tự ₫ thừa từ tiền tệ
+		formattedAmount = formattedAmount.replace("₫", "").trim() + " ₫";
+
+		String body = "Kính gửi " + userName + ",\n\n"
+				+ "Tour: " + tenTour + "\n"
+				+ "Chúng tôi xin thông báo rằng tour của bạn đã bị hủy với lý do: " + cancelReason + ".\n"
+				+ "Tổng tiền đã thanh toán là: " + formattedAmount + ".\n"
+				+ "Ngày thanh toán: " + formattedDate + ".\n\n"
+				+ "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.";
+
+		// Cấu hình email
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setFrom("noreply@tourservice.com");
+		message.setTo(toEmail);
+		message.setSubject(subject);
+		message.setText(body);
+
+		// Gửi email
+		sender.send(message);
+		System.out.println("Gửi email đến: " + toEmail); // Kiểm tra xem địa chỉ email có đúng không
 	}
-
-
 }

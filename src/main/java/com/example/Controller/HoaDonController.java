@@ -95,7 +95,7 @@ public class HoaDonController {
 	@Autowired
 	private DanhSachNguoiDiCungRepository danhSachNguoiDiCungRepository;
 
-//	ChiTietGioHangController chiTietGioHangController;
+	// ChiTietGioHangController chiTietGioHangController;
 	private HttpServletRequest request;
 
 	@GetMapping
@@ -111,10 +111,13 @@ public class HoaDonController {
 	}
 
 	@PostMapping("/them2/{id}")
-	public String addHoaDon2(@PathVariable("id") Integer id,@RequestParam("idNguoiDung") Integer idNguoiDung, @RequestBody HoaDonDTO hoaDonDTO) {
-		System.out.println("userID: "+idNguoiDung);
-//		BienTheTour bienthetour = bienthetourRepository.findById(hoaDonDTO.getIdBienTheTour()).get();
-//		BienTheTour bienthetour = bienthetourRepository.findById(bienTheTour.getId()).get();
+	public String addHoaDon2(@PathVariable("id") Integer id, @RequestParam("idNguoiDung") Integer idNguoiDung,
+			@RequestBody HoaDonDTO hoaDonDTO) {
+		System.out.println("userID: " + idNguoiDung);
+		// BienTheTour bienthetour =
+		// bienthetourRepository.findById(hoaDonDTO.getIdBienTheTour()).get();
+		// BienTheTour bienthetour =
+		// bienthetourRepository.findById(bienTheTour.getId()).get();
 		ChiTietGioHang ctg1h = chiTietGioHangRepository.findById(id).get();
 		NguoiDung nguoiDung = nn.findById(idNguoiDung).get();// 2
 		HoaDon hoadon = new HoaDon();
@@ -139,18 +142,20 @@ public class HoaDonController {
 		chitiethoadon.setMoTa(bienthetour.getMaTour());
 		chiTietHoaDonRepository.save(chitiethoadon); //
 
-//	    Lấy danh sách ChiTietGioHang của BienTheTour
-//		List<ChiTietGioHang> ctgh = chiTietGioHangRepository.findByBienTheTour(bienthetour);
-//	    Tìm ChiTietGioHang cụ thể của NguoiDung bằng idChiTietGioHang từ hoaDonDTO
-//		ChiTietGioHang ctg1h = chiTietGioHangRepository.findByNguoiDungAndId(nguoiDung,
-//				hoaDonDTO.getIdChiTietGioHang());
-//		if (ctg1h == null) {
-//			return "ChiTietGioHang not found"; 
-//		}
+		// Lấy danh sách ChiTietGioHang của BienTheTour
+		// List<ChiTietGioHang> ctgh =
+		// chiTietGioHangRepository.findByBienTheTour(bienthetour);
+		// Tìm ChiTietGioHang cụ thể của NguoiDung bằng idChiTietGioHang từ hoaDonDTO
+		// ChiTietGioHang ctg1h =
+		// chiTietGioHangRepository.findByNguoiDungAndId(nguoiDung,
+		// hoaDonDTO.getIdChiTietGioHang());
+		// if (ctg1h == null) {
+		// return "ChiTietGioHang not found";
+		// }
 
 		// Lấy danh sách người đi cùng từ ChiTietGioHang
 		List<GioHangDanhSachNguoiDiCung> listGhdsndc = gioHangDanhSachNguoiDiCungRepository.findByChiTietGioHang(ctg1h);
-//		System.out.println("Số lượng người đi cùng: " + listGhdsndc.size());
+		// System.out.println("Số lượng người đi cùng: " + listGhdsndc.size());
 
 		// Lưu thông tin vào DanhSachNguoiDiCung
 		for (GioHangDanhSachNguoiDiCung gioHangDanhSachNguoiDiCung : listGhdsndc) {
@@ -178,8 +183,9 @@ public class HoaDonController {
 
 	}
 
-	@GetMapping("/api/vnpay/callback/{id}")
+	@GetMapping("/api/vnpay/callback/{id}/{idNguoiDung}")
 	public ResponseEntity<String> vnpayCallbackAndCreateHoaDon(@PathVariable("id") Integer id,
+			@PathVariable("idNguoiDung") Integer idNguoiDung,
 			@RequestParam Map<String, String> vnpayParams) {
 		try {
 			// Check if id is valid
@@ -201,7 +207,7 @@ public class HoaDonController {
 			}
 
 			// Fetch NguoiDung and other details
-			NguoiDung nguoiDung = nn.findById(2).get(); // Hardcoded for now, adjust as necessary
+			NguoiDung nguoiDung = nn.findById(idNguoiDung).get(); // Hardcoded for now, adjust as necessary
 			HoaDon hoadon = new HoaDon();
 			hoadon.setNguoiDung(nguoiDung);
 			hoadon.setTongTien(totalTien); // Set total price from the callback
@@ -259,16 +265,15 @@ public class HoaDonController {
 			// Handle any errors
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
 		}
-		
-		
+
 	}
 
 	@GetMapping("/{id}")
-    public ResponseEntity<List<ChiTietHoaDonsDTO>> getChiTietHoaDonById(@PathVariable("id") Integer idHoaDon) {
-        List<ChiTietHoaDonsDTO> chiTietHoaDonList = hoaDonService.getChiTietHoaDonById(idHoaDon);
-        if (chiTietHoaDonList.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(chiTietHoaDonList);
-    }
+	public ResponseEntity<List<ChiTietHoaDonsDTO>> getChiTietHoaDonById(@PathVariable("id") Integer idHoaDon) {
+		List<ChiTietHoaDonsDTO> chiTietHoaDonList = hoaDonService.getChiTietHoaDonById(idHoaDon);
+		if (chiTietHoaDonList.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok(chiTietHoaDonList);
+	}
 }
