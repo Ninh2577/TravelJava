@@ -134,11 +134,6 @@ public class TourService {
 	    System.out.println("ngày hiện tại: " + LocalDate.now());
 	    System.out.println("Số ngày còn lại đến ngày bắt đầu: " + daysRemaining + " ngày.");
 
-	    // Kiểm tra nếu số ngày còn lại nhỏ hơn 7
-//	    if (daysRemaining < 7) {
-//	        throw new RuntimeException("Không thể hủy hóa đơn. Cần ít nhất 7 ngày trước ngày bắt đầu để hủy.");
-//	    }
-
 	    // Lấy thông tin Chi Tiết Hóa Đơn
 	    ChiTietHoaDon chiTietHoaDon = chiTietHoaDonRepository.findById(chiTietHoaDonId)
 	            .orElseThrow(() -> new RuntimeException("Không tìm thấy chi tiết hóa đơn."));
