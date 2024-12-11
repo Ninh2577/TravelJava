@@ -19,6 +19,17 @@ import com.example.Repository.DanhGiaRepository;
     public DanhGia addDanhGia(DanhGia danhGia) {
         return danhGiaRepository.save(danhGia); // Lưu đánh giá vào cơ sở dữ liệu
     }
+
+	//GET Phương thức Đánh giá
+	public List<DanhGia> getAllDanhGia(){
+		return danhGiaRepository.findAll();
+	}
+	
+
+	
+	 public List<DanhGia> getAllTourByDanhGia(String tenTour){
+		 return danhGiaRepository.findToursByDanhGia(tenTour);
+	 }
 //    // Phương thức cập nhật đánh giá
 //    public Optional<DanhGia> updateDanhGia(Integer id, DanhGia danhGiaDetails) {
 //        return danhGiaRepository.findById(id).map(danhGia -> {
