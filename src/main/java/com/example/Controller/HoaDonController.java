@@ -37,6 +37,7 @@
 package com.example.Controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,77 +111,147 @@ public class HoaDonController {
 		return hoaDonService.addHoaDon(hoaDonDTO);
 	}
 
+	// @PostMapping("/them2/{id}")
+	// public String addHoaDon2(@PathVariable("id") Integer id,
+	// @RequestParam("idNguoiDung") Integer idNguoiDung,
+	// @RequestBody HoaDonDTO hoaDonDTO) {
+	// System.out.println("userID: " + idNguoiDung);
+	// // BienTheTour bienthetour =
+	// // bienthetourRepository.findById(hoaDonDTO.getIdBienTheTour()).get();
+	// // BienTheTour bienthetour =
+	// // bienthetourRepository.findById(bienTheTour.getId()).get();
+	// ChiTietGioHang ctg1h = chiTietGioHangRepository.findById(id).get();
+	// NguoiDung nguoiDung = nn.findById(idNguoiDung).get();// 2
+	// HoaDon hoadon = new HoaDon();
+	// hoadon.setNguoiDung(nguoiDung);
+	// hoadon.setTongTien(hoaDonDTO.getTongTien()); // Example total price
+	// hoadon.setNgayThanhToan(new Date());
+	// hoadon.setPhuongThucThanhToan(true); // Example payment method (true for
+	// online)
+	// hoadon.setTrangThai(true); // Assuming true for a completed transaction
+	// HoaDon savedHoaDon = hoaDonRepository.save(hoadon); // Saving HoaDon
+	// BienTheTour bienthetour =
+	// bienthetourRepository.findById(hoaDonDTO.getIdBienTheTour()).orElse(null);
+	// if (bienthetour == null) {
+	// return "BienTheTour not found"; // Trả về lỗi nếu không tìm thấy
+	// }
+	// ChiTietHoaDon chitiethoadon = new ChiTietHoaDon();
+	// chitiethoadon.setHoaDon(savedHoaDon); // Associate with the saved HoaDon
+	// chitiethoadon.setBienTheTour(bienthetour); // Set BienTheTour object
+	// chitiethoadon.setNgayDat(savedHoaDon.getNgayThanhToan());
+	// chitiethoadon.setTrangThai(true);
+	// chitiethoadon.setThanhTien(savedHoaDon.getTongTien());
+	// chitiethoadon.setGiaNguoiLon(bienthetour.getGiaNguoiLon());
+	// chitiethoadon.setGiaTreEm(bienthetour.getGiaTreEm());
+	// chitiethoadon.setMoTa(bienthetour.getMaTour());
+	// chiTietHoaDonRepository.save(chitiethoadon); //
+
+	// // Lấy danh sách ChiTietGioHang của BienTheTour
+	// // List<ChiTietGioHang> ctgh =
+	// // chiTietGioHangRepository.findByBienTheTour(bienthetour);
+	// // Tìm ChiTietGioHang cụ thể của NguoiDung bằng idChiTietGioHang từ hoaDonDTO
+	// // ChiTietGioHang ctg1h =
+	// // chiTietGioHangRepository.findByNguoiDungAndId(nguoiDung,
+	// // hoaDonDTO.getIdChiTietGioHang());
+	// // if (ctg1h == null) {
+	// // return "ChiTietGioHang not found";
+	// // }
+
+	// // Lấy danh sách người đi cùng từ ChiTietGioHang
+	// List<GioHangDanhSachNguoiDiCung> listGhdsndc =
+	// gioHangDanhSachNguoiDiCungRepository.findByChiTietGioHang(ctg1h);
+	// // System.out.println("Số lượng người đi cùng: " + listGhdsndc.size());
+
+	// // Lưu thông tin vào DanhSachNguoiDiCung
+	// for (GioHangDanhSachNguoiDiCung gioHangDanhSachNguoiDiCung : listGhdsndc) {
+
+	// DanhSachNguoiDiCung danhSachNguoiDiCung = new DanhSachNguoiDiCung();
+	// danhSachNguoiDiCung.setChiTietHoaDon(chitiethoadon); // Liên kết với
+	// ChiTietHoaDon đã lưu
+	// danhSachNguoiDiCung.setHoTen(gioHangDanhSachNguoiDiCung.getHoTen());
+	// danhSachNguoiDiCung.setEmail(gioHangDanhSachNguoiDiCung.getEmail());
+	// danhSachNguoiDiCung.setSoDienThoai(gioHangDanhSachNguoiDiCung.getSoDienThoai());
+	// danhSachNguoiDiCung.setNamSinh(gioHangDanhSachNguoiDiCung.getNamSinh());
+	// danhSachNguoiDiCungRepository.save(danhSachNguoiDiCung); // Lưu thông tin
+	// người đi cùng
+	// }
+
+	// // Cập nhật số lượng còn lại của BienTheTour
+	// int soLuongGioHang = ctg1h.getSoNguoi(); // Số lượng từ giỏ hàng
+	// int soLuongHienTai = bienthetour.getSoLuongCon(); // Số lượng hiện tại của
+	// BienTheTour
+	// bienthetour.setSoLuongCon(soLuongHienTai - soLuongGioHang);
+	// bienthetourRepository.save(bienthetour); // Cập nhật lại BienTheTour với số
+	// lượng còn lại
+
+	// // Xóa danh sách người đi cùng khỏi giỏ hàng và xóa ChiTietGioHang sau khi
+	// lưu
+	// gioHangDanhSachNguoiDiCungRepository.deleteAll(listGhdsndc);
+	// chiTietGioHangRepository.delete(ctg1h);
+
+	// return "oke"; // Trả về thành công
+
+	// }
+
 	@PostMapping("/them2/{id}")
-	public String addHoaDon2(@PathVariable("id") Integer id, @RequestParam("idNguoiDung") Integer idNguoiDung,
+	public ResponseEntity<?> addHoaDon2(@PathVariable("id") Integer id,
+			@RequestParam("idNguoiDung") Integer idNguoiDung,
 			@RequestBody HoaDonDTO hoaDonDTO) {
 		System.out.println("userID: " + idNguoiDung);
-		// BienTheTour bienthetour =
-		// bienthetourRepository.findById(hoaDonDTO.getIdBienTheTour()).get();
-		// BienTheTour bienthetour =
-		// bienthetourRepository.findById(bienTheTour.getId()).get();
+
 		ChiTietGioHang ctg1h = chiTietGioHangRepository.findById(id).get();
-		NguoiDung nguoiDung = nn.findById(idNguoiDung).get();// 2
+		NguoiDung nguoiDung = nn.findById(idNguoiDung).get();
 		HoaDon hoadon = new HoaDon();
 		hoadon.setNguoiDung(nguoiDung);
-		hoadon.setTongTien(hoaDonDTO.getTongTien()); // Example total price
+		hoadon.setTongTien(hoaDonDTO.getTongTien());
 		hoadon.setNgayThanhToan(new Date());
-		hoadon.setPhuongThucThanhToan(true); // Example payment method (true for online)
-		hoadon.setTrangThai(true); // Assuming true for a completed transaction
-		HoaDon savedHoaDon = hoaDonRepository.save(hoadon); // Saving HoaDon
+		hoadon.setPhuongThucThanhToan(true);
+		hoadon.setTrangThai(true);
+		HoaDon savedHoaDon = hoaDonRepository.save(hoadon);
+
 		BienTheTour bienthetour = bienthetourRepository.findById(hoaDonDTO.getIdBienTheTour()).orElse(null);
 		if (bienthetour == null) {
-			return "BienTheTour not found"; // Trả về lỗi nếu không tìm thấy
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("BienTheTour not found");
 		}
+
 		ChiTietHoaDon chitiethoadon = new ChiTietHoaDon();
-		chitiethoadon.setHoaDon(savedHoaDon); // Associate with the saved HoaDon
-		chitiethoadon.setBienTheTour(bienthetour); // Set BienTheTour object
+		chitiethoadon.setHoaDon(savedHoaDon);
+		chitiethoadon.setBienTheTour(bienthetour);
 		chitiethoadon.setNgayDat(savedHoaDon.getNgayThanhToan());
 		chitiethoadon.setTrangThai(true);
 		chitiethoadon.setThanhTien(savedHoaDon.getTongTien());
 		chitiethoadon.setGiaNguoiLon(bienthetour.getGiaNguoiLon());
 		chitiethoadon.setGiaTreEm(bienthetour.getGiaTreEm());
 		chitiethoadon.setMoTa(bienthetour.getMaTour());
-		chiTietHoaDonRepository.save(chitiethoadon); //
+		chiTietHoaDonRepository.save(chitiethoadon);
 
-		// Lấy danh sách ChiTietGioHang của BienTheTour
-		// List<ChiTietGioHang> ctgh =
-		// chiTietGioHangRepository.findByBienTheTour(bienthetour);
-		// Tìm ChiTietGioHang cụ thể của NguoiDung bằng idChiTietGioHang từ hoaDonDTO
-		// ChiTietGioHang ctg1h =
-		// chiTietGioHangRepository.findByNguoiDungAndId(nguoiDung,
-		// hoaDonDTO.getIdChiTietGioHang());
-		// if (ctg1h == null) {
-		// return "ChiTietGioHang not found";
-		// }
-
-		// Lấy danh sách người đi cùng từ ChiTietGioHang
 		List<GioHangDanhSachNguoiDiCung> listGhdsndc = gioHangDanhSachNguoiDiCungRepository.findByChiTietGioHang(ctg1h);
-		// System.out.println("Số lượng người đi cùng: " + listGhdsndc.size());
-
-		// Lưu thông tin vào DanhSachNguoiDiCung
 		for (GioHangDanhSachNguoiDiCung gioHangDanhSachNguoiDiCung : listGhdsndc) {
-
 			DanhSachNguoiDiCung danhSachNguoiDiCung = new DanhSachNguoiDiCung();
-			danhSachNguoiDiCung.setChiTietHoaDon(chitiethoadon); // Liên kết với ChiTietHoaDon đã lưu
+			danhSachNguoiDiCung.setChiTietHoaDon(chitiethoadon);
 			danhSachNguoiDiCung.setHoTen(gioHangDanhSachNguoiDiCung.getHoTen());
 			danhSachNguoiDiCung.setEmail(gioHangDanhSachNguoiDiCung.getEmail());
 			danhSachNguoiDiCung.setSoDienThoai(gioHangDanhSachNguoiDiCung.getSoDienThoai());
 			danhSachNguoiDiCung.setNamSinh(gioHangDanhSachNguoiDiCung.getNamSinh());
-			danhSachNguoiDiCungRepository.save(danhSachNguoiDiCung); // Lưu thông tin người đi cùng
+			danhSachNguoiDiCungRepository.save(danhSachNguoiDiCung);
 		}
 
-		// Cập nhật số lượng còn lại của BienTheTour
-		int soLuongGioHang = ctg1h.getSoNguoi(); // Số lượng từ giỏ hàng
-		int soLuongHienTai = bienthetour.getSoLuongCon(); // Số lượng hiện tại của BienTheTour
+		int soLuongGioHang = ctg1h.getSoNguoi();
+		int soLuongHienTai = bienthetour.getSoLuongCon();
 		bienthetour.setSoLuongCon(soLuongHienTai - soLuongGioHang);
-		bienthetourRepository.save(bienthetour); // Cập nhật lại BienTheTour với số lượng còn lại
+		bienthetourRepository.save(bienthetour);
 
-		// Xóa danh sách người đi cùng khỏi giỏ hàng và xóa ChiTietGioHang sau khi lưu
 		gioHangDanhSachNguoiDiCungRepository.deleteAll(listGhdsndc);
 		chiTietGioHangRepository.delete(ctg1h);
 
-		return "oke"; // Trả về thành công
-
+		// Trả về thông tin chi tiết về hóa đơn và ID hóa đơn
+		return ResponseEntity.ok(new HashMap<String, Object>() {
+			{
+				put("status", "success");
+				put("paymentId", savedHoaDon.getId());
+				put("message", "Hóa đơn đã được tạo thành công");
+			}
+		});
 	}
 
 	@GetMapping("/api/vnpay/callback/{id}/{idNguoiDung}")
