@@ -69,7 +69,9 @@ import com.example.Repository.GioHangDanhSachNguoiDiCungRepository;
 import com.example.Repository.HoaDonRepository;
 import com.example.Repository.NguoiDungRepository;
 import com.example.service.HoaDonService;
+import com.example.service.MailerService;
 
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -82,6 +84,9 @@ public class HoaDonController {
 	private HoaDonService hoaDonService;
 	@Autowired
 	private NguoiDungRepository nn;
+
+	@Autowired
+	private MailerService mailerService;
 
 	@Autowired
 	private ChiTietGioHangRepository chiTietGioHangRepository;
@@ -196,7 +201,7 @@ public class HoaDonController {
 	@PostMapping("/them2/{id}")
 	public ResponseEntity<?> addHoaDon2(@PathVariable("id") Integer id,
 			@RequestParam("idNguoiDung") Integer idNguoiDung,
-			@RequestBody HoaDonDTO hoaDonDTO) {
+			@RequestBody HoaDonDTO hoaDonDTO) throws MessagingException {
 		System.out.println("userID: " + idNguoiDung);
 
 		ChiTietGioHang ctg1h = chiTietGioHangRepository.findById(id).get();
@@ -244,6 +249,8 @@ public class HoaDonController {
 		gioHangDanhSachNguoiDiCungRepository.deleteAll(listGhdsndc);
 		chiTietGioHangRepository.delete(ctg1h);
 
+		 // Gọi phương thức gửi email hóa đơn sau khi tạo hóa đơn thành công
+		 mailerService.sendInvoiceEmail(savedHoaDon.getId());
 		// Trả về thông tin chi tiết về hóa đơn và ID hóa đơn
 		return ResponseEntity.ok(new HashMap<String, Object>() {
 			{
@@ -327,9 +334,9 @@ public class HoaDonController {
 			// Delete related cart items after processing
 			gioHangDanhSachNguoiDiCungRepository.deleteAll(listGhdsndc);
 			chiTietGioHangRepository.delete(ctg1h);
-
+			mailerService.sendInvoiceEmail(savedHoaDon.getId());
 			// Redirect to frontend on success
-			return ResponseEntity.status(HttpStatus.FOUND).header("Location", "http://localhost:3000")
+			return ResponseEntity.status(HttpStatus.FOUND).header("Location", "http://localhost:3000/chi-tiet-hoa-don?paymentId=" + hoadon.getId())
 					.body("Payment processed and redirected to frontend...");
 
 		} catch (Exception e) {
