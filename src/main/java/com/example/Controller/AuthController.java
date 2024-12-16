@@ -1,5 +1,8 @@
 package com.example.Controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -171,6 +174,90 @@ public class AuthController {
 
         return ResponseEntity.ok(userResponse);
     }
+
+     // Phương thức parseDate để chuyển đổi từ String thành Date
+    public Date parseDate(String dateString) throws ParseException  {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  // Định dạng ngày của Facebook
+        return formatter.parse(dateString);  // Trả về Date sau khi chuyển đổi
+ 
+    }
+    @GetMapping("/facebook/tt")
+    public ResponseEntity<Map<String, Object>> getUserFB(@AuthenticationPrincipal OAuth2User facebookUser) {
+        // In ra thông tin facebookUser để kiểm tra xem dữ liệu có được truyền vào không
+        System.out.println("facebookUser: " + facebookUser);
+    
+        if (facebookUser == null) {
+            // Trả về thông báo rằng người dùng chưa đăng nhập mà không trả về lỗi 401
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Người dùng chưa đăng nhập");
+            return ResponseEntity.ok(response); // Không phải lỗi 401
+        }
+    
+        // Lấy các thông tin người dùng từ Facebook
+        String email = (String) facebookUser.getAttributes().get("email");
+        String name = (String) facebookUser.getAttributes().get("name");
+        String picture = (String) facebookUser.getAttributes().get("picture");
+        // String birthday = (String) facebookUser.getAttributes().get("birthday"); // Dự kiến định dạng yyyy-MM-dd
+        // String gender = (String) facebookUser.getAttributes().get("gender");  // male hoặc female
+    
+        // In ra các thông tin để kiểm tra
+        System.out.println("Email: " + email);
+        System.out.println("Name: " + name);
+        System.out.println("Picture: " + picture);
+        // System.out.println("Birthday: " + birthday);
+        // System.out.println("Gender: " + gender);
+    
+        // Chuyển đổi ngày sinh từ String thành Date
+        // Date birthDate = null;
+        // try {
+        //     birthDate = parseDate(birthday);  // Chuyển đổi từ String thành Date
+
+        // } catch (Exception e) {
+        //     e.printStackTrace();  // Xử lý lỗi nếu ngày sinh không hợp lệ
+        // }
+    
+        // // Chuyển giới tính từ String thành boolean
+        // boolean isMale = "male".equalsIgnoreCase(gender);  // Giới tính male => true, female => false
+    
+        // Tạo hoặc cập nhật người dùng trong cơ sở dữ liệu
+        NguoiDung nguoiDung = new NguoiDung();
+        Optional<NguoiDung> existingUserOpt = nguoiDungRepository.findByEmail(email);
+    
+        if (existingUserOpt.isPresent()) {
+            nguoiDung = existingUserOpt.get();
+            nguoiDung.setHoTen(name);
+            // nguoiDung.setHinhAnh(picture);
+            // nguoiDung.setGioiTinh(isMale);
+            // nguoiDung.setNamSinh(birthDate);
+            nguoiDungRepository.save(nguoiDung);
+        } else {
+            VaiTro vaiTro = new VaiTro();
+            vaiTro.setId(3); // Assign default role, replace with actual role logic
+            nguoiDung.setHoTen(name);
+            nguoiDung.setEmail(email);
+            // nguoiDung.setHinhAnh(picture);
+            nguoiDung.setVaiTro(vaiTro);
+            // nguoiDung.setGioiTinh(isMale);  // Lưu giới tính
+            // nguoiDung.setNamSinh(birthDate);  // Lưu ngày sinh
+            nguoiDungRepository.save(nguoiDung);
+        }
+    
+        // Tạo token JWT cho người dùng
+        String token = jwtUtil.generateToken(nguoiDung);
+        Map<String, Object> userResponse = new HashMap<>();
+        userResponse.put("token", token);
+        userResponse.put("id", nguoiDung.getId());
+        userResponse.put("hoTen", nguoiDung.getHoTen());
+        userResponse.put("email", nguoiDung.getEmail());
+        // userResponse.put("hinhAnh", nguoiDung.getHinhAnh());
+        userResponse.put("diaChi", nguoiDung.getDiaChi());
+        userResponse.put("vaiTro", nguoiDung.getVaiTro().getVaiTro());
+        // userResponse.put("birthday", nguoiDung.getNamSinh());  // Trả về ngày sinh dưới dạng Date
+        // userResponse.put("gender", nguoiDung.isGioiTinh() ? "male" : "female");  // Trả về giới tính
+    
+        return ResponseEntity.ok(userResponse);
+    }
+    
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response,
