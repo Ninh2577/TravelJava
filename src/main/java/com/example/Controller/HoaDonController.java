@@ -40,6 +40,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -249,8 +251,14 @@ public class HoaDonController {
 		gioHangDanhSachNguoiDiCungRepository.deleteAll(listGhdsndc);
 		chiTietGioHangRepository.delete(ctg1h);
 
-		 // Gọi phương thức gửi email hóa đơn sau khi tạo hóa đơn thành công
-		 mailerService.sendInvoiceEmail(savedHoaDon.getId());
+		// Gọi phương thức gửi email hóa đơn sau khi tạo hóa đơn thành công
+		CompletableFuture.runAsync(() -> {
+			try {
+				mailerService.sendInvoiceEmail(savedHoaDon.getId());
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
+		});
 		// Trả về thông tin chi tiết về hóa đơn và ID hóa đơn
 		return ResponseEntity.ok(new HashMap<String, Object>() {
 			{
@@ -334,9 +342,17 @@ public class HoaDonController {
 			// Delete related cart items after processing
 			gioHangDanhSachNguoiDiCungRepository.deleteAll(listGhdsndc);
 			chiTietGioHangRepository.delete(ctg1h);
-			mailerService.sendInvoiceEmail(savedHoaDon.getId());
+			// Gọi phương thức gửi email hóa đơn sau khi tạo hóa đơn thành công
+			CompletableFuture.runAsync(() -> {
+				try {
+					mailerService.sendInvoiceEmail(savedHoaDon.getId());
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
+			});
 			// Redirect to frontend on success
-			return ResponseEntity.status(HttpStatus.FOUND).header("Location", "http://localhost:3000/chi-tiet-hoa-don?paymentId=" + hoadon.getId())
+			return ResponseEntity.status(HttpStatus.FOUND)
+					.header("Location", "http://localhost:3000/chi-tiet-hoa-don?paymentId=" + hoadon.getId())
 					.body("Payment processed and redirected to frontend...");
 
 		} catch (Exception e) {

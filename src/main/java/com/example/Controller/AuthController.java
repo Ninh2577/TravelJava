@@ -226,7 +226,7 @@ public class AuthController {
         if (existingUserOpt.isPresent()) {
             nguoiDung = existingUserOpt.get();
             nguoiDung.setHoTen(name);
-            // nguoiDung.setHinhAnh(picture);
+            nguoiDung.setHinhAnh(picture);
             // nguoiDung.setGioiTinh(isMale);
             // nguoiDung.setNamSinh(birthDate);
             nguoiDungRepository.save(nguoiDung);
@@ -235,7 +235,7 @@ public class AuthController {
             vaiTro.setId(3); // Assign default role, replace with actual role logic
             nguoiDung.setHoTen(name);
             nguoiDung.setEmail(email);
-            // nguoiDung.setHinhAnh(picture);
+            nguoiDung.setHinhAnh(picture);
             nguoiDung.setVaiTro(vaiTro);
             // nguoiDung.setGioiTinh(isMale);  // Lưu giới tính
             // nguoiDung.setNamSinh(birthDate);  // Lưu ngày sinh
@@ -249,7 +249,7 @@ public class AuthController {
         userResponse.put("id", nguoiDung.getId());
         userResponse.put("hoTen", nguoiDung.getHoTen());
         userResponse.put("email", nguoiDung.getEmail());
-        // userResponse.put("hinhAnh", nguoiDung.getHinhAnh());
+        userResponse.put("hinhAnh", nguoiDung.getHinhAnh());
         userResponse.put("diaChi", nguoiDung.getDiaChi());
         userResponse.put("vaiTro", nguoiDung.getVaiTro().getVaiTro());
         // userResponse.put("birthday", nguoiDung.getNamSinh());  // Trả về ngày sinh dưới dạng Date
