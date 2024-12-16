@@ -29,6 +29,9 @@ public class ChiTietGioHang implements Serializable {
     private BienTheTour bienTheTour;
 
     private float tongTien;
+    // private float tongTienSauGiam; // Tổng tiền sau khi giảm giá
+    // private String maGiamGia; // Mã giảm giá được nhập
+
     private String moTa;
     private Integer soNguoi;
-} 
+}

@@ -57,4 +57,9 @@ public class GiamGiaService {
 			throw new RuntimeException("Giảm giá không tồn tại với ID: " +id);
 		}
 	}
+	
+	public GiamGia findByMaGiamGia(String maGiamGia) {
+		return giamGiaRepository.findByMaGiamGia(maGiamGia);
+	}
+	
 }

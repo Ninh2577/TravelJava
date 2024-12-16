@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.Entity.GiamGia;
 
 public interface GiamGiaRepository extends JpaRepository<GiamGia, Integer>{
-
+    GiamGia findByMaGiamGia(String maGiamGia);
 }
