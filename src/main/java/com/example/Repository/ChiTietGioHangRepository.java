@@ -53,5 +53,7 @@ public interface ChiTietGioHangRepository extends JpaRepository<ChiTietGioHang, 
                         "JOIN Tour t ON bt.tour.id = t.id " +
                         "WHERE ctgh.nguoiDung.id = :idNguoiDung")
         List<GioHangDTO> findCartDetailsByUserId(@Param("idNguoiDung") Integer idNguoiDung);
-
+      
+            
+            
 }

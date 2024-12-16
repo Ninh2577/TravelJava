@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.DTO.DiscountRequest;
 import com.example.Entity.BienTheTour;
 import com.example.Entity.GiamGia;
 import com.example.service.BienTheTourService;
@@ -68,63 +69,98 @@ public class GiamGiaController {
 		}
 	}
 
-	@GetMapping("/kiemtra/{maGiamGia}/{bienTheTourId}")
+	// @GetMapping("/kiemtra/{maGiamGia}/{bienTheTourId}")
+	// public ResponseEntity<String> applyDiscountCode(
+	// @PathVariable String maGiamGia,
+	// @PathVariable Integer bienTheTourId) {
+
+	// BienTheTour bienTheTour = bienTheTourService.findById(bienTheTourId);
+	// // System.out.println("BienTheTour found: " + bienTheTour);
+
+	// if (bienTheTour == null) {
+	// // System.out.println("BienTheTour not found for id: " + bienTheTourId);
+	// return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Biến thể tour không
+	// tồn tại");
+	// }
+
+	// GiamGia giamGia = giamGiaService.findByMaGiamGia(maGiamGia);
+	// // System.out.println("GiamGia found: " + giamGia);
+
+	// if (giamGia == null) {
+	// // System.out.println("GiamGia not found for code: " + maGiamGia);
+	// return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mã giảm giá không
+	// tồn tại");
+	// }
+
+	// // System.out.println("Checking if GiamGia applies to BienTheTour...");
+	// if (!giamGia.getBienTheTours().contains(bienTheTour)) {
+	// // System.out.println("GiamGia does not apply to the given BienTheTour");
+	// return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	// .body("Mã giảm giá không áp dụng cho biến thể tour này");
+	// }
+
+	// Date today = new Date();
+	// System.out.println("Today's date: " + today);
+	// System.out.println("GiamGia start date: " + giamGia.getNgayBatDau());
+	// System.out.println("GiamGia end date: " + giamGia.getNgayKetThuc());
+
+	// if (today.before(giamGia.getNgayBatDau()) ||
+	// today.after(giamGia.getNgayKetThuc())) {
+	// // System.out.println("GiamGia is expired or not yet started");
+	// return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mã giảm giá hết
+	// hạn hoặc chưa bắt đầu");
+	// }
+
+	// // float tongTien = bienTheTour.getGiaNguoiLon() * 1;
+	// float tongTien = bienTheTour.getGiaNguoiLon() * 1;
+
+	// System.out.println("(tongTien): " + tongTien);
+
+	// float discountAmount = tongTien * giamGia.getPhanTram() / 100; // Áp dụng
+	// phần trăm giảm giá
+	// // System.out.println("Discount percentage: " + giamGia.getPhanTram() + "%");
+	// // System.out.println("Discount amount: " + discountAmount);
+
+	// float finalPrice = tongTien - discountAmount;
+	// // System.out.println("Final price after discount: " + finalPrice);
+
+	// return ResponseEntity
+	// .ok("Mã giảm giá hợp lệ. Giá trị giảm: " + discountAmount + ". Tổng sau giảm:
+	// " + finalPrice);
+	// }
+	@PostMapping("/kiemtra")
 	public ResponseEntity<String> applyDiscountCode(
-			@PathVariable String maGiamGia,
-			@PathVariable Integer bienTheTourId) {
+			@RequestBody DiscountRequest discountRequest) {
 
-		// System.out.println("Received request with maGiamGia: " + maGiamGia + " and bienTheTourId: " + bienTheTourId);
+		String maGiamGia = discountRequest.getMaGiamGia();
+		Integer bienTheTourId = discountRequest.getBienTheTourId();
+		Float totalTien = discountRequest.getTotalTien();
 
-		// Lấy thông tin biến thể tour (BienTheTour)
 		BienTheTour bienTheTour = bienTheTourService.findById(bienTheTourId);
-		// System.out.println("BienTheTour found: " + bienTheTour);
 
 		if (bienTheTour == null) {
-			// System.out.println("BienTheTour not found for id: " + bienTheTourId);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Biến thể tour không tồn tại");
 		}
 
-		// Tìm mã giảm giá từ cơ sở dữ liệu
 		GiamGia giamGia = giamGiaService.findByMaGiamGia(maGiamGia);
-		// System.out.println("GiamGia found: " + giamGia);
 
 		if (giamGia == null) {
-			// System.out.println("GiamGia not found for code: " + maGiamGia);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mã giảm giá không tồn tại");
 		}
 
-		// Kiểm tra xem mã giảm giá có áp dụng cho biến thể tour này không
-		// System.out.println("Checking if GiamGia applies to BienTheTour...");
 		if (!giamGia.getBienTheTours().contains(bienTheTour)) {
-			// System.out.println("GiamGia does not apply to the given BienTheTour");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body("Mã giảm giá không áp dụng cho biến thể tour này");
 		}
 
-		// Kiểm tra ngày bắt đầu và kết thúc của mã giảm giá
 		Date today = new Date();
-		System.out.println("Today's date: " + today);
-		System.out.println("GiamGia start date: " + giamGia.getNgayBatDau());
-		System.out.println("GiamGia end date: " + giamGia.getNgayKetThuc());
-
 		if (today.before(giamGia.getNgayBatDau()) || today.after(giamGia.getNgayKetThuc())) {
-			// System.out.println("GiamGia is expired or not yet started");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mã giảm giá hết hạn hoặc chưa bắt đầu");
 		}
 
-		// Tính toán giảm giá dựa trên tỷ lệ phần trăm
-		float tongTien = bienTheTour.getGiaNguoiLon() * 1; // Ví dụ tính cho 1 người lớn
-		// System.out.println("Original price (tongTien): " + tongTien);
+		float discountAmount = totalTien * giamGia.getPhanTram() / 100; // Áp dụng phần trăm giảm giá
+		float finalPrice = totalTien - discountAmount;
 
-		float discountAmount = tongTien * giamGia.getPhanTram() / 100; // Áp dụng phần trăm giảm giá
-		// System.out.println("Discount percentage: " + giamGia.getPhanTram() + "%");
-		// System.out.println("Discount amount: " + discountAmount);
-
-		// Cập nhật giá trị giảm giá trong giỏ hàng (ChiTietGioHang)
-		float finalPrice = tongTien - discountAmount;
-		// System.out.println("Final price after discount: " + finalPrice);
-
-		// Trả về kết quả
 		return ResponseEntity
 				.ok("Mã giảm giá hợp lệ. Giá trị giảm: " + discountAmount + ". Tổng sau giảm: " + finalPrice);
 	}
