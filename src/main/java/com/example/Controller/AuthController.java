@@ -279,6 +279,7 @@ public class AuthController {
             new SecurityContextLogoutHandler().logout(request, response, authentication);
         }
         request.getSession().invalidate(); // Hủy session
+        response.setStatus(HttpServletResponse.SC_OK);
         System.out.println("User logged out successfully");
         return ResponseEntity.ok().body("Đăng xuất thành công!");
     }
