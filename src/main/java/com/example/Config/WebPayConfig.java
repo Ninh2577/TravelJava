@@ -27,20 +27,20 @@ public class WebPayConfig implements WebMvcConfigurer {
         return new PayOS(clientId, apiKey, checksumKey);
     }
 
+//    @Override
+//    public void addCorsMappings(@NonNull CorsRegistry registry) {
+//        registry.addMapping("/**").allowedOrigins("*").allowedMethods("*").allowedHeaders("*").exposedHeaders("*")
+//                .allowCredentials(false).maxAge(3600); // Max age of the CORS pre-flight request
+//    }
     // @Override
     // public void addCorsMappings(@NonNull CorsRegistry registry) {
-    //     registry.addMapping("/**").allowedOrigins("*").allowedMethods("*").allowedHeaders("*").exposedHeaders("*")
-    //             .allowCredentials(false).maxAge(3600); // Max age of the CORS pre-flight request
+    //     registry.addMapping("/**")
+    //             .allowedOrigins("http://localhost:3000") // Chỉ cho phép origin này
+    //             .allowedMethods("GET", "POST", "PUT", "DELETE") // Cho phép các phương thức HTTP cụ thể
+    //             .allowedHeaders("*")
+    //             .exposedHeaders("*")
+    //             .allowCredentials(true) // Cho phép gửi credentials (cookies, authorization headers)
+    //             .maxAge(3600); // Cache preflight request trong 1 giờ
     // }
-    @Override
-    public void addCorsMappings(@NonNull CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000") // Chỉ cho phép origin này
-                .allowedMethods("GET", "POST", "PUT", "DELETE") // Cho phép các phương thức HTTP cụ thể
-                .allowedHeaders("*")
-                .exposedHeaders("*")
-                .allowCredentials(true) // Cho phép gửi credentials (cookies, authorization headers)
-                .maxAge(3600); // Cache preflight request trong 1 giờ
-    }
 
 }
