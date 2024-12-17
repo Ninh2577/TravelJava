@@ -352,7 +352,7 @@ public class HoaDonController {
 			});
 			// Redirect to frontend on success
 			return ResponseEntity.status(HttpStatus.FOUND)
-					.header("Location", "http://localhost:3000/chi-tiet-hoa-don?paymentId=" + hoadon.getId())
+					.header("Location", "http://localhost:3000" + hoadon.getId())
 					.body("Payment processed and redirected to frontend...");
 
 		} catch (Exception e) {
