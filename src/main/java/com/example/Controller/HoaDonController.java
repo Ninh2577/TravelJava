@@ -59,6 +59,7 @@ import com.example.DTO.HoaDonDTO;
 import com.example.Entity.BienTheTour;
 import com.example.Entity.ChiTietGioHang;
 import com.example.Entity.ChiTietHoaDon;
+import com.example.Entity.DanhGia;
 import com.example.Entity.DanhSachNguoiDiCung;
 import com.example.Entity.GioHangDanhSachNguoiDiCung;
 import com.example.Entity.HoaDon;
@@ -370,4 +371,10 @@ public class HoaDonController {
 		}
 		return ResponseEntity.ok(chiTietHoaDonList);
 	}
+	
+	@GetMapping("/bienthetour/{tenBienTheTour}")
+	public List<HoaDon> getHoaDonAllByBienTheTour(@PathVariable String tenBienTheTour) {
+	    return hoaDonService.getAllHoaDonByBienTheTour(tenBienTheTour);
+	}
+
 }
