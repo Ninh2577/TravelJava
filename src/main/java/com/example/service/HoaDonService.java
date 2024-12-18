@@ -156,4 +156,9 @@ public class HoaDonService {
 	public List<HoaDon> getAllHoaDonByBienTheTour(String tenBienTheTour) {
         return hoaDonRepository.findHoaDonByBienTheTour(tenBienTheTour);
     }
+
+	
+	public List<HoaDon> getAllHoaDonByBienTheTour2(int idBienTheTour) {
+        return hoaDonRepository.findHoaDonByBienTheTour2(idBienTheTour);
+    }
 }

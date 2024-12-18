@@ -377,4 +377,9 @@ public class HoaDonController {
 	    return hoaDonService.getAllHoaDonByBienTheTour(tenBienTheTour);
 	}
 
+	@GetMapping("/bienthetour2/{idBienTheTour}")
+    public List<HoaDon> getHoaDonAllByBienTheTour2(@PathVariable int idBienTheTour) {
+        return hoaDonService.getAllHoaDonByBienTheTour2(idBienTheTour);
+    }
+
 }

@@ -61,4 +61,9 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
                 "JOIN BienTheTour btt ON cthd.bienTheTour.id = btt.id " +
                 "WHERE btt.id = :bienTheTourId")
          List<HoaDon> findHoaDonByBienTheTour(@Param("bienTheTourId") String tenTour);
+         @Query("SELECT h FROM HoaDon h " +
+         "JOIN ChiTietHoaDon cthd ON h.id = cthd.hoaDon.id " +
+         "JOIN BienTheTour btt ON cthd.bienTheTour.id = btt.id " +
+         "WHERE btt.id = :bienTheTourId")
+  List<HoaDon> findHoaDonByBienTheTour2(@Param("bienTheTourId") int idBienTheTour);
     }
