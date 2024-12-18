@@ -450,7 +450,7 @@ public ResponseEntity<String> vnpayCallbackAndCreateHoaDon(@PathVariable("id") I
 
             // Trả về thông báo thành công và chuyển hướng về frontend
             return ResponseEntity.status(HttpStatus.FOUND)
-			.header("Location", "http://localhost:3000/chi-tiet-hoa-don" + hoadon.getId())
+			.header("Location", "http://localhost:3000/chi-tiet-hoa-don?paymentId=" + hoadon.getId())
                     .body("Payment processed and redirected to frontend...");
         } else {
             // Nếu thanh toán bị hủy, không lưu hóa đơn và trả về frontend
