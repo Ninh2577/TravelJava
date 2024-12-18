@@ -153,4 +153,14 @@ public class HoaDonService {
 	public List<ChiTietHoaDonsDTO> getChiTietHoaDonById(Integer idHoaDon) {
         return hoaDonRepository.getHoaDonChiTietDanhSachNguoiDiCung(idHoaDon);
     }
+
+	public List<HoaDon> getAllHoaDonByBienTheTour(String tenBienTheTour) {
+        return hoaDonRepository.findHoaDonByBienTheTour(tenBienTheTour);
+    }
+
+	
+	public List<HoaDon> getAllHoaDonByBienTheTour2(int idBienTheTour) {
+        return hoaDonRepository.findHoaDonByBienTheTour2(idBienTheTour);
+    }
+
 }

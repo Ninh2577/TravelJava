@@ -474,4 +474,14 @@ public ResponseEntity<String> vnpayCallbackAndCreateHoaDon(@PathVariable("id") I
 		}
 		return ResponseEntity.ok(chiTietHoaDonList);
 	}
+	@GetMapping("/bienthetour/{tenBienTheTour}")
+	public List<HoaDon> getHoaDonAllByBienTheTour(@PathVariable String tenBienTheTour) {
+	    return hoaDonService.getAllHoaDonByBienTheTour(tenBienTheTour);
+	}
+
+	@GetMapping("/bienthetour2/{idBienTheTour}")
+    public List<HoaDon> getHoaDonAllByBienTheTour2(@PathVariable int idBienTheTour) {
+        return hoaDonService.getAllHoaDonByBienTheTour2(idBienTheTour);
+    }
+
 }
