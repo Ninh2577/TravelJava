@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 import com.example.DTO.ChiTietHoaDonDTO;
 import com.example.DTO.ChiTietHoaDonsDTO;
-import com.example.Entity.DanhGia;
 import com.example.Entity.HoaDon;
 
 import jakarta.transaction.Transactional;
@@ -54,16 +53,15 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
         @Modifying
         @Query("UPDATE HoaDon hd SET hd.ghiChu = :ghiChu WHERE hd.id = :hoaDonId")
         void updateGhiChu(@Param("hoaDonId") Integer hoaDonId, @Param("ghiChu") String ghiChu);
-
-     // Truy vấn hóa đơn theo danh biến thể tour
+        // Truy vấn hóa đơn theo danh biến thể tour
         @Query("SELECT h FROM HoaDon h " +
-                "JOIN ChiTietHoaDon cthd ON h.id = cthd.hoaDon.id " +
-                "JOIN BienTheTour btt ON cthd.bienTheTour.id = btt.id " +
-                "WHERE btt.id = :bienTheTourId")
-         List<HoaDon> findHoaDonByBienTheTour(@Param("bienTheTourId") String tenTour);
-         @Query("SELECT h FROM HoaDon h " +
-         "JOIN ChiTietHoaDon cthd ON h.id = cthd.hoaDon.id " +
-         "JOIN BienTheTour btt ON cthd.bienTheTour.id = btt.id " +
-         "WHERE btt.id = :bienTheTourId")
-  List<HoaDon> findHoaDonByBienTheTour2(@Param("bienTheTourId") int idBienTheTour);
+        "JOIN ChiTietHoaDon cthd ON h.id = cthd.hoaDon.id " +
+        "JOIN BienTheTour btt ON cthd.bienTheTour.id = btt.id " +
+        "WHERE btt.id = :bienTheTourId")
+        List<HoaDon> findHoaDonByBienTheTour(@Param("bienTheTourId") String tenTour);
+        @Query("SELECT h FROM HoaDon h " +
+        "JOIN ChiTietHoaDon cthd ON h.id = cthd.hoaDon.id " +
+        "JOIN BienTheTour btt ON cthd.bienTheTour.id = btt.id " +
+        "WHERE btt.id = :bienTheTourId")
+        List<HoaDon> findHoaDonByBienTheTour2(@Param("bienTheTourId") int idBienTheTour);
     }

@@ -5,7 +5,8 @@ public class YeuThichDTO {
     private Integer tourId;
 
     // Constructor mặc định (nếu cần)
-    public YeuThichDTO() {}
+    public YeuThichDTO() {
+    }
 
     // Constructor với tham số
     public YeuThichDTO(Integer userId, Integer tourId) {
@@ -30,4 +31,3 @@ public class YeuThichDTO {
         this.tourId = tourId;
     }
 }
-
