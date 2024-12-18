@@ -162,7 +162,9 @@ public class GiamGiaController {
 		float finalPrice = totalTien - discountAmount;
 
 		return ResponseEntity
-				.ok("Mã giảm giá hợp lệ. Giá trị giảm: " + discountAmount + ". Tổng sau giảm: " + finalPrice);
+				// .ok("Mã giảm giá hợp lệ. Giá trị giảm: " + discountAmount + ". Tổng sau giảm: " + finalPrice);
+				.ok(""+finalPrice);
+
 	}
 
 }
