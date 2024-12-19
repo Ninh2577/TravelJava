@@ -20,11 +20,11 @@ public interface YeuThichRepository extends JpaRepository<YeuThich, Integer> {
     List<Tour> findLikedToursByUserId(@Param("userId") Integer userId);
     
 
-//    @Query("DELETE FROM YeuThich y WHERE y.nguoiDung.id = :userId")
-//    void deleteAllByUserId(@Param("userId") Integer userId);
+   @Query("DELETE FROM YeuThich y WHERE y.nguoiDung.id = :userId")
+   void deleteAllByUserId(@Param("userId") Integer userId);
     
-    @Modifying
-    @Transactional
-    @Query("UPDATE YeuThich y SET y.thich = false WHERE y.nguoiDung.id = :userId")
-    void deleteAllByUserId(@Param("userId") Integer userId);
+    // @Modifying
+    // @Transactional
+    // @Query("UPDATE YeuThich y SET y.thich = false WHERE y.nguoiDung.id = :userId")
+    // void deleteAllByUserId(@Param("userId") Integer userId);
 }
