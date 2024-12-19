@@ -28,6 +28,7 @@ public interface DanhSachNguoiDiCungRepository extends JpaRepository<DanhSachNgu
 	        "dsndc.soDienThoai, " +
 	        "dsndc.namSinh, " +
 	        "bt.tour.tenTour, " +
+			"bt.ngayBatDau, " +
 	        "hd.trangThai, " +
 	        "hd.phuongThucThanhToan, " +
 	        "cthd.ngayDat, " +
@@ -47,6 +48,7 @@ public interface DanhSachNguoiDiCungRepository extends JpaRepository<DanhSachNgu
 	        "dsndc.soDienThoai, " +
 	        "dsndc.namSinh, " +
 	        "bt.tour.tenTour, " +
+			"bt.ngayBatDau, " +
 	        "hd.trangThai, " +
 	        "hd.phuongThucThanhToan, " +
 	        "cthd.ngayDat, " +

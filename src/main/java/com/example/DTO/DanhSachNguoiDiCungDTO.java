@@ -9,12 +9,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DanhSachNguoiDiCungDTO {
-	  private Integer id;
+    private Integer id;
     private String hoTen;
     private String email;
     private String soDienThoai;
     private Date namSinh;
     private String tenTour; // Tên tour
+    private Date ngayBatDau; 
     private boolean trangThai; // Trạng thái
     private boolean phuongThucThanhToan; // Phương thức thanh toán
     private Date ngayDat; // Ngày đặt tour
