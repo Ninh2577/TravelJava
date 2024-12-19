@@ -165,4 +165,8 @@ public class TourService {
 		// Gọi phương thức gửi email
 		emailService.sendCancelTourEmail(toEmail, userName, totalAmount, paymentDate, cancelReason, tenTour);
 	}
+
+	public List<TourDetailsDTO> getToursByDanhMucAndStartDate(Integer idDanhMucTour, Date startDate) {
+	    return tourRepository.findToursByDanhMucAndStartDate(idDanhMucTour, startDate);
+	}
 }

@@ -19,4 +19,14 @@ public class TourDetailsDTO {
     private float giaNguoiLon;
     private String tenPhuongTien;
     private Integer danhGiaKhachSan;
+
+    public TourDetailsDTO(Integer id, String tenTour, String soNgay, Date ngayBatDau, float giaNguoiLon,
+            String hinhAnh) {
+        this.id = id;
+        this.tenTour = tenTour;
+        this.soNgay = soNgay;
+        this.ngayBatDau = ngayBatDau;
+        this.giaNguoiLon = giaNguoiLon;
+        this.hinhAnh = hinhAnh;
+    }
 }

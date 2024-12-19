@@ -1,10 +1,12 @@
 package com.example.Controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -104,8 +106,14 @@ public class TourController {
 	}
 
 	@GetMapping("/byDanhMuc/{id}")
-	public List<Object[]> getToursByDanhMuc(@PathVariable("id") Integer idDanhMucTour) {
-		return tourService.getToursByDanhMuc(idDanhMucTour);
+	public ResponseEntity<List<TourDetailsDTO>> getToursByDanhMuc(
+			@PathVariable("id") Integer idDanhMucTour,
+			@RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate) {
+		List<TourDetailsDTO> tours = tourService.getToursByDanhMucAndStartDate(idDanhMucTour, startDate);
+		if (tours.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+		return ResponseEntity.ok(tours);
 	}
 
 	@GetMapping("/search")
@@ -133,4 +141,5 @@ public class TourController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
+
 }
