@@ -3,6 +3,7 @@ package com.example.Controller;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -31,7 +32,9 @@ import com.example.Repository.GioHangDanhSachNguoiDiCungRepository;
 import com.example.Repository.HoaDonRepository;
 import com.example.Repository.NguoiDungRepository;
 import com.example.service.HoaDonService;
+import com.example.service.MailerService;
 
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vn.payos.PayOS;
@@ -47,6 +50,9 @@ public class ApiPayOS {
 
     @Autowired
     private HoaDonService hoaDonService;
+
+    @Autowired
+    private MailerService mailerService;
     @Autowired
     private NguoiDungRepository nn;
 
@@ -121,8 +127,15 @@ public class ApiPayOS {
         // Xóa danh sách người đi cùng khỏi giỏ hàng và xóa ChiTietGioHang sau khi lưu
         gioHangDanhSachNguoiDiCungRepository.deleteAll(listGhdsndc);
         chiTietGioHangRepository.delete(ctg1h);
+        // Gửi email hóa đơn
+        CompletableFuture.runAsync(() -> {
+            try {
+                mailerService.sendInvoiceEmail(savedHoaDon.getId());
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        });
         response.sendRedirect("http://localhost:3000");
-
     }
 
     @RequestMapping(value = "/cancel")
