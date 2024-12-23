@@ -65,4 +65,7 @@ public class BienTheTourService {
 	public List<BienTheTour> getAllBienTheTourEndTour(String tenTour){
 		return bienTheTourRepository.findByTourName(tenTour);
 	}
+	public BienTheTour findById(Integer id) {
+        return bienTheTourRepository.findById(id).orElse(null); // Trả về null nếu không tìm thấy
+    }
 }

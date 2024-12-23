@@ -135,12 +135,12 @@ public class ApiPayOS {
                 e.printStackTrace();
             }
         });
-        response.sendRedirect("http://localhost:3000");
+        response.sendRedirect("http://localhost:3000/chi-tiet-hoa-don?paymentId=" + hoadon.getId());
     }
 
     @RequestMapping(value = "/cancel")
     public void Cancel(HttpServletResponse response) throws IOException {
-        response.sendRedirect("http://localhost:3000/gio-hang");
+        response.sendRedirect("http://localhost:3000");
     }
 
     @PostMapping("/create-payment-link/{id}")
