@@ -4,11 +4,15 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.example.Entity.LichTrinhTour;
 
 public interface LichTrinhTourRepository extends JpaRepository<LichTrinhTour, Integer>{
+	@Query("SELECT l FROM LichTrinhTour l WHERE l.bienTheTour.id = :idBienTheTour")
+    List<LichTrinhTour> findByBienTheTourId(@Param("idBienTheTour") Integer idBienTheTour);
 
-    @Query("SELECT l FROM LichTrinhTour l WHERE l.tour.id = :tourId")
-    List<LichTrinhTour> findByTourId(Integer tourId);
+	// Truy vấn lịch trình tour theo tên tour 
+	@Query("SELECT l FROM LichTrinhTour l JOIN l.bienTheTour b JOIN b.tour t WHERE t.tenTour = :tenTour")
+	List<LichTrinhTour> findLichTrinhTourByBienTheTourByTour (@Param("tenTour") String tenTour);
 }

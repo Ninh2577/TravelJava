@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,12 +25,11 @@ public class VaiTro implements Serializable {
 
     private String moTa;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "vaiTro")
+    @JsonManagedReference // Quản lý vòng lặp JSON với NguoiDung
+    @OneToMany(mappedBy = "vaiTro", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NguoiDung> nguoiDungs;
-}
 
-//
-//@JsonIgnore
-//@OneToMany(mappedBy = "nguoiDung")
-//private List<DatTour> datTours;
+    public VaiTro(Integer id) {
+        this.id = id;
+    }
+}

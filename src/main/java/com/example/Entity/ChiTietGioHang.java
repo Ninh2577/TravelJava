@@ -1,6 +1,7 @@
 package com.example.Entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -25,17 +26,9 @@ public class ChiTietGioHang implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_BienTheTour")
-//    @JsonBackReference
     private BienTheTour bienTheTour;
-
-    @ManyToOne
-    @JoinColumn(name = "id_DanhSachNguoiDiDung")
-    private DanhSachNguoiDiCung danhSachNguoiDiDung;
 
     private float tongTien;
     private String moTa;
     private Integer soNguoi;
-    @OneToOne(mappedBy = "chiTietGioHang")
-    @JsonBackReference
-    private DatTour datTour;
-}
+} 

@@ -1,9 +1,16 @@
 package com.example.Entity;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -16,13 +23,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "NguoiDung")
-public class NguoiDung implements Serializable {
+public class NguoiDung implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "id_VaiTro")
+    @JsonBackReference
     private VaiTro vaiTro;
 
     private String hoTen;
@@ -36,7 +44,6 @@ public class NguoiDung implements Serializable {
 
     @Temporal(TemporalType.DATE)
     private Date namSinh;
-    
 
     @JsonIgnore
     @OneToMany(mappedBy = "nguoiDung")
@@ -45,14 +52,10 @@ public class NguoiDung implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "nguoiDung")
     private List<BaiViet> baiViets;
-    
-    @JsonIgnore
-    @OneToMany(mappedBy = "nguoiDung")
-    private List<ChiTietGioHang> chiTietGioHangs;
 
     @JsonIgnore
     @OneToMany(mappedBy = "nguoiDung")
-    private List<DanhSachNguoiDiCung> danhSachNguoiDiCungs;
+    private List<ChiTietGioHang> chiTietGioHangs;
 
     @JsonIgnore
     @OneToMany(mappedBy = "nguoiDung")
@@ -65,6 +68,49 @@ public class NguoiDung implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "nguoiDung")
     private List<DanhGia> danhGias;
-}
 
+    @Override
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority(vaiTro.getVaiTro())); // Giả sử vaiTro là một chuỗi.
+    }
+
+    @Override
+    public String getPassword() {
+        // TODO Auto-generated method stub
+        return this.matKhau; // Trả về mật khẩu của người dùng
+    }
+
+    @Override
+    public String getUsername() {
+        // TODO Auto-generated method stub
+        return this.email; // Trả về email của người dùng
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonExpired() {
+        return true; // Cần thêm logic nếu cần
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonLocked() {
+        return true; // Cần thêm logic nếu cần
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() {
+        return true; // Cần thêm logic nếu cần
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true; // Cần thêm logic nếu cần
+    }
+    public NguoiDung(Integer id) {
+        this.id = id;
+    }
+}
 

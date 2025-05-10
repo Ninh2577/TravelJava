@@ -20,8 +20,8 @@ public class LichTrinhTour implements Serializable {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "id_Tour")
-    private Tour tour;
+    @JoinColumn(name = "id_BienTheTour")
+    private BienTheTour bienTheTour;
 
     private String tieuDe;
     private String noiDung;
@@ -29,8 +29,8 @@ public class LichTrinhTour implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date ngay;
 
-    private LocalTime thoiGianBatDau;
-    private LocalTime thoiGianKetThuc;
+    private String thoiGianBatDau;
+    private String thoiGianKetThuc;
 
     private String moTa;
 }

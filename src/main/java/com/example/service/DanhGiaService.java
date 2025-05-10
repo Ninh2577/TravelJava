@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Entity.DanhGia;
+import com.example.Entity.MediaTour;
+import com.example.Entity.Tour;
 import com.example.Repository.DanhGiaRepository;
 
 @Service
@@ -17,4 +19,12 @@ public class DanhGiaService {
 	public List<DanhGia> getAllDanhGia(){
 		return danhGiaRepository.findAll();
 	}
+	
+	 public List<DanhGia> getDanhGiarByTourId(Integer idTour) {
+	        return danhGiaRepository.findByDanhGiaId(idTour);
+	    }
+	
+	 public List<DanhGia> getAllTourByDanhGia(String tenTour){
+		 return danhGiaRepository.findToursByDanhGia(tenTour);
+	 }
 }
